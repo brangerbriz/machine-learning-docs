@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>markdown/outline.md</title>
+  <link rel="stylesheet" href="css/github-markdown.css">
+</head>
+<body class='markdown-body'>
+<h1 id="intro">Intro</h1>
+<h2 id="machine-learning-">Machine Learning?</h2>
+<ul>
+<li>What is machine learning?<ul>
+<li>For hard problems, don&#39;t write rules (heuristics), instead learn from data</li>
+<li>Easier to do so as long as you have the data, and it generally works better</li>
+</ul>
+</li>
+<li>What kind of problems is it good at solving? When and when not to use.</li>
+<li>What skills does it require?<ul>
+<li>Basic scripting skills, usually in python</li>
+<li>General comfortability with:<ul>
+<li>Linear Algebra</li>
+<li>Statistics</li>
+<li>Probability </li>
+<li>I want to stress that these are more avenues of further research in order to improve your ml skillz. You don&#39;t have to be know much about them to get started.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>A brief history (so brief, like 1-2 paragraphs. Mainly to contextualize the current hype.)<ul>
+<li>Data explosion (big data)</li>
+<li>GPGPU</li>
+<li>Previous AI winters (beware the hype)</li>
+</ul>
+</li>
+</ul>
+<h2 id="general-purpose-algorithms">General Purpose Algorithms</h2>
+<ul>
+<li><p>Machine learning techniques are general purpose. The same ML architecture/algorithm can be used to:</p>
+<ul>
+<li>Filter your email spam.</li>
+<li>Predict your liability for an insurance company.<ul>
+<li>Write new content in the style of a dead author.</li>
+<li>Sell you sh*t on the internet.</li>
+<li>Generate millions of new songs.</li>
+<li>Predict stock prices.</li>
+<li>Produce spam email.</li>
+<li>Predict the effects of global warming.</li>
+<li>Provide an “understanding” of an environment than can be used to drive an autonomous vehicle.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Universal function approximators (what an insanely powerful idea)</p>
+</li>
+<li>Has the potential to be as big as general purpose computers</li>
+</ul>
+<h2 id="data-is-">Data is 🔑</h2>
+<ul>
+<li>Models can only be as good as the </li>
+<li>The bottleneck in an ML pipeline is in access to high-quantities of high-quality data</li>
+</ul>
+<h2 id="models">Models</h2>
+<ul>
+<li>A model is a synthetic representation of the way something in the real world works.</li>
+<li>Models are:<ul>
+<li>Trained/learned.</li>
+<li>The product of machine learning.</li>
+<li>The algorithm.</li>
+<li>Function approximators.</li>
+</ul>
+</li>
+</ul>
+<h2 id="machine-learning-pipeline">Machine Learning Pipeline</h2>
+<p>Get data -&gt; process/clean data -&gt; train model &lt;-&gt; evaluate model -&gt; deploy model</p>
+<h2 id="types-of-learning-supervised-vs-unsupervised">Types of learning: Supervised vs Unsupervised</h2>
+<ul>
+<li><p>Supervised:</p>
+<ul>
+<li>Labeled data.</li>
+<li>Easiest to learn from.</li>
+<li>Scarce.</li>
+<li>Expensive (often, but not always).</li>
+</ul>
+</li>
+<li><p>Unsupervised:</p>
+<ul>
+<li>Unlabeled data.</li>
+<li>Abundant.</li>
+<li>Cheap.</li>
+<li>Surprising.</li>
+<li>Advancements in unsupervised</li>
+<li>learning have potential to</li>
+<li>make the most impact.</li>
+</ul>
+</li>
+</ul>
+<h1 id="types-of-tasks-classification-vs-regression">Types of Tasks: Classification vs Regression</h1>
+<ul>
+<li><p>Classification:</p>
+<ul>
+<li>Discrete.</li>
+<li>Produces a label (or class).</li>
+<li>Example: Type of car, </li>
+</ul>
+</li>
+<li><p>Regression:</p>
+<ul>
+<li>Continuous.</li>
+<li>Produces a number, or series of numbers.</li>
+<li>Example: Audio waveforms, global GDP, etc… (any kind of time series data)</li>
+</ul>
+</li>
+</ul>
+<h2 id="linear-regression">Linear Regression</h2>
+<ul>
+<li>The &quot;Hello, World!&quot; of machine learning</li>
+<li>mention svms and decision trees</li>
+</ul>
+<h2 id="neural-networks-and-deep-learning">Neural Networks and Deep Learning</h2>
+<ul>
+<li>Multi-layer perceptron (1960s style)</li>
+<li>Super brief overview of a single-layer feed forward MLP<ul>
+<li>Input, multiply weights, add biases, activation function, output (repeat per layer)</li>
+</ul>
+</li>
+<li>Activation functions bend otherwise liner models</li>
+<li>What is an architecture? How does it relate to a model?</li>
+</ul>
+<h2 id="let-s-build-an-machine-learning-pipeline">Let&#39;s build an Machine Learning Pipeline</h2>
+<h2 id="data-aquisition">Data Aquisition</h2>
+<h2 id="design-architecture-your-model-architecture-has-a-relationship-to-the-way-we-process-the-data-">Design Architecture (your model architecture has a relationship to the way we process the data)</h2>
+<h2 id="data-pre-processing">Data Pre-processing</h2>
+<h2 id="training">Training</h2>
+<h2 id="evaluation">Evaluation</h2>
+<h2 id="tweak">Tweak</h2>
+<p>##</p>
+<h2 id="regularization">Regularization</h2>
+<h2 id="glossary-of-terms">Glossary of terms</h2>
+<ul>
+<li>Hyperparameters</li>
+<li>Hyperparameter search</li>
+<li>Autoencoder</li>
+<li>Convolutional Neural Network</li>
+<li>Recurrent Neural Network</li>
+<li>LSTM</li>
+<li>GRU</li>
+<li>Backpropagation</li>
+<li>Gradient Descent</li>
+<li>Training Loss</li>
+<li>Validation Loss</li>
+<li>Training data</li>
+<li>Validation data</li>
+<li>Test data</li>
+<li>Auto-regressive</li>
+<li>Dropout</li>
+<li>Regularization</li>
+<li>Model Capacity</li>
+<li>Overfitting</li>
+<li>Underfitting</li>
+<li>Supervised Learning</li>
+<li>Unsupervised Learning</li>
+<li>GANs</li>
+<li>Adversarial Learning</li>
+</ul>
+<h2 id="frameworks-tools">Frameworks/tools</h2>
+<ul>
+<li>wekinator</li>
+<li>ipython</li>
+<li>keras</li>
+<li>tensorflow</li>
+<li>nvidia-docker</li>
+</ul>
+<h2 id="projects">Projects</h2>
+<ul>
+<li>char-rnn</li>
+<li>knn/t-sne</li>
+<li>GloVe experiments</li>
+<li>midi-rnn</li>
+<li>ML4MusicWorkshop</li>
+<li>Python Notebooks</li>
+</ul>
+<h2 id="resources">Resources</h2>
+</body>
+</html>
