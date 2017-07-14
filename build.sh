@@ -10,4 +10,4 @@ for FILE in $(ls markdown/*.md) ; do
 done
 
 # open w/ firefox
-firefox www
+firefox www/index.html

@@ -13,19 +13,35 @@
 <li>Easier to do so as long as you have the data, and it generally works better</li>
 </ul>
 </li>
-<li>What kind of problems is it good at solving? When and when not to use.</li>
-<li>What skills does it require?<ul>
+<li><p>What kind of problems is it good at solving? When and when not to use.</p>
+<ul>
+<li>Traditional programming is better for simple, well-described tasks that can be easily expressed in software.</li>
+<li>Candidate tasks for machine learning are generally the tasks whose solutions are hard to explain to others.<ul>
+<li>Natural Language Processing</li>
+<li>Computer Vision (classification)</li>
+<li>Speech-to-text, text-to-speech</li>
+<li>etc...</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>What skills does it require?</p>
+<ul>
 <li>Basic scripting skills, usually in python</li>
 <li>General comfortability with:<ul>
 <li>Linear Algebra</li>
 <li>Statistics</li>
-<li>Probability </li>
+<li>Probability<ul>
 <li>I want to stress that these are more avenues of further research in order to improve your ml skillz. You don&#39;t have to be know much about them to get started.</li>
+<li>Note that writing software for machine learning is indeed very strange. Programs are often very short (&lt; 100 lines of code), but increadibly dense and assume a significant amount of prior domain-knowledge to read. </li>
 </ul>
 </li>
 </ul>
 </li>
-<li>A brief history (so brief, like 1-2 paragraphs. Mainly to contextualize the current hype.)<ul>
+</ul>
+</li>
+<li><p>A brief history (so brief, like 1-2 paragraphs. Mainly to contextualize the current hype.)</p>
+<ul>
 <li>Data explosion (big data)</li>
 <li>GPGPU</li>
 <li>Previous AI winters (beware the hype)</li>
@@ -36,6 +52,22 @@
 <ul>
 <li><p>Machine learning techniques are general purpose. The same ML architecture/algorithm can be used to:</p>
 <ul>
+<li>General<ul>
+<li>Pattern recognition of all types (DLB p. 97)</li>
+<li>Classification</li>
+<li>Classification w/ missing inputs</li>
+<li>Regression</li>
+<li>Transcription</li>
+<li>Machine Translation</li>
+<li><del>Structured Output</del></li>
+<li>Anomaly detection</li>
+<li>Synthesis and sampling</li>
+<li><del>Imputation of missing values</del></li>
+<li>Denoising</li>
+<li><del>Density / probability mass function estimation</del></li>
+</ul>
+</li>
+<li>Specific<ul>
 <li>Filter your email spam.</li>
 <li>Predict your liability for an insurance company.<ul>
 <li>Write new content in the style of a dead author.</li>
@@ -49,18 +81,34 @@
 </li>
 </ul>
 </li>
+</ul>
+</li>
 <li><p>Universal function approximators (what an insanely powerful idea)</p>
 </li>
 <li>Has the potential to be as big as general purpose computers</li>
 </ul>
 <h2 id="data-is-">Data is 🔑</h2>
 <ul>
-<li>Models can only be as good as the </li>
-<li>The bottleneck in an ML pipeline is in access to high-quantities of high-quality data</li>
+<li>Models can only be as good as the data that is used to train them. </li>
+<li>The bottleneck in an ML pipeline is in access to high-quantities of high-quality data.</li>
+<li>The way you represent your data is as import, if not more important, than the raw data itself. <ul>
+<li>Example</li>
+</ul>
+</li>
+<li>Data quantities<ul>
+<li>When you are working w/ a machine learning system, it is often very helpful to think in orders-of-magnitude and exponentials instead of linearly. Twice as much data will likely not significantly increase your accuracy/performance, but 10x as much data probably will. (not sure if this is the right location for this. But this is a super helpful point that it took me a while to realize and internalize).</li>
+<li>There are rules of thumb about how much data is enough, but the answer is always more data. A common solution to many problems in machine learning is &quot;get more data&quot;.</li>
+</ul>
+</li>
+<li>Training and test data (maybe mention validation split, or maybe hold that for a practical example later below)</li>
 </ul>
 <h2 id="models">Models</h2>
 <ul>
-<li>A model is a synthetic representation of the way something in the real world works.</li>
+<li>A model is a synthetic representation of the way something in the real world works.<ul>
+<li>There is a function that describes everything non-random. Knowing this true real-world function is impossible without knowing every example of it (past and future). But extimating/approximating these functions can be done if you have enough examples of the function. The extimation function is called a model.</li>
+</ul>
+</li>
+<li>Model vs architecure</li>
 <li>Models are:<ul>
 <li>Trained/learned.</li>
 <li>The product of machine learning.</li>
@@ -68,9 +116,13 @@
 <li>Function approximators.</li>
 </ul>
 </li>
+<li>Difference between training a model and using it in production (testing)</li>
 </ul>
 <h2 id="machine-learning-pipeline">Machine Learning Pipeline</h2>
-<p>Get data -&gt; process/clean data -&gt; train model &lt;-&gt; evaluate model -&gt; deploy model</p>
+<ul>
+<li>Get data -&gt; process/clean data -&gt; train model &lt;-&gt; evaluate model -&gt; deploy model</li>
+<li>Explain importance of seperating data from model when authoring ml software. It is a great practice/paradigm once you understand it, and many deep learning frameworks require it (tensorflow).</li>
+</ul>
 <h2 id="types-of-learning-supervised-vs-unsupervised">Types of learning: Supervised vs Unsupervised</h2>
 <ul>
 <li><p>Supervised:</p>
@@ -79,6 +131,7 @@
 <li>Easiest to learn from.</li>
 <li>Scarce.</li>
 <li>Expensive (often, but not always).</li>
+<li>Classic machine learning. We&#39;ve been doing this well for decades. But now we are doing it REALLY well.</li>
 </ul>
 </li>
 <li><p>Unsupervised:</p>
@@ -87,9 +140,9 @@
 <li>Abundant.</li>
 <li>Cheap.</li>
 <li>Surprising.</li>
-<li>Advancements in unsupervised</li>
-<li>learning have potential to</li>
-<li>make the most impact.</li>
+<li>Advancements in unsupervised learning are hot right now.</li>
+<li>learning have potential to make the most impact.</li>
+<li>GANs as example</li>
 </ul>
 </li>
 </ul>
@@ -110,30 +163,231 @@
 </ul>
 </li>
 </ul>
+<h2 id="performance-measures">Performance Measures</h2>
+<ul>
+<li>Method of evaluation is increadibly important. Not just for you, with supervised learning this is how the machine knows what type of good behavior to reward and what type to punish.</li>
+<li>Cost/Loss function</li>
+<li>Categorical accuracy (cross-entropy), F-score, vs MSE and Maximum Log Likelyhood</li>
+</ul>
 <h2 id="linear-regression">Linear Regression</h2>
 <ul>
 <li>The &quot;Hello, World!&quot; of machine learning</li>
-<li>mention svms and decision trees</li>
+<li>Multi-deminsional space. If we express our data (any data) as real-valued multi-dimensional tensor vectors, we can perform geometry on it.</li>
+<li>Gradient descent and derivatives (links to 3Blue1Brown)</li>
+<li><del>mention svms and decision trees</del></li>
 </ul>
 <h2 id="neural-networks-and-deep-learning">Neural Networks and Deep Learning</h2>
 <ul>
 <li>Multi-layer perceptron (1960s style)</li>
 <li>Super brief overview of a single-layer feed forward MLP<ul>
 <li>Input, multiply weights, add biases, activation function, output (repeat per layer)</li>
+<li>should this also include the anatomy of a neural network?<ul>
+<li>activation functions</li>
 </ul>
 </li>
-<li>Activation functions bend otherwise liner models</li>
-<li>What is an architecture? How does it relate to a model?</li>
 </ul>
-<h2 id="let-s-build-an-machine-learning-pipeline">Let&#39;s build an Machine Learning Pipeline</h2>
-<h2 id="data-aquisition">Data Aquisition</h2>
-<h2 id="design-architecture-your-model-architecture-has-a-relationship-to-the-way-we-process-the-data-">Design Architecture (your model architecture has a relationship to the way we process the data)</h2>
-<h2 id="data-pre-processing">Data Pre-processing</h2>
-<h2 id="training">Training</h2>
-<h2 id="evaluation">Evaluation</h2>
-<h2 id="tweak">Tweak</h2>
-<p>##</p>
-<h2 id="regularization">Regularization</h2>
+</li>
+<li>Layers represent heirarchy of information</li>
+<li>Activation functions bend otherwise liner models</li>
+</ul>
+<h2 id="features-design-matrices-and-tensors">Features, Design Matrices, and Tensors</h2>
+<ul>
+<li>What are features?<ul>
+<li>Iris dataset</li>
+<li>Pixels in an image (mnist)</li>
+<li>Feature = Input</li>
+</ul>
+</li>
+<li><p>Tensors (having trouble figuring out where to put this, but here seems... ok?)</p>
+<ul>
+<li>scalars</li>
+<li>vectors</li>
+<li>matrices</li>
+<li>tensors</li>
+</ul>
+</li>
+<li><p>Features are often hand chosen, especially in traditional machine learning pipelines. However there is much contemporary research that encourages against hand-selected features. Biases are introduced based on assumptions of what is (and is not) useful to the learning system. But results are often better if the human doesn&#39;t make the choice for the model, but rather the model decides for itself what is and is-not helpful to know about.</p>
+</li>
+<li><p>Features should have low co-variance.</p>
+<ul>
+<li>Use some co-variance matrices as an example</li>
+</ul>
+</li>
+</ul>
+<h2 id="__should-a-full-wekinator-demo-be-here-before-code-below-how-do-i-fit-in-wekinator-__"><strong>Should a full wekinator demo be here, before code below? How do I fit in wekinator?</strong></h2>
+<h2 id="-hello-world-machine-learning-pipeline">&quot;Hello, World!&quot; Machine Learning Pipeline</h2>
+<ul>
+<li>MNIST</li>
+<li>Includes brief code examples (to introduce numpy and keras)</li>
+<li>This section is predominently used to connect ML ideas to their code implementations.</li>
+</ul>
+<h3 id="data-aquisition">Data Aquisition</h3>
+<ul>
+<li>Download the MNIST dataset (don&#39;t use the one bundled with keras, because we wan&#39;t to illustrate this process)</li>
+</ul>
+<h3 id="data-pre-processing-and-feature-selection">Data Pre-processing and Feature Selection</h3>
+<ul>
+<li>Normalization<ul>
+<li>Zero mean and unit variance</li>
+</ul>
+</li>
+<li>Little co-variance between features</li>
+</ul>
+<h3 id="design-architecture">Design Architecture</h3>
+<ul>
+<li>Model capacity and overfitting</li>
+<li>Wide<ul>
+<li>easier to train</li>
+</ul>
+</li>
+<li>Deep<ul>
+<li>much harder to train, but if you do it right it is known to generalize better</li>
+</ul>
+</li>
+<li>Try a bunch of architectures and move towards the ones that work. Best results in deep learning are found emperically. This holds true for all kinds of things: activation functions, optimizers, etc...</li>
+</ul>
+<h3 id="training">Training</h3>
+<ul>
+<li>Training error vs validation error</li>
+<li>Checkpoints</li>
+<li>Early stopping (return to this in regularization)</li>
+</ul>
+<h3 id="evaluation">Evaluation</h3>
+<ul>
+<li><p>What metric are you using?</p>
+<ul>
+<li>F-score</li>
+</ul>
+</li>
+<li><p>Train &amp; Validation data (&amp; dev data) is very different than test data. Don&#39;t pollute. Use test data 1 a month (if that).</p>
+</li>
+</ul>
+<h3 id="tweaks">Tweaks</h3>
+<ul>
+<li>Are you underfitting or overfitting.</li>
+<li>Adjust in orders of magnitude.</li>
+<li>Only change one thing between experiments. Changing more introduces ambiguity in what caused the results.</li>
+</ul>
+<h3 id="deploy-train-test-">Deploy (train-&gt;test)</h3>
+<ul>
+<li>Just like training, but without the weight update (backprop)<ul>
+<li>But sometimes with extra steps. Like with auto-regression.</li>
+</ul>
+</li>
+<li>How you sample matters<ul>
+<li>Greedy argmax :/</li>
+<li>Sample from output distrobution :)</li>
+</ul>
+</li>
+</ul>
+<h2 id="troubleshooting-debugging-ml-pipelines">Troubleshooting/debugging ML pipelines</h2>
+<ul>
+<li>Debugging an ML pipeline is harder than traditional software debugging because there are more places the problem could lie. First try to identify if the problem is:<ul>
+<li>With the data, or data representation</li>
+<li>In your code implementation (error in your python logic for instance)</li>
+<li>A flaw in your model architecture or graph</li>
+</ul>
+</li>
+</ul>
+<h2 id="going-deeper">Going Deeper</h2>
+<h3 id="network-types">Network Types</h3>
+<ul>
+<li>Vanilla NN</li>
+<li>Convolutional Neural Networks</li>
+<li>Recurrent Neural Networks</li>
+<li>Maybe? (likely explain and then link to good resources)<ul>
+<li>Autoencoders</li>
+<li>GANs (this isn&#39;t a network so much as a method of training multiple networks of arbitrary architecture)</li>
+</ul>
+</li>
+</ul>
+<h3 id="latent-space">Latent Space</h3>
+<ul>
+<li>What is it? Why is it powerful?<ul>
+<li>Word2Vec as example</li>
+</ul>
+</li>
+<li>Each layer in a NN is a linear transformation in a latent space. </li>
+</ul>
+<h3 id="measuring-distance">Measuring Distance</h3>
+<ul>
+<li>Why is it important?<ul>
+<li>if you know the distance two things are away from eachother, you know something about their relationship</li>
+</ul>
+</li>
+<li>Euclidean distance</li>
+<li>Cosine distance (often times you should go with cosine)</li>
+<li>Link to 🔥 fast 🔥 search algos like facebook&#39;s new sheit</li>
+</ul>
+<h3 id="learning-about-your-data">Learning about your Data</h3>
+<ul>
+<li>KNearestNeighbor</li>
+<li>t-SNE</li>
+</ul>
+<h3 id="regularization-and-optimization">Regularization and Optimization</h3>
+<ul>
+<li><p>Regularization (reducing model capacity)</p>
+<ul>
+<li>Batch normalization</li>
+<li>Gradient clipping (vanishing/exploading gradients)</li>
+<li>Dropout<ul>
+<li>touch on ensemble learning</li>
+</ul>
+</li>
+<li>Early stopping<ul>
+<li>yes this is a form of regularization, because you are reducing model capacity (in this case by limiting compute time)</li>
+</ul>
+</li>
+<li>Anorthodox stuff<ul>
+<li>multiple objective learning (can&#39;t remember if that is the right name)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Optimizers</p>
+<ul>
+<li>SGD</li>
+<li>Adam</li>
+<li>RMSProp</li>
+<li>etc...</li>
+<li>Talk about momentum (maybe too specific)</li>
+</ul>
+</li>
+</ul>
+<h2 id="activation-functions">Activation Functions</h2>
+<ul>
+<li>linear (lol)</li>
+<li>sigmoid</li>
+<li>tanh</li>
+<li>relu</li>
+<li>etc...</li>
+</ul>
+<h3 id="feature-learning">Feature Learning</h3>
+<ul>
+<li>Use an autoencoder. Grab the latent embedding weights and use it as the first layer in a classification task.</li>
+</ul>
+<h3 id="hyperparameter-search">Hyperparameter Search</h3>
+<ul>
+<li>Let the machine do the work</li>
+</ul>
+<h3 id="experiment-structure">Experiment structure</h3>
+<ul>
+<li>Super important! Most of the code written for an ML pipeline is more about managing your experiments in a way where you stay sane. A good ML library will do the heavy lifting (don&#39;t implement stuff yourself, it will take too long and you will do it wrong. Trust me.)</li>
+<li>Show an example folder structure</li>
+</ul>
+<h2 id="bb-projects">BB Projects</h2>
+<ul>
+<li>char-rnn</li>
+<li>knn/t-sne</li>
+<li>GloVe experiments</li>
+<li>midi-rnn</li>
+<li>ML4MusicWorkshop</li>
+<li>Python Notebooks</li>
+</ul>
+<h2 id="apendix">Apendix</h2>
+<ul>
+<li>GPU training w/ CUDA and nvidia-docker</li>
+</ul>
 <h2 id="glossary-of-terms">Glossary of terms</h2>
 <ul>
 <li>Hyperparameters</li>
@@ -160,6 +414,7 @@
 <li>Unsupervised Learning</li>
 <li>GANs</li>
 <li>Adversarial Learning</li>
+<li>Generalization</li>
 </ul>
 <h2 id="frameworks-tools">Frameworks/tools</h2>
 <ul>
@@ -169,15 +424,9 @@
 <li>tensorflow</li>
 <li>nvidia-docker</li>
 </ul>
-<h2 id="projects">Projects</h2>
-<ul>
-<li>char-rnn</li>
-<li>knn/t-sne</li>
-<li>GloVe experiments</li>
-<li>midi-rnn</li>
-<li>ML4MusicWorkshop</li>
-<li>Python Notebooks</li>
-</ul>
 <h2 id="resources">Resources</h2>
+<ul>
+<li>links</li>
+</ul>
 </body>
 </html>

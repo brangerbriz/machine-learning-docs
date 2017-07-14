@@ -9,4 +9,4 @@
 	- There are rules of thumb about how much data is enough, but the answer is always more data. A common solution to many problems in machine learning is "get more data".
 - Training and test data (maybe mention validation split, or maybe hold that for a practical example later below)
 
-Next: [Machine Learning Models](machine-learning-models.md)
+Next: [Machine Learning Models](machine-learning-models.html)

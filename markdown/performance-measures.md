@@ -4,4 +4,4 @@
 - Cost/Loss function
 - Categorical accuracy (cross-entropy), F-score, vs MSE and Maximum Log Likelyhood
 
-Next: [Linear Regression](linear-regression.md)
+Next: [Linear Regression](linear-regression.html)

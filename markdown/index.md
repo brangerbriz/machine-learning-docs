@@ -15,4 +15,4 @@
 	- GPGPU
 	- Previous AI winters (beware the hype)
 
-Next: [General Purpose Algorithms](general_purpose_algorithms.md)
+Next: [General Purpose Algorithms](general-purpose-algorithms.html)

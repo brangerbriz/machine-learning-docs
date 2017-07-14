@@ -10,4 +10,4 @@
     - Function approximators.
 - Difference between training a model and using it in production (testing)
 
-Next: [The ML Pipeline](the-ml-pipeline.md)
+Next: [The ML Pipeline](the-ml-pipeline.html)

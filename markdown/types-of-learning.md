@@ -16,4 +16,4 @@
 	- learning have potential to make the most impact.
 	- GANs as example
 
-Next: [Types of Tasks](types-of-tasks.md)
+Next: [Types of Tasks](types-of-tasks.html)

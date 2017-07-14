@@ -27,4 +27,4 @@
 - Universal function approximators (what an insanely powerful idea)
 - Has the potential to be as big as general purpose computers
 
-Next: [Data is Key](data_is_key.md)
+Next: [Data is Key](data-is-key.html)

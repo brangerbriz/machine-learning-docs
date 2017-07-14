@@ -1,8 +1,9 @@
-## Linear Regression
+## Neural Networks and Deep Learning
 
-- The "Hello, World!" of machine learning
-- Multi-deminsional space. If we express our data (any data) as real-valued multi-dimensional tensor vectors, we can perform geometry on it.
-- Gradient descent and derivatives (links to 3Blue1Brown)
-- ~~mention svms and decision trees~~
-
-Next: [Neural Networks and Deep Learning](neural-networks-and-deep-learning.md)
+- Multi-layer perceptron (1960s style)
+- Super brief overview of a single-layer feed forward MLP
+	- Input, multiply weights, add biases, activation function, output (repeat per layer)
+	- should this also include the anatomy of a neural network?
+		- activation functions
+- Layers represent heirarchy of information
+- Activation functions bend otherwise liner models
