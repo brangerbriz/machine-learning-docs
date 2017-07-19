@@ -7,3 +7,6 @@
 		- activation functions
 - Layers represent heirarchy of information
 - Activation functions bend otherwise liner models
+
+Next: [Branger_Briz Machine Learning projects](branger-briz-ml-projects.html)
+

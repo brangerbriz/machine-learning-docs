@@ -1,0 +1,27 @@
+## Glossary of terms
+
+- Hyperparameters
+- Hyperparameter search
+- Autoencoder
+- Convolutional Neural Network
+- Recurrent Neural Network
+- LSTM
+- GRU
+- Backpropagation
+- Gradient Descent
+- Training Loss
+- Validation Loss
+- Training data
+- Validation data
+- Test data
+- Auto-regressive
+- Dropout
+- Regularization
+- Model Capacity
+- Overfitting
+- Underfitting
+- Supervised Learning
+- Unsupervised Learning
+- GANs
+- Adversarial Learning
+- Generalization

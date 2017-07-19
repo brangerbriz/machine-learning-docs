@@ -161,9 +161,15 @@
 - Includes brief code examples (to introduce numpy and keras)
 - This section is predominently used to connect ML ideas to their code implementations.
 
-### Data Aquisition 
+### Data Acquisition
 
 - Download the MNIST dataset (don't use the one bundled with keras, because we wan't to illustrate this process)
+
+### Data Split
+
+- Training data
+- Validation/dev data
+- Testing data
 
 ### Data Pre-processing and Feature Selection
 
@@ -186,20 +192,13 @@
 - Checkpoints
 - Early stopping (return to this in regularization)
 
-### Evaluation
-
-- What metric are you using?
-	- F-score
-
-- Train & Validation data (& dev data) is very different than test data. Don't pollute. Use test data 1 a month (if that).
-
-### Tweaks
+### Evaluation and Tweaks
 
 - Are you underfitting or overfitting.
 - Adjust in orders of magnitude.
 - Only change one thing between experiments. Changing more introduces ambiguity in what caused the results.
 
-### Deploy (train->test)
+### Using your trained model (Deploy (train->test))
 
 - Just like training, but without the weight update (backprop)
 	- But sometimes with extra steps. Like with auto-regression.
@@ -244,19 +243,20 @@
 - KNearestNeighbor
 - t-SNE
 
-### Regularization and Optimization
+### Regularization
 
-- Regularization (reducing model capacity)
-	- Batch normalization
-	- Gradient clipping (vanishing/exploading gradients)
-	- Dropout
-		- touch on ensemble learning
-	- Early stopping
-		- yes this is a form of regularization, because you are reducing model capacity (in this case by limiting compute time)
-	- Anorthodox stuff
-		- multiple objective learning (can't remember if that is the right name)
+- meant to reducing model capacity
+- Batch normalization
+- Gradient clipping (vanishing/exploading gradients)
+- Dropout
+	- touch on ensemble learning
+- Early stopping
+	- yes this is a form of regularization, because you are reducing model capacity (in this case by limiting compute time)
+- Anorthodox stuff
+	- multiple objective learning (can't remember if that is the right name)
 
-- Optimizers
+### Optimizers
+
 	- SGD
 	- Adam
 	- RMSProp
