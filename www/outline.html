@@ -221,9 +221,15 @@
 <li>Includes brief code examples (to introduce numpy and keras)</li>
 <li>This section is predominently used to connect ML ideas to their code implementations.</li>
 </ul>
-<h3 id="data-aquisition">Data Aquisition</h3>
+<h3 id="data-acquisition">Data Acquisition</h3>
 <ul>
 <li>Download the MNIST dataset (don&#39;t use the one bundled with keras, because we wan&#39;t to illustrate this process)</li>
+</ul>
+<h3 id="data-split">Data Split</h3>
+<ul>
+<li>Training data</li>
+<li>Validation/dev data</li>
+<li>Testing data</li>
 </ul>
 <h3 id="data-pre-processing-and-feature-selection">Data Pre-processing and Feature Selection</h3>
 <ul>
@@ -252,23 +258,13 @@
 <li>Checkpoints</li>
 <li>Early stopping (return to this in regularization)</li>
 </ul>
-<h3 id="evaluation">Evaluation</h3>
-<ul>
-<li><p>What metric are you using?</p>
-<ul>
-<li>F-score</li>
-</ul>
-</li>
-<li><p>Train &amp; Validation data (&amp; dev data) is very different than test data. Don&#39;t pollute. Use test data 1 a month (if that).</p>
-</li>
-</ul>
-<h3 id="tweaks">Tweaks</h3>
+<h3 id="evaluation-and-tweaks">Evaluation and Tweaks</h3>
 <ul>
 <li>Are you underfitting or overfitting.</li>
 <li>Adjust in orders of magnitude.</li>
 <li>Only change one thing between experiments. Changing more introduces ambiguity in what caused the results.</li>
 </ul>
-<h3 id="deploy-train-test-">Deploy (train-&gt;test)</h3>
+<h3 id="using-your-trained-model-deploy-train-test-">Using your trained model (Deploy (train-&gt;test))</h3>
 <ul>
 <li>Just like training, but without the weight update (backprop)<ul>
 <li>But sometimes with extra steps. Like with auto-regression.</li>
@@ -324,10 +320,9 @@
 <li>KNearestNeighbor</li>
 <li>t-SNE</li>
 </ul>
-<h3 id="regularization-and-optimization">Regularization and Optimization</h3>
+<h3 id="regularization">Regularization</h3>
 <ul>
-<li><p>Regularization (reducing model capacity)</p>
-<ul>
+<li>meant to reducing model capacity</li>
 <li>Batch normalization</li>
 <li>Gradient clipping (vanishing/exploading gradients)</li>
 <li>Dropout<ul>
@@ -343,18 +338,13 @@
 </ul>
 </li>
 </ul>
-</li>
-<li><p>Optimizers</p>
-<ul>
-<li>SGD</li>
-<li>Adam</li>
-<li>RMSProp</li>
-<li>etc...</li>
-<li>Talk about momentum (maybe too specific)</li>
-</ul>
-</li>
-</ul>
-<h2 id="activation-functions">Activation Functions</h2>
+<h3 id="optimizers">Optimizers</h3>
+<pre><code>- SGD
+- Adam
+- RMSProp
+- etc...
+- Talk about momentum (maybe too specific)
+</code></pre><h2 id="activation-functions">Activation Functions</h2>
 <ul>
 <li>linear (lol)</li>
 <li>sigmoid</li>
