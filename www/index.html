@@ -6,13 +6,17 @@
 </head>
 <body class='markdown-body'>
 <h1 id="machine-learning">Machine Learning</h1>
+<p>This document is a hypertext tutorial/reference manual for all things Machine Learning at Branger_Briz. Since November 2016, our R&amp;&amp;D team has been exploring the current state-of-the art in Machine Learning and this document serves as the product of much of that research. The goal of this resource is to provide a central repository for BB developers to learn about Machine Learning, so that it can be used in current and future projects.</p>
+<p>The structure of this document is intentionally non-linear. There are, however, four main sections:</p>
 <ul>
-<li>Structure and intent of this Document<ul>
-<li>Initial topics follow a path but the resource as a whole is meant to be explored non-linearly. Describe sections.</li>
+<li><a href="#overview"><strong>Overview</strong></a>: A fairly-linear overview of Machine Learning. Start here. </li>
+<li><a href="#tutorials"><strong>Tutorials</strong></a>: Lots of code and examples. Here we dig deeper and learn to implement.</li>
+<li><a href="#"><strong>Concepts &amp; Details</strong></a>: Explanations of more advanced ML topics. Fairly miscellanious.</li>
+<li><a href="#Branger_Briz-Machine-Learning-Projects"><strong>BB ML Projects</strong></a>: A collection of projects and experiments we&#39;ve done using ML.</li>
 </ul>
-</li>
-</ul>
-<p>Next: <a href="what-is-machine-learning.md">What is Machine Learning?</a></p>
+<p>If you aren&#39;t particularly familiar with the fundamentals of Machine Learning, I would recommend reading through the <a href="#overview">Overview</a> section in order. Otherwise, this document may be lightly perused or intensely dissected at will. Many of the links in the Overview and Tutorials sections link to further descriptions of ideas and pratices in the Concepts &amp; Details section.</p>
+<p>If you have questions about any of the content or practices that you find in this document, email <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#98;&#x64;&#111;&#x72;&#x73;&#x65;&#x79;&#x40;&#98;&#114;&#97;&#x6e;&#x67;&#x65;&#x72;&#x62;&#114;&#105;&#122;&#46;&#99;&#x6f;&#x6d;">&#98;&#x64;&#111;&#x72;&#x73;&#x65;&#x79;&#x40;&#98;&#114;&#97;&#x6e;&#x67;&#x65;&#x72;&#x62;&#114;&#105;&#122;&#46;&#99;&#x6f;&#x6d;</a>. I&#39;ve been doing lots of this research over the past few months and would love to answer questions or talk through how some of these ideas could be applied to your work. </p>
+<p>Next: <a href="what-is-machine-learning.html">What is Machine Learning?</a></p>
 <h2 id="index">Index</h2>
 <p>List of all pages on the site:</p>
 <h3 id="overview">Overview</h3>
@@ -20,45 +24,46 @@
 <li><a href="index.html">Machine Learning</a> (this page)</li>
 <li><a href="general-purpose-algorithms.html">General Purpose Algorithms</a></li>
 <li><a href="data-is-key.html">Data is Key</a></li>
-<li><a href="machine-learning-models.md">Machine Learning Models</a></li>
-<li><a href="the-ml-pipeline.md">The Machine Learning Pipeline</a></li>
-<li><a href="types-of-learning.md">Types of Learning</a></li>
-<li><a href="types-of-tasks.md">Types of Tasks</a></li>
-<li><a href="performance-measures.md">Performance Measures</a></li>
-<li><a href="linear-regression.md">Linear Regression</a></li>
-<li><a href="neural-networks-and-deep-learning.md">Neural Networks and Deep Learning</a></li>
+<li><a href="machine-learning-models.html">Machine Learning Models</a></li>
+<li><a href="the-ml-pipeline.html">The Machine Learning Pipeline</a></li>
+<li><a href="types-of-learning.html">Types of Learning</a></li>
+<li><a href="types-of-tasks.html">Types of Tasks</a></li>
+<li><a href="performance-measures.html">Performance Measures</a></li>
+<li><a href="linear-regression.html">Linear Regression</a></li>
+<li><a href="neural-networks-and-deep-learning.html">Neural Networks and Deep Learning</a></li>
 </ul>
 <h3 id="tutorials">Tutorials</h3>
 <ul>
-<li><a href="data-acquisition.md">Data Acquisition</a></li>
-<li><a href="data-preprocessing.md">Data Preprocessing</a></li>
-<li><a href="data-split.md">Data Split</a></li>
-<li><a href="model-architecture.md">Model Architecture</a></li>
-<li><a href="training.md">Training</a></li>
-<li><a href="model-evaluation-and-tweaks.md">Model Evaluation and Tweaks</a></li>
-<li><a href="using-your-trained-model.md">Using Your Trained Model</a></li>
+<li><a href="data-acquisition.html">Data Acquisition</a></li>
+<li><a href="data-preprocessing.html">Data Preprocessing</a></li>
+<li><a href="data-split.html">Data Split</a></li>
+<li><a href="model-architecture.html">Model Architecture</a></li>
+<li><a href="training.html">Training</a></li>
+<li><a href="model-evaluation-and-tweaks.html">Model Evaluation and Tweaks</a></li>
+<li><a href="using-your-trained-model.html">Using Your Trained Model</a></li>
 </ul>
-<h3 id="misc">Misc</h3>
+<h3 id="concepts-details">Concepts &amp; Details</h3>
 <ul>
-<li><a href="experiment-structure.md">Experiment Structure</a></li>
+<li><a href="experiment-structure.html">Experiment Structure</a></li>
 <li><a href="tensors.html">Tensors</a></li>
 <li><a href="features-and-design-matrices.html">Features and Design Matrices</a></li>
-<li><a href="hyperparameter-search.md">Hyperparameter Search</a></li>
-<li><a href="debugging-ml-pipelines.md">Debugging Machine Learning Pipelines</a></li>
-<li><a href="learning-about-your-data.md">Learning About Your Data</a></li>
-<li><a href="latent-space.md">Latent Space</a></li>
-<li><a href="measuring-distance.md">Measuring Distance</a></li>
-<li><a href="t-sne.md">t-SNE</a></li>
-<li><a href="knn.md">K Nearest Neighbor</a></li>
-<li><a href="regularization.md">Regularization</a></li>
-<li><a href="optimization.md">Optimization</a></li>
-<li><a href="activation-functions.md">Activation Functions</a></li>
-<li><a href="gpu-hardware.md">GPU Hardware</a></li>
-<li><a href="nvidia-docker.md">Nvidia-docker</a></li>
-<li><a href="network-types.md">Network Types</a></li>
-<li><a href="ipython.md">Ipython</a></li>
-<li><a href="keras.md">Keras</a></li>
-<li><a href="glossary-of-terms.md">Glossary of Terms</a></li>
+<li><a href="hyperparameter-search.html">Hyperparameter Search</a></li>
+<li><a href="debugging-ml-pipelines.html">Debugging Machine Learning Pipelines</a></li>
+<li><a href="learning-about-your-data.html">Learning About Your Data</a></li>
+<li><a href="latent-space.html">Latent Space</a></li>
+<li><a href="measuring-distance.html">Measuring Distance</a></li>
+<li><a href="t-sne.html">t-SNE</a></li>
+<li><a href="knn.html">K Nearest Neighbor</a></li>
+<li><a href="regularization.html">Regularization</a></li>
+<li><a href="optimization.html">Optimization</a></li>
+<li><a href="activation-functions.html">Activation Functions</a></li>
+<li><a href="gpu-hardware.html">GPU Hardware</a></li>
+<li><a href="nvidia-docker.html">Nvidia-docker</a></li>
+<li><a href="network-types.html">Network Types</a></li>
+<li><a href="ipython.html">Ipython</a></li>
+<li><a href="keras.html">Keras</a></li>
+<li><a href="a-brief-ml-history.html">A Brief ML History</a></li>
+<li><a href="glossary-of-terms.html">Glossary of Terms</a></li>
 </ul>
 <h2 id="branger_briz-machine-learning-projects">Branger_Briz Machine Learning Projects</h2>
 <p>Technical case-studies of experiments and projects we&#39;ve done using machine learning.</p>

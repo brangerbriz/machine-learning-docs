@@ -1,9 +1,19 @@
 # Machine Learning
 
-- Structure and intent of this Document
-	- Initial topics follow a path but the resource as a whole is meant to be explored non-linearly. Describe sections.
+This document is a hypertext tutorial/reference manual for all things Machine Learning at Branger_Briz. Since November 2016, our R&&D team has been exploring the current state-of-the art in Machine Learning and this document serves as the product of much of that research. The goal of this resource is to provide a central repository for BB developers to learn about Machine Learning, so that it can be used in current and future projects.
 
-Next: [What is Machine Learning?](what-is-machine-learning.md)
+The structure of this document is intentionally non-linear. There are, however, four main sections:
+
+- [**Overview**](#overview): A fairly-linear overview of Machine Learning. Start here. 
+- [**Tutorials**](#tutorials): Lots of code and examples. Here we dig deeper and learn to implement.
+- [**Concepts & Details**](#): Explanations of more advanced ML topics. Fairly miscellanious.
+- [**BB ML Projects**](#Branger_Briz-Machine-Learning-Projects): A collection of projects and experiments we've done using ML.
+
+If you aren't particularly familiar with the fundamentals of Machine Learning, I would recommend reading through the [Overview](#overview) section in order. Otherwise, this document may be lightly perused or intensely dissected at will. Many of the links in the Overview and Tutorials sections link to further descriptions of ideas and pratices in the Concepts & Details section.
+
+If you have questions about any of the content or practices that you find in this document, email <bdorsey@brangerbriz.com>. I've been doing lots of this research over the past few months and would love to answer questions or talk through how some of these ideas could be applied to your work. 
+
+Next: [What is Machine Learning?](what-is-machine-learning.html)
 
 ## Index
 
@@ -14,45 +24,46 @@ List of all pages on the site:
 - [Machine Learning](index.html) (this page)
 - [General Purpose Algorithms](general-purpose-algorithms.html)
 - [Data is Key](data-is-key.html)
-- [Machine Learning Models](machine-learning-models.md)
-- [The Machine Learning Pipeline](the-ml-pipeline.md)
-- [Types of Learning](types-of-learning.md)
-- [Types of Tasks](types-of-tasks.md)
-- [Performance Measures](performance-measures.md)
-- [Linear Regression](linear-regression.md)
-- [Neural Networks and Deep Learning](neural-networks-and-deep-learning.md)
+- [Machine Learning Models](machine-learning-models.html)
+- [The Machine Learning Pipeline](the-ml-pipeline.html)
+- [Types of Learning](types-of-learning.html)
+- [Types of Tasks](types-of-tasks.html)
+- [Performance Measures](performance-measures.html)
+- [Linear Regression](linear-regression.html)
+- [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)
 
 ### Tutorials
 
-- [Data Acquisition](data-acquisition.md)
-- [Data Preprocessing](data-preprocessing.md)
-- [Data Split](data-split.md)
-- [Model Architecture](model-architecture.md)
-- [Training](training.md)
-- [Model Evaluation and Tweaks](model-evaluation-and-tweaks.md)
-- [Using Your Trained Model](using-your-trained-model.md)
+- [Data Acquisition](data-acquisition.html)
+- [Data Preprocessing](data-preprocessing.html)
+- [Data Split](data-split.html)
+- [Model Architecture](model-architecture.html)
+- [Training](training.html)
+- [Model Evaluation and Tweaks](model-evaluation-and-tweaks.html)
+- [Using Your Trained Model](using-your-trained-model.html)
 
-### Misc
+### Concepts & Details
 
-- [Experiment Structure](experiment-structure.md)
+- [Experiment Structure](experiment-structure.html)
 - [Tensors](tensors.html)
 - [Features and Design Matrices](features-and-design-matrices.html)
-- [Hyperparameter Search](hyperparameter-search.md)
-- [Debugging Machine Learning Pipelines](debugging-ml-pipelines.md)
-- [Learning About Your Data](learning-about-your-data.md)
-- [Latent Space](latent-space.md)
-- [Measuring Distance](measuring-distance.md)
-- [t-SNE](t-sne.md)
-- [K Nearest Neighbor](knn.md)
-- [Regularization](regularization.md)
-- [Optimization](optimization.md)
-- [Activation Functions](activation-functions.md)
-- [GPU Hardware](gpu-hardware.md)
-- [Nvidia-docker](nvidia-docker.md)
-- [Network Types](network-types.md)
-- [Ipython](ipython.md)
-- [Keras](keras.md)
-- [Glossary of Terms](glossary-of-terms.md)
+- [Hyperparameter Search](hyperparameter-search.html)
+- [Debugging Machine Learning Pipelines](debugging-ml-pipelines.html)
+- [Learning About Your Data](learning-about-your-data.html)
+- [Latent Space](latent-space.html)
+- [Measuring Distance](measuring-distance.html)
+- [t-SNE](t-sne.html)
+- [K Nearest Neighbor](knn.html)
+- [Regularization](regularization.html)
+- [Optimization](optimization.html)
+- [Activation Functions](activation-functions.html)
+- [GPU Hardware](gpu-hardware.html)
+- [Nvidia-docker](nvidia-docker.html)
+- [Network Types](network-types.html)
+- [Ipython](ipython.html)
+- [Keras](keras.html)
+- [A Brief ML History](a-brief-ml-history.html)
+- [Glossary of Terms](glossary-of-terms.html)
 
 ## Branger_Briz Machine Learning Projects
 
