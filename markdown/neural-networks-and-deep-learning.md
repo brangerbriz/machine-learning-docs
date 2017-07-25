@@ -8,5 +8,8 @@
 - Layers represent heirarchy of information
 - Activation functions bend otherwise liner models
 
+> linked from:
+	- "dig into": <general-purpose-algorithms.html>
+
 Next: [Branger_Briz Machine Learning projects](branger-briz-ml-projects.html)
 

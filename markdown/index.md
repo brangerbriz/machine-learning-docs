@@ -22,6 +22,7 @@ List of all pages on the site:
 ### Overview
 
 - [Machine Learning](index.html) (this page)
+- [What is Machine Learning](what-is-machine-learning.html)
 - [General Purpose Algorithms](general-purpose-algorithms.html)
 - [Data is Key](data-is-key.html)
 - [Machine Learning Models](machine-learning-models.html)
@@ -60,8 +61,10 @@ List of all pages on the site:
 - [GPU Hardware](gpu-hardware.html)
 - [Nvidia-docker](nvidia-docker.html)
 - [Network Types](network-types.html)
+- [Generative Models](generative-models.html)
 - [Ipython](ipython.html)
 - [Keras](keras.html)
+- [Discrete vs Continuous Data](discrete-vs-continuous-data.html)
 - [A Brief ML History](a-brief-ml-history.html)
 - [Glossary of Terms](glossary-of-terms.html)
 
