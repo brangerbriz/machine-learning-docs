@@ -6,20 +6,16 @@
 </head>
 <body class='markdown-body'>
 <h2 id="data-is-">Data is 🔑</h2>
-<ul>
-<li>Models can only be as good as the data that is used to train them. </li>
-<li>The bottleneck in an ML pipeline is in access to high-quantities of high-quality data.</li>
-<li>The way you represent your data is as import, if not more important, than the raw data itself. <ul>
-<li>Example</li>
-</ul>
-</li>
-<li>Data quantities<ul>
-<li>When you are working w/ a machine learning system, it is often very helpful to think in orders-of-magnitude and exponentials instead of linearly. Twice as much data will likely not significantly increase your accuracy/performance, but 10x as much data probably will. (not sure if this is the right location for this. But this is a super helpful point that it took me a while to realize and internalize).</li>
-<li>There are rules of thumb about how much data is enough, but the answer is always more data. A common solution to many problems in machine learning is &quot;get more data&quot;.</li>
-</ul>
-</li>
-<li>Training and test data (maybe mention validation split, or maybe hold that for a practical example later below)</li>
-</ul>
+<p>Large amounts of quality data are the key to the success of any machine learning algorithm. After all, models can only be as good as the data used to train them. The bottleneck in an <a href="the-ml-pipeline.html">ML pipeline</a> is often in access to high-quantities of high-quality data. It is not uncommon for the majority of the development time it takes to implement an ML solution will be spent preparing, <a href="data-preprocessing.html">pre-processing</a>, and cleaning your data.</p>
+<h3 id="data-quantities">Data Quantities</h3>
+<p>There are so many factors at play in any given ML algorithm that it is often difficult to know the minimum amount of data needed for your model to start performing well in practice. Simple data statistics like standard deviation, number and quality of features, number of model parameter, and problem task all play a significant role in determining how much data is needed. That said, the answer to the question of &quot;how much data do I need&quot; is usually always &quot;more data.&quot;</p>
+<p>I&#39;ve seen rules of thumb that suggest that the minimum number of samples needed to train a model range anywhere from <code>10xN</code> to <code>N^2</code> where <code>N</code> is the number of features (columns) in your data. The truth is that the amount of data required scales with <a href="model-capacity.md">model capacity</a> and complexity. Like many things in machine learning, quantity of data must be <a href="empirical-testing.html">empirically tested</a>.</p>
+<h3 id="data-representation">Data Representation</h3>
+<p>The way that you represent your data is arguably more important than the amount of raw data itself. Data is represented using <a href="features-and-design-matrices.html">features</a>, and the ones you choose (or better yet, <a href="feature-learning.html">learn</a>) influence how effectively your model can learn about the data. Just because you have 20 columns in your database to represent a user doesn&#39;t mean that all 20 of those columns are necessary to solve a simple classification task. You may find that your model performs best using only 4 features from each data sample.</p>
+<p>Its also very common not to use the features from your dataset directly, but rather process them first to compute a feature that is more helpful for your model. For instance, if you were training a classifier to predict durations of metro-rail commutes, given a database of card swipe timestamps, a duration feature (<code>swipe_out - swipe_in</code>) may be more beneficial than two separate swipe timestamp features. </p>
+<h3 id="training-data-vs-test-data">Training data vs Test data</h3>
+<p>There is a critically important distinction to be made between data used to train a model and data used to test the <a href="performance-measures.html">performance of that model</a>. The same data <strong>cannot</strong> be used to both train your model and evaluate its performance, as this will lead to dramatic <a href="overfitting-and-underfitting.html">overfitting</a>. The training of every <a href="types-of-learning.html">supervised</a> machine learning model requires that you split your data, using the majority of it for training and holding out the minority for testing and model evaluation. A split of 80% training data and 20% test data is common. If you have a lot of data, you can experiment with 85%+ training data. Model performance will likely always be better on your test data, but hopefully only a few percentage points away from evaluation on your test data. Test performance is a measure of how well your model will generalize to unseen real-world data it will encounter &quot;in the wild&quot; once deployed. Data holdout is an important topic, and I recommend checking out the <a href="training-test-validation-data.html">Training/Test/Validation Data</a> page for more info.</p>
+<p>Finally, <a href="https://kaggle.com">Kaggle</a> is an amazing data science resource that publishes publicly available datasets and code examples. Perusing the site should give you a good overview of the types of data representations that are often used in machine learning.</p>
 <p>Next: <a href="machine-learning-models.html">Machine Learning Models</a></p>
 </body>
 </html>
