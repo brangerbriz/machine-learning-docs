@@ -64,6 +64,7 @@ List of all pages on the site:
 - [Generative Models](generative-models.html)
 - [Ipython](ipython.html)
 - [Keras](keras.html)
+- [Style Transfer](style-transfer.html)
 - [Discrete vs Continuous Data](discrete-vs-continuous-data.html)
 - [A Brief ML History](a-brief-ml-history.html)
 - [Glossary of Terms](glossary-of-terms.html)

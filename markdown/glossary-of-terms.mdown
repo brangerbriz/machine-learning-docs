@@ -1,5 +1,7 @@
 ## Glossary of terms
 
+- Classification
+- Regression
 - Hyperparameters
 - Hyperparameter search
 - Autoencoder
@@ -7,6 +9,15 @@
 - Recurrent Neural Network
 - LSTM
 - GRU
+- GAN
+- VAE
+- CNN
+- RNN
+- Activation Function
+- Softmax
+- SGD
+- Batch normalization
+- Error/Loss/Cost
 - Backpropagation
 - Gradient Descent
 - Training Loss
@@ -22,6 +33,5 @@
 - Underfitting
 - Supervised Learning
 - Unsupervised Learning
-- GANs
 - Adversarial Learning
 - Generalization

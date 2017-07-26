@@ -4,3 +4,5 @@
 - GANs
 - VAE
 
+> linked from:
+	- general-purpose-algorithms
