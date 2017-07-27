@@ -5,23 +5,19 @@
   <link rel="stylesheet" href="css/github-markdown.css">
 </head>
 <body class='markdown-body'>
-<h2 id="types-of-tasks-classification-vs-regression">Types of Tasks: Classification vs Regression</h2>
-<ul>
-<li><p>Classification:</p>
-<ul>
-<li>Discrete.</li>
-<li>Produces a label (or class).</li>
-<li>Example: Type of car, </li>
-</ul>
-</li>
-<li><p>Regression:</p>
-<ul>
-<li>Continuous.</li>
-<li>Produces a number, or series of numbers.</li>
-<li>Example: Audio waveforms, global GDP, etc… (any kind of time series data)</li>
-</ul>
-</li>
-</ul>
+<h1 id="types-of-tasks">Types of Tasks</h1>
+<p>Before we continue, I want to hammer in the difference between two of the most common ML tasks <a href="general-purpose-algorithms.html#classification">we mentioned before</a>.</p>
+<p><img src="images/classification-vs-regression.png" alt="Classification vs Regression"></p>
+<blockquote>
+<p>source <a href="https://ipython-books.github.io/featured-04/">https://ipython-books.github.io/featured-04/</a></p>
+</blockquote>
+<h2 id="classification">Classification</h2>
+<blockquote>
+<p>In machine learning and statistics, classification is the problem of identifying to which of a set of categories a new observation belongs, on the basis of a training set of data containing observations whose category membership is known. (wikipedia)</p>
+</blockquote>
+<p>Classification problems output a probability distribution over a set of categories (e.g. 22% probability an email is spam, 88% probability an email is legitimate). The probability distribution produced by a classification problem sums to <code>1.0</code>, <code>0.22 + 0.88 = 1.0</code>.</p>
+<h2 id="regression">Regression</h2>
+<p>Regression problems produce real-valued floats, or rather, a probability mass distribution over real-valued continuous floats that integrate to <code>1.0</code>.</p>
 <p>Next: <a href="performance-measures.html">Performance Measures</a></p>
 </body>
 </html>
