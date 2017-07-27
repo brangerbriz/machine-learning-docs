@@ -1,4 +1,4 @@
-## Features and Design Matrices
+# Features and Design Matrices
 
 - What are features?
  	- Iris dataset

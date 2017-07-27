@@ -5,22 +5,18 @@
   <link rel="stylesheet" href="css/github-markdown.css">
 </head>
 <body class='markdown-body'>
-<h2 id="models">Models</h2>
+<h1 id="models">Models</h1>
+<p>Models are a synthetic representation of the way that something in the real life works. There is a function that describes every non-random occurrence in the universe. Knowing any particular real-world function is impossible without knowing its output for every input past and future. But estimating/approximating a function can be done if you have enough example outputs of that function. The estimation of this function is called a model. </p>
+<p>In machine learning, models are the result of <a href="training.html">training</a>. With <a href="https://en.wikipedia.org/wiki/Parametric_model">parametric</a> ML algorithms like neural networks, the model is the trained network parameters (the weights and biases, more on that soon). Essentially, models are:</p>
 <ul>
-<li>A model is a synthetic representation of the way something in the real world works.<ul>
-<li>There is a function that describes everything non-random. Knowing this true real-world function is impossible without knowing every example of it (past and future). But extimating/approximating these functions can be done if you have enough examples of the function. The extimation function is called a model.</li>
+<li>Trained/learned</li>
+<li>The product of a machine learning</li>
+<li>The algorithm</li>
+<li><a href="general-purpose-algorithms.html">Function approximators</a></li>
+<li>Used to create predictions/generate new data once trained</li>
 </ul>
-</li>
-<li>Model vs architecure</li>
-<li>Models are:<ul>
-<li>Trained/learned.</li>
-<li>The product of machine learning.</li>
-<li>The algorithm.</li>
-<li>Function approximators.</li>
-</ul>
-</li>
-<li>Difference between training a model and using it in production (testing)</li>
-</ul>
+<p>Sometimes the word model and architecture are used interchangeably, however, model architecture usually describes the structure of the model (how many parameters, multiple combined models, depth of the model, etc...). A machine learning model usually refers to the product of training; The learned algorithm.</p>
+<p>It is not uncommon to slightly alter the way that a model is used depending on whether it is being trained or used in production (often confusingly called testing). For example, with Autoregressive Recurrent Neural Networks, models are fed ground-truth data during testing. During training, they are then fed their own predictions in a sort of hallucinatory feedback loop.</p>
 <p>Next: <a href="the-ml-pipeline.html">The ML Pipeline</a></p>
 </body>
 </html>

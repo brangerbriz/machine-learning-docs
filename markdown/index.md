@@ -45,6 +45,7 @@ List of all pages on the site:
 
 ### Concepts & Details
 
+- [Normalization and Whitening](normalization-and-whitening.html)
 - [Experiment Structure](experiment-structure.html)
 - [Tensors](tensors.html)
 - [Features and Design Matrices](features-and-design-matrices.html)

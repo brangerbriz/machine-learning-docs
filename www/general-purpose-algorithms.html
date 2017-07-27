@@ -5,11 +5,11 @@
   <link rel="stylesheet" href="css/github-markdown.css">
 </head>
 <body class='markdown-body'>
-<h2 id="general-purpose-algorithms">General Purpose Algorithms</h2>
+<h1 id="general-purpose-algorithms">General Purpose Algorithms</h1>
 <p>Machine learning can be thought of as a collection of general purpose algorithms. This is arguably its most powerful trait; One machine learning algorithm can be trained to perform ten different tasks, compared to ten different algorithms each handwritten to solve one of those same ten tasks with traditional programming. This has groundbreaking implications for both speed and productivity of development. It also means that small meta-improvements to the machine learning algorithm itself can have a rippling effect, improving the performance of thousands of tasks that it can be trained to solve. This idea of a general purpose algorithm that machine learning provides has the potential to be the most radical technology since the advent of the general purpose computer.</p>
 <p>Artificial Neural Networks (ANNs, or simply NNs), one of the most popular family of machine learning algorithms, are perhaps the best example of this. Neural networks function as universal function approximators; Given an infinite number of neurons (units of computation), they can represent any mathematical function or <a href="machine-learning-models.html">model</a> any real world occurrence. Let that sink in... Though practically unfeasible, this one fairly straightforward algorithm, can solve any computable problem in the universe.</p>
 <p>Before we <a href="neural-networks-and-deep-learning.html">dig into</a> exactly how this works, I want to introduce some of the common problem domains that machine learning algorithms function particularly well for. At their core, todays machine learning algorithms excel most at various forms of pattern recognition. Given enough data, machine learning algorithms are able to learn the inherent patterns in the data. This is a particularly useful trait, especially for the following types of problems.</p>
-<h3 id="classification">Classification</h3>
+<h2 id="classification">Classification</h2>
 <p>Classification tasks are perhaps the most traditional application of machine learning. A model that predicts which <a href="discrete-vs-continuous-data.html">discrete</a> category a piece of input data belongs solves a classification task. The number of classes varies per problem, but is always greater than one. Examples of classification problems include:</p>
 <ul>
 <li>predicting if a stock will be higher, or lower by the end of the month (2 classes)</li>
@@ -19,14 +19,14 @@
 <li>predicting the next sample in a raw audio buffer (2048 classes)</li>
 <li>predicting the next move in a game of chess (10,000+ classes)</li>
 </ul>
-<h3 id="regression">Regression</h3>
+<h2 id="regression">Regression</h2>
 <p>Rather than outputting a specific class, regression problems output a continuous floating-point number. Examples of regression problems include:</p>
 <ul>
 <li>predicting the exact price of a stock at the end of the month</li>
 <li>predicting the change in earth&#39;s temperature each year</li>
 <li>predicting the amount of money an insured person will claim each year</li>
 </ul>
-<h3 id="translation-and-transcription">Translation and Transcription</h3>
+<h2 id="translation-and-transcription">Translation and Transcription</h2>
 <p>Machine translation applications have seen a huge boost in performance correlated with development of ML algorithms. This includes and tasks necessitate the translation of arbitrary data from one form to another:</p>
 <ul>
 <li>Translation from English to Spanish</li>
@@ -35,7 +35,7 @@
 <li>Translation from sentences to Emoji</li>
 <li>Transcriptions from audio recording to text (speech-to-text)</li>
 </ul>
-<h3 id="anomaly-detection">Anomaly Detection</h3>
+<h2 id="anomaly-detection">Anomaly Detection</h2>
 <p>ML models are exceptionally good at detecting irregularities in patterns. In these situations the number of positive examples (irregularity) is far fewer than negative examples (common data). They are often used to:</p>
 <ul>
 <li>Detect credit card fraud</li>
@@ -43,7 +43,7 @@
 <li>Detect uncommon behavior on the ground using aerial photography</li>
 <li>Diagnose rare diseases</li>
 </ul>
-<h3 id="synthesis-and-sampling">Synthesis and Sampling</h3>
+<h2 id="synthesis-and-sampling">Synthesis and Sampling</h2>
 <p>ML models that synthesis new data based on example data are called <a href="generative-models.html">generative models</a>.</p>
 <ul>
 <li>Creating 3D assets for a procedurally generated video game</li>
@@ -51,7 +51,7 @@
 <li><a href="https://www.theverge.com/2016/9/12/12886698/machine-learning-video-image-prediction-mit">Hallucinate video from still images</a></li>
 <li><a href="style-transfer.md">Style transfer</a></li>
 </ul>
-<h3 id="de-noising">De-noising</h3>
+<h2 id="de-noising">De-noising</h2>
 <p>De-noising problems involve removing artifacts and noise from data in order to produce a clean sample. Denoising models are often trained by artificially introducing noise to otherwise clean samples in order to learn de-noising patterns. A trained model can then apply what its learned from the synthesized data to noisy data it finds in the real-world. Examples include:</p>
 <ul>
 <li>Removing noise from a weak audio or video signal</li>

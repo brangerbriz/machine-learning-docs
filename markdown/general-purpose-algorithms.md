@@ -1,4 +1,4 @@
-## General Purpose Algorithms
+# General Purpose Algorithms
 
 Machine learning can be thought of as a collection of general purpose algorithms. This is arguably its most powerful trait; One machine learning algorithm can be trained to perform ten different tasks, compared to ten different algorithms each handwritten to solve one of those same ten tasks with traditional programming. This has groundbreaking implications for both speed and productivity of development. It also means that small meta-improvements to the machine learning algorithm itself can have a rippling effect, improving the performance of thousands of tasks that it can be trained to solve. This idea of a general purpose algorithm that machine learning provides has the potential to be the most radical technology since the advent of the general purpose computer.
 
@@ -6,7 +6,7 @@ Artificial Neural Networks (ANNs, or simply NNs), one of the most popular family
 
 Before we [dig into](neural-networks-and-deep-learning.html) exactly how this works, I want to introduce some of the common problem domains that machine learning algorithms function particularly well for. At their core, todays machine learning algorithms excel most at various forms of pattern recognition. Given enough data, machine learning algorithms are able to learn the inherent patterns in the data. This is a particularly useful trait, especially for the following types of problems.
 
-### Classification
+## Classification
 
 Classification tasks are perhaps the most traditional application of machine learning. A model that predicts which [discrete](discrete-vs-continuous-data.html) category a piece of input data belongs solves a classification task. The number of classes varies per problem, but is always greater than one. Examples of classification problems include:
 
@@ -17,7 +17,7 @@ Classification tasks are perhaps the most traditional application of machine lea
 - predicting the next sample in a raw audio buffer (2048 classes)
 - predicting the next move in a game of chess (10,000+ classes)
 
-### Regression
+## Regression
 
 Rather than outputting a specific class, regression problems output a continuous floating-point number. Examples of regression problems include:
 
@@ -25,7 +25,7 @@ Rather than outputting a specific class, regression problems output a continuous
 - predicting the change in earth's temperature each year
 - predicting the amount of money an insured person will claim each year
 
-### Translation and Transcription
+## Translation and Transcription
 
 Machine translation applications have seen a huge boost in performance correlated with development of ML algorithms. This includes and tasks necessitate the translation of arbitrary data from one form to another:
 
@@ -35,7 +35,7 @@ Machine translation applications have seen a huge boost in performance correlate
 - Translation from sentences to Emoji
 - Transcriptions from audio recording to text (speech-to-text)
 
-### Anomaly Detection
+## Anomaly Detection
 
 ML models are exceptionally good at detecting irregularities in patterns. In these situations the number of positive examples (irregularity) is far fewer than negative examples (common data). They are often used to:
 
@@ -44,7 +44,7 @@ ML models are exceptionally good at detecting irregularities in patterns. In the
 - Detect uncommon behavior on the ground using aerial photography
 - Diagnose rare diseases
 
-### Synthesis and Sampling
+## Synthesis and Sampling
 
 ML models that synthesis new data based on example data are called [generative models](generative-models.html).
 
@@ -53,7 +53,7 @@ ML models that synthesis new data based on example data are called [generative m
 - [Hallucinate video from still images](https://www.theverge.com/2016/9/12/12886698/machine-learning-video-image-prediction-mit)
 - [Style transfer](style-transfer.md)
 
-### De-noising
+## De-noising
 
 De-noising problems involve removing artifacts and noise from data in order to produce a clean sample. Denoising models are often trained by artificially introducing noise to otherwise clean samples in order to learn de-noising patterns. A trained model can then apply what its learned from the synthesized data to noisy data it finds in the real-world. Examples include:
 
