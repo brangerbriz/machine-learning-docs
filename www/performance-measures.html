@@ -5,12 +5,15 @@
   <link rel="stylesheet" href="css/github-markdown.css">
 </head>
 <body class='markdown-body'>
-<h2 id="performance-measures">Performance Measures</h2>
-<ul>
-<li>Method of evaluation is increadibly important. Not just for you, with supervised learning this is how the machine knows what type of good behavior to reward and what type to punish.</li>
-<li>Cost/Loss function</li>
-<li>Categorical accuracy (cross-entropy), F-score, vs MSE and Maximum Log Likelyhood</li>
-</ul>
+<h1 id="performance-measures">Performance Measures</h1>
+<p>The method used to evaluate the performance of a machine learning model is increadibly important. Not just for you to know how well it is performing at a given task, but for the model to know has well it is doing itself. With supervised learning this is how the machine knows what type of good behavior to reward and what type to punish. Choosing the right performance measure in an ML task is far from trivial and depends entirely on the task at hand. For instance, you would not use the same method to determine how close a predicted stock price is from its actual price as you would to determine the realism of a sythesized portrait. Ultimately, the quality of the performance metric used to evaluate the success/failure at a specific task greatly influences the success of that task itself.</p>
+<h2 id="cost-loss-function">Cost/Loss function</h2>
+<p>All machine learning algorithms rely on a loss function that measures the error produced at each training iteration. This error is simply the distance a predicted value is from its target value. In a supervised learning algorithm, the error is given by <code>L(y^, y)</code>, where loss <code>L</code> is a function of the predicted output value <code>y^</code> (yHat) and the target value <code>y</code>. Now, how this distance is measured depends greatly on the task at hand. One common loss function for regression tasks is <a href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Square Error</a> (MSE). MSE is simply the average square error of all training samples.</p>
+<p><img src="images/mse.svg" alt="Mean Square Error"></p>
+<p>For classification, categorical <a href="https://en.wikipedia.org/wiki/Cross_entropy">cross-entropy</a> is a popular loss function. The categorical cross-entropy of two discrete probability distributions <code>p</code> and <code>q</code> is:</p>
+<p><img src="images/cross-entropy.svg" alt="Categorical Cross-Entropy"></p>
+<p>If your eyes just glazed over, don&#39;t worry. For most practical purposes, many <a href="https://keras.io/losses/">loss functions for common tasks</a> are bundled in machine learning libraries. Ignorance is bliss. </p>
+<p><code>L</code> is also often also the sum of a few different heuristically weighted functions. For all practical purposes, loss, cost, and error are all used interchangably.  </p>
 <p>Next: <a href="linear-regression.html">Linear Regression</a></p>
 </body>
 </html>
