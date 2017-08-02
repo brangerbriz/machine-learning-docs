@@ -5,3 +5,6 @@
 - tanh
 - relu
 - etc...
+
+> linked from:
+- Neural Networks and Deep Learning

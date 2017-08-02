@@ -7,3 +7,4 @@
 
 > linked from:
 - Data is Key
+- Neural Networks and Deep Learning

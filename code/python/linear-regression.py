@@ -1,6 +1,7 @@
-# pip install scikit-learn if you have not already done so
+# "pip install scikit-learn" if you have not already done so
 from sklearn import datasets
 from sklearn.linear_model import LinearRegression
+from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_absolute_error
 
 # load boston housing data

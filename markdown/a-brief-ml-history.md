@@ -4,3 +4,6 @@
 	- Data explosion (big data)
 	- GPGPU
 	- Previous AI winters (beware the hype)
+
+> Linked from:
+- Neural Networks and Deep Learning
