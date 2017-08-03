@@ -1,5 +1,6 @@
 ### Optimization
 
+- Stochastic Gradient Descent and it's many variants
 - Optimizers
 	- SGD
 	- Adam

@@ -1,14 +1,14 @@
 # Linear Regression
 
-Linear regression is the "Hello, World!" of machine learning. It is perhaps the most basic ML algorithm and generally the first one taught. It is a simple parametric model with two learned parameters per input dimension. As the name would suggest, it is a regression problem, so we will expect the output value to be continuous floats. It is also a linear algorithm, meaning that the relationship between the inputs and the output will always be linear. The function learned won't be able to produce curves or lines, and in turn, won't be able to accurately represent curved, non-linear data in the wild. But its a great place to start, and you'd be surprised how many problems have data distributions that really are close to linear.  
+Linear regression is the "Hello, World!" of machine learning. It is perhaps the most basic ML algorithm and generally the first one taught. It is a simple parametric model with two learned parameters per input dimension. As the name would suggest, it is a [regression problem](general-purpose-algorithms.html#regression), so we will expect the output values to be continuous floats. It is also a linear algorithm, meaning that the relationship between the inputs and the output will always be linear. The function learned won't be able to produce curves or lines, and in turn, won't be able to accurately represent curved, non-linear data in the wild. But its a great place to start and you'd be surprised how many problems have data distributions that really are close to linear.  
 
 ## Uses
 
 ![Linear Regression](images/linear-regression.png)
 
-Linear regression produces a scaler output `y` from a vector of N-dimensional inputs, `X` (N, being a variable positive integer). There are two basic uses for linear regression:
+Linear regression produces a scalar output `y` from a vector of n-dimensional inputs, `X` (n, being a variable positive integer). There are two basic uses for linear regression:
 
-- If the goal is prediction, linear regression can be used to fit a predictive model to an observed data set of `y` and `X` values. After developing such a model, if an additional value of `X` is then given without its accompanying value of `y`, the fitted model can be used to make a prediction of the value of `y`. This is perhaps the most common use case for supervised machine learning in general.
+- If the goal is prediction, linear regression can be used to fit a predictive model to an observed data set of `y` and `X` values. After developing such a model, if an additional value of `X` is then given without its accompanying value of `y`, the fitted (trained) model can be used to make a prediction of the value of `y`. This is perhaps the most common use case for supervised machine learning in general.
 - Given a variable `y` and a number of variables `X1, ..., Xp` that may be related to `y`, linear regression analysis can be applied to quantify the strength of the relationship between `y` and the `Xj`, to assess which `Xj` may have no relationship with `y` at all, and to identify which subsets of the `Xj` contain redundant information about `y`.
 
 ## The Algorithm
@@ -17,15 +17,15 @@ Each output `y` is calculated by scaling each input `X1, X2...` by a coefficient
 
 ## Model Fitting
 
-Enter model fitting, a fancy name for [training](training.html). The idea is that you find, or "fit", model parameters that approximate a function to match your example training data. We use an [optimization](optimization.html) algorithm to find optimal values of `M` and `b` given enough example `y` values. We do this by minimizing an error function that describes the difference between our target values `y` and the predicted values `y^` produced during the iterative training process, essentially quantifying how "wrong" the model predictions are from the real values. The [loss function](loss-functions.md) often used with linear regression is Mean Squared Error (MSE). MSE computes the loss of a mini-batch of examples as the averaged sum of the squared distances between the predicted value and the target value.
+Enter model fitting, a fancy name for [training](training.html). The idea is that you find, or "fit", model parameters that approximate a function to match your example training data. We use an [optimization](optimization.html) algorithm to find optimal values of `M` and `b` given enough example `y` values. We do this by minimizing an error function that describes the difference between our target values `y` and the predicted values `y^` produced during the iterative training process, essentially quantifying how "wrong" the model predictions are from the real values. The [loss function](loss-functions.md) often used with linear regression is Mean Squared Error (MSE). MSE computes the loss of a mini-batch of examples as the averaged sum of the squared distances between the predicted values and the target values.
 
 ![Mean Square Error](images/mse.svg) 
 
-This is the function we hope to minimize using a standard optimization algorithm. When training begins, all model parameters are initialized to a random value. The goal of training is then to iteratively update each model parameter by a small amount in the direction that yields a lower value from the loss function. That is what we mean when we say "minimize" the loss function. The basic method we use to perform this optimization is called Stochastic Gradient Descent (SGD), and it is one of the foundational algorithms used in modern machine learning. It has many variants, but the idea behind all of them is the same. The value of each model parameter is updated by a tiny value that moves it in the direction pointed to by the derivative of its change with respect to the input. The vector of all parameter derivatives is called the gradient, and it describes a surface of a multidimensional problem space. If that all sounds like too much to handle right now, don't worry about it. You don't have to know how this works in order to leverage the power of high-level ML libraries and APIs. 
+This is the function we hope to minimize using a standard optimization algorithm. When training begins, all model parameters are initialized to a random value. The goal of training is then to iteratively update each model parameter by a small amount in the direction that yields a lower value from the loss function. That is what we mean when we say "minimize" the loss function. The basic method we use to perform this optimization is called Stochastic Gradient Descent (SGD) and it is one of the foundational algorithms used in modern machine learning. It has many variants, but the idea behind all of them is the same. The value of each model parameter is iteratively updated by a tiny value that moves it in the direction pointed to by the derivative of its change with respect to the input. The vector of all parameter derivatives is called the gradient, and it describes a surface of a multidimensional problem space. If that all sounds like too much to handle right now, don't worry about it. You don't have to know how this works in order to leverage the power of high-level ML libraries and APIs. 
 
 ![Gradient Descent](images/optimization.jpg)
 
-Gradient descent intuitively works like this. Imagine you are on a hike and you find yourself at the summit of the mountain just as the sun sets. You forgot to bring a flashlight and now you have to descend the mountain in the dark. You can't find the path and you don't remember the way down, so the best you can do is slowly take a step in the direction of steepest descent, not paying ignoring global direction because you can't see. It might take a while, but provided the mountain has no high-altitude valleys (local minima), you will eventually find your way back down to the bottom. Now substitute the loss function for the topology of the mountain and you've got an intuitive understanding of gradient descent. When the parameters are initialized the loss function lands at a random point on the surface of the N-dimensional parameter space. Iteratively updating the model parameters in the direction of nearest descent causes the values output by the loss function to be minimized and the overall accuracy of the model predictions to increase.
+Gradient descent intuitively works like this: Imagine you are on a hike and you find yourself at the summit of the mountain just as the sun sets. You forgot to bring a flashlight and now you have to descend the mountain in the dark. You can't find the path and you don't remember the way down, so the best you can do is slowly take a step in the direction of steepest descent, ignoring global direction because you can't see. It might take a while, but provided the mountain has no high-altitude valleys ([local minima](local-minima-saddle-points-and-plateaux.html)), you will eventually find your way back down to the bottom. Now substitute the loss function for the topology of the mountain and you've got an intuitive understanding of gradient descent. When the parameters are initialized the loss function lands at a random point on the surface of the N-dimensional parameter space. Iteratively updating the model parameters in the direction of nearest descent causes the values output by the loss function to be minimized and the overall accuracy of the model predictions to increase.
 
 ## Example
 
@@ -44,14 +44,14 @@ Each input sample has 13 features, and therefore is 13-dimensional. Below is a d
 - RAD: index of accessibility to radial highways
 - TAX: full-value property-tax rate per $10,000
 - PTRATIO: pupil-teacher ratio by town
-- B: 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town
+- B: 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town (NOTE: I feel very uncomfortable about this. I didn't know this was a feature when I chose to use this as an example.)
 - LSTAT: % lower status of the population
 - MEDV: Median value of owner-occupied homes in $1000's
 
-Of our 506 samples, we want to hold out 20% to use as testing data, leaving us with 404 samples with 13 features each. We will use this `404x13` design matrix to fit our linear model. Our target data `y` is the actual price of the home in thousands of dollars. We have `404x1` `y` values.
+Of our 506 samples, we want to hold out 20% to use as [test data](data-is-key.html#training-data-vs-test-data), leaving us with 404 samples with 13 features each. We will use this `404x13` [design matrix](features-and-design-matrices.html) to fit our linear model. Our target data `y` is the actual price of the home in thousands of dollars. We have `404x1` `y` values. You can find this example python script in [`code/python/linear-regression.py`](code/python/linear-regression.py).
 
 ```
-# pip install scikit-learn if you have not already done so
+# "pip install scikit-learn" if you have not already done so
 from sklearn import datasets
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
@@ -81,7 +81,7 @@ for i in range(len(y_hat)):
 print('[+] the mean absolute error is {:.1f}'.format(mean_absolute_error(y_hat, y_test)))
 ```
 
-Linear regression models are very simple, so the model should take no time to train and will begin to produce predictions like the ones below.
+Linear regression models are very simple so the model should take no time to train and will begin to produce predictions like the ones below.
 
 ```
 [*] training model...

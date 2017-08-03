@@ -13,9 +13,9 @@ ML is both an active area of research and a set of practices that can be used to
 
 For hard problems, don't write heuristic rules. Instead learn from data. So long as you have enough data, a machine learning solution will often be easier to write and perform better than a rule-based approach.
 
-### What skills does Machine Learning require?
+### What Skills Does Machine Learning Require?
 
-While bleeding-edge ML research may require a bit of a barrier-to-entry, most applications of ML require only a general comfortability with programming. The language of choice for most machine learning libraries and tools is [Python](https://learnxinyminutes.com/docs/python/). This is likely a result of the language's history in scientific computing, and Python will likely remain dominant in the field for the foreseeable future. For this reason, all code examples in this resource will be written in Python. That said, the popularity of machine learning has spiked dramatically since ~2015-2016 and ML libraries are poping up in just about every language and platform imaginable (including embedded devices).
+While [bleeding-edge ML research](https://arxiv.org/list/stat.ML/pastweek) may require a bit of a barrier-to-entry, most applications of ML require only a general comfortability with programming. The language of choice for most machine learning libraries and tools is [Python](https://learnxinyminutes.com/docs/python/). This is likely a result of the language's history in scientific computing, and its reasonable to assume that Python will remain dominant in the field for the foreseeable future. For this reason, code examples in this resource will be written in Python. That said, the popularity of machine learning has spiked dramatically since ~2015-2016 and ML libraries are poping up in just about every language and platform imaginable (including embedded devices).
 
 Besides standard programming skills, ML specifically borrows from the following fields:
 

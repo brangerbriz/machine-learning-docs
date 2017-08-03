@@ -1,4 +1,4 @@
-### Hyperparameter Search
+# Hyperparameter Search
 
 - Let the machine do the work
 - Random search
