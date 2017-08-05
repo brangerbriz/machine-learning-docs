@@ -17,7 +17,7 @@ model.add(Dense(64, input_shape=(13,)))
 # the fully connected layer
 model.add(Activation('relu'))
 # repeat...
-model.add(Dense(64, input_shape=(13,)))
+model.add(Dense(64))
 model.add(Activation('relu'))
 model.add(Dense(1))
 
