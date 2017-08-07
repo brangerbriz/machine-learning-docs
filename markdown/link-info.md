@@ -48,6 +48,7 @@
 - Network Types
 - Generative Models
 - Online Models
+- Probability Distributions
 
 ## Needs Link:
 

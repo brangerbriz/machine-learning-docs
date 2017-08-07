@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset='utf-8'>
+  <title>markdown/probability-distributions.md</title>
+  <link rel="stylesheet" href="css/github-markdown.css">
+</head>
+<body class='markdown-body'>
+<h1 id="probability-distributions">Probability Distributions</h1>
+<p>A probability distribution is a mathematical function that describes the likelihood of a set of possible occurrences taking place. By randomly drawing samples from a distribution, called <em>sampling</em>, we can expect our random selections to match the true distribution of the data as our number of samples approaches infinity (see the <a href="https://en.wikipedia.org/wiki/Law_of_large_numbers">law of large numbers</a>).</p>
+<p>You can think of a probability distribution as a <a href="https://en.wikipedia.org/wiki/Histogram">histogram</a>. A histogram features an ordered list of occurrences on the x-axis (called the domain) and the number of times those occurrences are present in some experiment as the y-axis (called the range). Below is an example of a measuring the pedal length feature from the famous <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Iris dataset</a>. </p>
+<p><img src="images/histogram.png" alt="Histogram"></p>
+<blockquote>
+<p>source: Wikipedia (user Daggerbox)</p>
+</blockquote>
+<p><img src="images/histogram-symmetric.png" alt="Histogram"><br><img src="images/histogram-skewed-right.png" alt="Histogram"><br><img src="images/histogram-skewed-left.png" alt="Histogram"><br><img src="images/histogram-bimodal.png" alt="Histogram"><br><img src="images/histogram-multimodal.png" alt="Histogram"><br><img src="images/histogram-uniform-symettric.png" alt="Histogram"></p>
+<blockquote>
+<p>source: Wikipedia (user Visnit)</p>
+</blockquote>
+<h2 id="probability-mass-function">Probability Mass Function</h2>
+<h2 id="probability-density-function">Probability Density Function</h2>
+<p>plt.figure(figsize=(20,10))<br><img src="images/histogram-wisdm-raw-data.png" alt="WISDM Raw Data Histogram"></p>
+<ul>
+<li>Often quantized. For instance, iris pedal length is a continuous value, however, for practical purposes we quantize it to half-cm. </li>
+</ul>
+</body>
+</html>
