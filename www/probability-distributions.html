@@ -6,45 +6,46 @@
 </head>
 <body class='markdown-body'>
 <h1 id="probability-distributions">Probability Distributions</h1>
-<p>A probability distribution is a mathematical function that describes the likelihood of a set of possible occurrences taking place. By randomly drawing samples from a distribution, called <em>sampling</em>, we can expect our random selections to match the true distribution of the data as our number of samples approaches infinity (see the <a href="https://en.wikipedia.org/wiki/Law_of_large_numbers">law of large numbers</a>).</p>
-<p>You can think of a probability distribution as a <a href="https://en.wikipedia.org/wiki/Histogram">histogram</a>. A histogram features an ordered list of occurrences on the x-axis (called the domain) and the number of times those occurrences are present in some experiment as the y-axis (called the range). Below is an example of a measuring the pedal length feature from the famous <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Iris dataset</a>. </p>
+<p>A probability distribution is a mathematical function that describes the likelihood of a set of possible occurrences taking place. By randomly drawing samples from a distribution, called <em>sampling</em>, we can expect our random selections to match the true distribution of the data as our number of samples approaches infinity (see the <a href="https://en.wikipedia.org/wiki/Law_of_large_numbers">law of large numbers</a>). Quite interestingly, we can also  expect the averages of small numbers of samples taken many times to be normally distributed, thanks to the <a href="#central-limit-theorem">central limit theorem</a> (more on this in a bit).</p>
+<p>We can think of a probability distribution as a <a href="https://en.wikipedia.org/wiki/Histogram">histogram</a>. A histogram features an ordered list of discrete occurrences or real-valued numbers on the x-axis (called the domain) and their frequency, the number of times those occurrences are present in some experiment, as the y-axis (called the range). Below is a probability distribution of the flower pedal length feature from the famous <a href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Iris dataset</a>. </p>
 <p><img src="images/histogram.png" alt="Histogram"></p>
 <blockquote>
 <p>source: Wikipedia (user Daggerbox)</p>
 </blockquote>
+<p>Given enough samples, we can use this distribution to estimate the pedal length of flowers we are expect to find from real data &quot;in the wild.&quot;</p>
+<h2 id="gaussian-distribution">Gaussian Distribution</h2>
+<p><img src="images/histogram-symmetric.png" alt="Histogram"></p>
+<p>This is one of the most common (and famous) distribution types, called the <em>normal</em> or <em>Guassian</em> distribution (informally the <em>bell curve</em>). It appears all over the place in nature. For this reason it is &quot;often used in the natural and social sciences to represent real-valued random variables whose distributions are not known&quot; (<a href="https://en.wikipedia.org/wiki/Normal_distribution">Wikipedia</a>). The Gaussian distribution itself is a continuous real-valued distribution, but it can also be generalized to work with quantized or discrete data. For instance, Iris pedal length is a real value measured in centimeters, however it is perfectly reasonable to quantize the measurements to half a centimeter as in the example above.</p>
+<p>Normal distributions can be described by two properties, the mean, which is located around the central peak, and the standard deviation, which can be used to describe the variance in the data, or how far it is spread out from the mean. They are also generally symmetric around the mean.</p>
+<p>The further off-centered the mean of the distribution is is called its <em>skew</em>. A distribution&#39;s <em>kurtosis</em> describes its &quot;tailedness&quot;, the longer the tail, the higher the kurtosis. The magnitude of a distribution&#39;s <em>skew</em> and <em>kurtosis</em> can be used to describe how <em>gaussian</em> a distribution is. As both of these properties approach zero, the <em>gaussian-ness</em> of a distribution increases.</p>
+<p>It should be noted that there is not one normal distribution, but rather infinitely many, each with their own means and standard deviations. A normal distribution is more of an archetype, with many instances of it appearing in different shapes and sizes in the real world.</p>
 <h2 id="probability-mass-function">Probability Mass Function</h2>
 <h2 id="probability-density-function">Probability Density Function</h2>
-<p>plt.figure(figsize=(20,10))<br><img src="images/histogram-wisdm-raw-data.png" alt="WISDM Raw Data Histogram"></p>
+<h2 id="central-limit-theorem">Central Limit Theorem</h2>
+<p>The Guassian distribution is particularly helpful because when the number of observations is particularly large, it is often the case that averages of samples of <a href="https://en.wikipedia.org/wiki/Independence_(probability_theory">independent random variables</a>) independently drawn from different distributions converge to a distribution that is <em>normal</em>, even if the original variables themselves are not normally distributed. This phenomenon is known as the <a href="https://en.wikipedia.org/wiki/Central_limit_theorem">central limit theorem</a>, and it is particularly important because it &quot;implies that probabilistic and statistical methods that work for normal distributions can be applicable to many problems involving other types of distributions.&quot; (the frequency of the average of a non-normal distribution is commonly normal)</p>
+<p>This idea is a bit unintuitive at first but it is helpful once understood as it explains why we often see <em>normal</em> distributions all over the place in machine learning.</p>
+<p>If we repeatedly sum a set of samples from an unknown distribution of arbitrary non-normal shape, and plot the averages of these sums (real-value or index as domain, frequency as range) the resulting distribution will approach normal as our sample size increases. Therefore, the normal distribution is a great approximation of the mean of a lot of processes.</p>
+<p>As your sample size from an arbitrary non-normal distribution becomes larger, the frequency distribution of means of those samples becomes more normally distributed. Taking 10,000 samples of sample size four will have an equal mean, but a larger variance than if you were to use a sample size of 10. As sample size increases the distribution of your sampling converges at a normal distribution. This distribution is called the <em>Sampling Distribution of the sample mean</em>. The mean of the <em>Sampling Distribution</em> will be the same as the mean of the distribution being sampled.</p>
+<p>For a wonderful demo that illustrates the central limit theorem in practice, see <a href="http://onlinestatbook.com/stat_sim/sampling_dist/index.html">here</a> (click the begin button on the top left side). I&#39;ve also found that <a href="https://www.youtube.com/watch?v=JNm3M9cqWyc">these</a> <a href="https://www.youtube.com/watch?v=FXZ2O1Lv-KE">two</a> Kahn academy videos were incredibly helpful in understanding the central limit theorem. </p>
+<p><img src="images/histogram-wisdm-raw-data.png" alt="WISDM Raw Data Histogram"></p>
 <ul>
 <li>Often quantized. For instance, iris pedal length is a continuous value, however, for practical purposes we quantize it to half-cm. </li>
 </ul>
 <h2 id="common-distribution-types">Common Distribution Types</h2>
 <p>Many probability distributions fall into a few categories of distribution types. These are not one-size-fits-all categories and not all distributions will clearly belong to these archetypes, but they can be helpful in understanding how your data is distributed. </p>
-<h3 id="symmetric-gaussian-distribution">Symmetric Gaussian Distribution</h3>
-<p><img src="images/histogram-symmetric.png" alt="Histogram"></p>
-<p>This is one of the most common (and famous) <a href="discrete-vs-continuous-data.html">continuous</a> distribution types, called the <em>normal</em> or <em>Guassian</em> distribution (informally the <em>bell curve</em>). It appears all over the place in nature. For this reason it is &quot;often used in the natural and social sciences to represent real-valued random variables whose distributions are not known&quot; (<a href="https://en.wikipedia.org/wiki/Normal_distribution">Wikipedia</a>).</p>
-<p><img src="images/gaussian-formula.svg" alt="Guassian Formula"></p>
-<pre><code>GAUSSIAN CODE EXAMPLE HERE
-</code></pre><h4 id="gaussian-distributions-and-the-central-limit-theorem">Gaussian Distributions and The Central Limit Theorem</h4>
-<p>The Guassian distribution is particularly helpful because when the number of observations is particularly large, it is often the case that averages of samples of <a href="https://en.wikipedia.org/wiki/Independence_(probability_theory">independent random variables</a>) independently drawn from different distributions converge to a distribution that is <em>normal</em>, even if the original variables themselves are not normally distributed. This phenomenon is known as the <a href="https://en.wikipedia.org/wiki/Central_limit_theorem">central limit theorem</a>, and it is particularly important because it &quot;implies that probabilistic and statistical methods that work for normal distributions can be applicable to many problems involving other types of distributions.&quot; (the frequency of the average of a non-normal distribution is commonly normal)</p>
-<p>As your sample size from an arbitrary distribution becomes larger, the frequency distribution of that sampling becomes more normally distributed. Taking 10,000 samples of sample size four will have a an equal mean, but a larger variance than if you were to use a sample size of 10. As sample size increases the distribution of your sampling converges at a normal distribution. </p>
-<p>If we add a bunch of samples of any real-world occurrence with an unknown non-normal distribution, average each sample together, and plot their frequency (real-value or index as domain, frequency as range) the resulting distribution will approach normal as our sample size increases. Therefore, the normal distribution is a great approximation of the mean of a lot of processes.</p>
-<p>The resulting distribution is called the *Sampling Distribution of the sample mean.&quot; The mean of the Sampling Distribution will be the same as the mean of the distribution being sampled.</p>
-<p>There is not one perfect normal distribution. There are infinitely many, each with their own average and std dev.</p>
-<p>skew = measure of asymmetry<br>kurtosis = tailedness (longer tail = more kurtosis)</p>
-<p>The smaller the magnitude of skew and kurtosis the more normal a distribution is.</p>
-<p><a href="https://www.youtube.com/watch?v=JNm3M9cqWyc">https://www.youtube.com/watch?v=JNm3M9cqWyc</a><br><a href="https://www.youtube.com/watch?v=FXZ2O1Lv-KE">https://www.youtube.com/watch?v=FXZ2O1Lv-KE</a></p>
 <h3 id="symmetric-uniform-distribution">Symmetric Uniform Distribution</h3>
 <p><img src="images/histogram-uniform-symettric.png" alt="Histogram"></p>
-<pre><code>UNIFORM CODE EXAMPLE HERE
-</code></pre><h3 id="skewed-right-distribution">Skewed Right Distribution</h3>
-<p>Skew normal distribution is a generalization of the normal distribution to non-symettric gaussians (non-zero skewed gaussians).</p>
-<p>aka Positive skew<br><img src="images/histogram-skewed-right.png" alt="Histogram"></p>
+<h3 id="skewed-right-distribution">Skewed Right Distribution</h3>
+<p>A skewed normal distribution is a generalization of the normal distribution to non-symettric gaussians (non-zero skewed gaussians). Somewhat confusingly, the two skew types are described by the direction of the tail, and not the side the majority of the area of the distribution is located. This skew is said to be a positive, or right-skewed distribution.</p>
+<p><img src="images/histogram-skewed-right.png" alt="Histogram"></p>
 <h3 id="skewed-left-distribution">Skewed Left Distribution</h3>
-<p>aka Negative skew<br><img src="images/histogram-skewed-left.png" alt="Histogram"></p>
+<p>Here we have the inverse skewed normal distribution.</p>
+<p><img src="images/histogram-skewed-left.png" alt="Histogram"></p>
 <h3 id="bimodal-distribution">Bimodal Distribution</h3>
+<p>Bimodal distributions have two noticeable modes, or values with disproportionately-high frequencies compared to the rest of the values in the distribution. True gaussians are unimodal, as both the mode and the average appear at the center. Bimodal distributions likely have an average that lies somewhere between the two modes. Technically, there will only be one actual mode (or multiple if several values have the exact same frequency), however the data in a bimodal distribution is generally concentrated in two areas.</p>
 <p><img src="images/histogram-bimodal.png" alt="Histogram"></p>
 <h3 id="multimodal-distribution">Multimodal Distribution</h3>
+<p>Multimodal distributions extend the idea introduced by bimodal distributions to describe any distribution with two or more modes. </p>
 <p><img src="images/histogram-multimodal.png" alt="Histogram"></p>
 <blockquote>
 <p>source for all histogram types: Wikipedia (user Visnit)</p>
