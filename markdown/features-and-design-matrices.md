@@ -22,6 +22,9 @@ Derived features should be used with some caution because they introduce a signi
 
 The best features provide the most information in the smallest amount of space and are linearly independent from other features to avoid repetition. 
 
+- talk about covariance (when covariance is positive they change together, when negative, they are inversely related). Zero covariance == independent vars.
+	- Show covariance matrix
+
 ## Design Matrices
 
 Features are the input data
