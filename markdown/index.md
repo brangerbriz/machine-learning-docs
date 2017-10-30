@@ -84,11 +84,11 @@ Next: [What is Machine Learning?](what-is-machine-learning.html)
 
 Technical case-studies of experiments and projects we've done using machine learning.
 
-- [Pix2Pix experiments](pix2pix-experiments.html)
-- [GloVe experiments](glove-experiments.html)
-- [midi-rnn](midi-rnn.html)
-- [ML4MusicWorkshop](ml4musicworkshop.html)
-- [Muse Music Videos (speech-to-text w/ CMU Sphihx)](muse-music-videos.html)
-- [Python Notebooks](bb-python-notebooks.html)
+- ~~[Pix2Pix experiments](pix2pix-experiments.html)~~ (coming soon)
+- [GloVe experiments](https://github.com/brangerbriz/GloVe-experiments)
+- [midi-rnn](https://github.com/brangerbriz/midi-rnn)
+- [ML4MusicWorkshop](https://github.com/brannondorsey/ml4music-workshop)
+- ~~[Muse Music Videos (speech-to-text w/ CMU Sphihx)](muse-music-videos.html)~~ (coming soon)
+- [Python Notebooks](https://github.com/brangerbriz/ml-notebooks)
 
 Next: [What is Machine Learning](what-is-machine-learning.html)
