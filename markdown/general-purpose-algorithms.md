@@ -10,20 +10,20 @@ Before we [dig into](neural-networks-and-deep-learning.html) exactly how this wo
 
 Classification tasks are perhaps the most traditional application of machine learning. A model that predicts which [discrete](discrete-vs-continuous-data.html) category a piece of input data belongs to solves a classification task. The number of classes varies per problem, but is always greater than one. Examples of classification problems include:
 
-- predicting if a stock will be higher, or lower by the end of the month (2 classes)
-- choosing whether or not an email should be flagged as spam (2 classes)
-- recognizing a handwritten digit (10 classes)
-- guessing the age of a human using computer vision (100+ classes)
-- predicting the next sample in a raw audio buffer (2048 classes)
-- predicting the next move in a game of chess (10,000+ classes)
+- Predicting if a stock will be higher or lower by the end of the month (2 classes)
+- Choosing whether or not an email should be flagged as spam (2 classes)
+- Recognizing a handwritten digit (10 classes)
+- Guessing the age of a human using computer vision (100+ classes)
+- Predicting the next sample in a raw audio buffer (2048 classes)
+- Predicting the next move in a game of chess (10,000+ classes)
 
 ## Regression
 
-Rather than outputting a specific class, regression problems output a [continuous](discrete-vs-continuous-data.html) floating-point number. Examples of regression problems include:
+Rather than outputting a specific class, regression problems output [continuous](discrete-vs-continuous-data.html) floating-point numbers. Examples of regression problems include:
 
-- predicting the exact price of a stock at the end of the month
-- predicting the change in earth's temperature each year
-- predicting the amount of money an insured person will claim each year
+- Predicting the exact price of a stock at the end of the month
+- Predicting the change in earth's temperature each year
+- Predicting the amount of money an insured person will claim each year
 
 ## Translation and Transcription
 
@@ -46,16 +46,16 @@ ML models are exceptionally good at detecting irregularities in patterns. In the
 
 ## Synthesis and Sampling
 
-ML models that synthesis new data based on example data are called [generative models](generative-models.html). These include:
+ML models that synthesize new data based on example data are called [generative models](generative-models.html). They can be used to:
 
-- Creating 3D assets for a procedurally generated video game
-- Creating real-time generative music that plays forever
-- [Hallucinating a video from still images](https://www.theverge.com/2016/9/12/12886698/machine-learning-video-image-prediction-mit)
+- Create 3D assets for a procedurally generated video game
+- Create real-time generative music that plays forever
+- [Hallucinate a video from still images](https://www.theverge.com/2016/9/12/12886698/machine-learning-video-image-prediction-mit)
 - Apply the style from one image to the content of another ([style transfer](style-transfer.md))
 
 ## De-noising
 
-De-noising problems involve removing artifacts and noise from data in order to produce a clean sample. Denoising models are often trained by artificially introducing noise to otherwise clean samples in order to learn de-noising patterns. A trained model can then apply what its learned from the synthesized data to noisy data found in the real-world. Examples include:
+De-noising problems involve removing artifacts and noise from data in order to produce a clean sample. De-noising models are often trained by artificially introducing noise to otherwise clean samples in order to learn de-noising patterns. A trained model can then apply what its learned from the synthesized data to noisy data found in the real-world. Examples include:
 
 - Removing noise from a weak audio or video signal
 - Re-coloring faded photographs

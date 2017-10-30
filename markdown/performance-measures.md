@@ -8,6 +8,16 @@ All machine learning algorithms rely on a [loss function](loss-functions.html) t
 
 ![Mean Square Error](images/mse.svg)
 
+```
+# a and b are both arrays of floats with the same
+# number of elements.
+def mse(a, b):
+	error = 0.0
+	for i in range(len(a)):
+		error += (b[i] - a[i]) ** 2
+	return error / len(a)
+```
+
 For classification, categorical [cross-entropy](https://en.wikipedia.org/wiki/Cross_entropy) is a popular loss function. The categorical cross-entropy of two discrete probability distributions `p` and `q` is:
 
 ![Categorical Cross-Entropy](images/cross-entropy.svg)

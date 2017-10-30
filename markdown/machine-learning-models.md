@@ -12,6 +12,6 @@ In machine learning, models are the result of [training](training.html). With [p
 
 Sometimes the word model and architecture are used interchangeably, however, [model architecture](model-architecture.html) usually describes the structure of the model (how many parameters, multiple combined models, depth of the model, etc...). A machine learning model usually refers to the product of training; the learned algorithm.
 
-It is not uncommon to slightly alter the way that a model is used depending on whether it is being trained or used in production (often confusingly called testing or sampling). For example, with Autoregressive Recurrent Neural Networks, models are fed ground-truth data during testing. During training, they are then fed their own past predictions in a sort of hallucinatory feedback loop.
+It is not uncommon to slightly alter the way that a model is used depending on whether it is being trained or being used in production (often confusingly called testing or sampling). For example, with Autoregressive Recurrent Neural Networks, models are fed ground-truth data during testing. During training, they are then fed their own past predictions in a sort of tail-eating feedback loop.
 
 Next: [The ML Pipeline](the-ml-pipeline.html)
