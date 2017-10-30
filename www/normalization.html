@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset='utf-8'>
+  <title>markdown/normalization.md</title>
+  <link rel="stylesheet" href="css/github-markdown.css">
+</head>
+<body class='markdown-body'>
+<h1 id="preprocessing">Preprocessing</h1>
+<p>Most machine learning algorithms only perform well on data that has been properly prepaired through some process of normalization or rescaling. In practice it is almost always preferable to scale our input data between the ranges of -1.0 and 1.0, or to shift the mean of the data to zero before and standardize the variance before passing it to our model. We then both train and deploy our model using normalized input. So long as we apply the same normalization techniques to our test and production data that we did to the training data, the performance of our algorithm may greatly improve. It is often the case that we normalize each feature column seperately. This technique is called <em>feature-wise</em> normalization and it is implicit in the examples below. </p>
+<p>It should also be noted that the term <em>normalization</em> is <a href="https://en.wikipedia.org/wiki/Normalization_(statistics">somewhat ambiguous</a>) and used loosely in the literature and resources on the internet. Technically, normalization means to transform samples of data such that they have an <code>l1</code> or <code>l2</code> norm (think vector magnitude). Here we use normalization in the broad sense to mean data preprocessing. </p>
+<h2 id="raw-data">Raw Data</h2>
+<p>For this suite of examples we will use mobile phone accelerometer data from the <a href="http://www.cis.fordham.edu/wisdm/dataset.php">WIreless Sensor Data Mining</a> (WISDM) Actitracker dataset. This data includes over 1 million examples containing x, y, and z accelerometer data sampled at 20Hz. Each sample is labeled as one of six human activities (walking, standing, stairs, etc...) making it a perfect candidate for a supervised learning task.</p>
+<p>Below is a histogram of the raw Actitracker dataset. We can see that the distribution looks quite gaussian, especially the <code>x</code> and <code>z</code> features. The <code>y</code> dimension looks like it is either left skewed, or the range of the <code>y</code> accelerometer introduces a clipping-bias and that much of the information above <code>20</code> is lost (and potentially corruping value around <code>19</code> or <code>20</code>).</p>
+<p><img src="images/normalization-raw.png" alt="Raw Data"></p>
+<p>This distribution actually looks so good that we might be able to get away with feeding our model the raw data. That said, it rarerly hurts to rescale the values between <code>-1.0</code> and <code>1.0</code> before feeding it to our model and generally improves performance.</p>
+<h2 id="min-max-scaler">Min-max Scaler</h2>
+<p>One of the two most common normalization techniques is a simple rescale operation that maps the values in the dataset between <code>-1.0</code> and <code>1.0</code>. This technique uses the minimum and maximum values from the dateset as <code>-1.0</code> and <code>1.0</code> respecitvely. A dataset with values between <code>0.0</code> and <code>50.0</code> would be rescaled such that what was <code>0.0</code> is transformed to <code>-1.0</code> and what was <code>50</code> is transformed to <code>1.0</code>.</p>
+<p><img src="images/normalization-min-max.png" alt="Min-max Normalized Data"></p>
+<p>We prefer to normalize values between <code>-1.0</code> and <code>1.0</code> because small values keep our weight parameters from exploading or vanishing gradients during training. That is a sort of just a fancy way of saying samples that have too great a magnitude can permanently &quot;damage&quot; our model weights during the training process, and by normalizing our data in this way we can attempt to mitigate against this problem.</p>
+<pre><code class="lang-python"># example min-max scale function
+def min_max_scale(values, new_min, new_max):
+    values_std = (values - values.min(axis=0)) / (values.max(axis=0) - values.min(axis=0))
+    return X_std * (new_max - new_min) + new_min
+
+# assumes a numpy matrix of input data X
+normalized_X = min_max_scale(X, -1.0, 1.0)
+</code></pre>
+<p>Sklearn has a <a href="http://scikit-learn.org/stable/modules/preprocessing.html#scaling-features-to-a-range">wonderful built in class</a> that provides this functionality to the min/max of unseen data based on training data.</p>
+<pre><code class="lang-python"># same thing with sklearn
+import sklearn
+
+# use preprocessing.RobustScaler() if you have lots of outliers in your data
+min_max_scaler = preprocessing.MinMaxScaler()
+normalized_X   = min_max_scaler.fit_transform(X)
+</code></pre>
+<h2 id="zero-mean-and-unit-variance">Zero Mean and Unit Variance</h2>
+<p>If your data is non-gaussian it is often very helpful to preprocess it in such a way that it becomes gaussian, with a mean of zero and a variance of <code>1.0</code>. This is done by subtracting the mean of the distribution from each sample, and scaling the values so that they have a unit variance.</p>
+<p><img src="images/normalization-zero-mean-unit-variance.png" alt="Zero Mean and Unit Variance Normalized Data"></p>
+<p>This process is trivial using the sklearn <a href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.preprocessing">preprocessing module</a>.</p>
+<pre><code>from sklearn import preprocessing
+
+# assumes a numpy matrix of input data X
+
+# use preprocessing.robust_scale() instead if you have lots of outliers in your data
+scaled = preprocessing.scale(X)
+
+# the mean is now 0
+print(scaled.mean(axis=0))
+
+# and the std deviation and variance are now both 1
+print(scaled.std(axis=0))
+</code></pre><p>For further information about data preprocessing at large, the scikit-learn website has a fantastic <a href="http://scikit-learn.org/stable/modules/preprocessing.html">tutorial page</a> on the subject that expounds on much of this information.</p>
+</body>
+</html>

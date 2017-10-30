@@ -44,7 +44,8 @@ Next: [What is Machine Learning?](what-is-machine-learning.html)
 ### Concepts & Details
 
 - [Probability Distributions](probability-distributions.html)
-- [Normalization and Whitening](normalization-and-whitening.html)
+- [Normalization and Preprocessing](normalization-and-preprocessing.html)
+- [One-hot Encoding](one-hot-encoding.html)
 - [Loss Functions](loss-functions.html)
 - [Cross Validation](cross-validation.html)
 - [Experiment Structure](experiment-structure.html)
