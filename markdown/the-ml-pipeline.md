@@ -15,7 +15,7 @@ The first three are fairly similar. The last provides the power to design custom
 
 ## Clean and Pre-process Data
 
-The data preparation, [pre-processing](data-preprocessing.html) and [normalization](normalization-and-whitening.html) steps are often the most time consuming and code-heavy part of the pipeline. It's also the most important step to get right. Most machine learning algorithms only operate well on data that is within a certain range (e.g. small values between `-1.0` and `1.0` or `0.0` and `1.0`) with a standard variance. Real-world data might have arbitrary values with units in the millions, or tons of outliers that need to be removed. Once you've cleaned and pre-processed your data, you will need [split it](data-split.md) into groups to be used for training and testing. Correctly preparing and partitioning your data before using it for training is often the key to developing a successful model.
+The data preparation, [pre-processing](data-preprocessing.html) and [normalization](normalization-and-whitening.html) steps are often the most time consuming and code-heavy part of the pipeline. It's also the most important step to get right. Most machine learning algorithms only operate well on data that is within a certain range (e.g. small values between `-1.0` and `1.0` or `0.0` and `1.0`) with a standard variance. Real-world data might have arbitrary values with units in the millions, or tons of outliers that need to be removed. Once you've cleaned and pre-processed your data, you will need [split it](data-split.html) into groups to be used for training and testing. Correctly preparing and partitioning your data before using it for training is often the key to developing a successful model.
 
 ## Train Your Model
 
