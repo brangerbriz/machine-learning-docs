@@ -31,7 +31,6 @@ Features are the input data
 
 Machine learning algorithms must operate on numerical data. 
 
-
 - What are features?
  	- Iris dataset
  	- Pixels in an image (mnist)

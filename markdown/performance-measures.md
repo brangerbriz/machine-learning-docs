@@ -4,7 +4,7 @@ The method used to evaluate the performance of a machine learning model is incre
 
 ## Cost/Loss function
 
-All machine learning algorithms rely on a [loss function](loss-functions.html) that measures the error produced at each training iteration. This error is simply the distance a predicted value is from a target value. In a supervised learning algorithm, the error is given by `L(y^, y)`, where loss `L` is a function of the predicted output value `y^` (y hat) and the target value `y`. How this distance is measured depends greatly on the task at hand. One common loss function for regression tasks is [Mean Squared Error](https://en.wikipedia.org/wiki/Mean_squared_error) (MSE). MSE is simply the average squared error of all training samples.
+All machine learning algorithms rely on a [loss function](https://heartbeat.fritz.ai/5-regression-loss-functions-all-machine-learners-should-know-4fb140e9d4b0) that measures the error produced at each training iteration. This scalar-valued error is simply the distance a predicted value is from a target value. In a supervised learning algorithm, the error is given by `L(y^, y)`, where loss `L` is a function of the predicted output value `y^` (y hat) and the target value `y`. How this distance is measured depends greatly on the task at hand. One common loss function for regression tasks is [Mean Squared Error](https://en.wikipedia.org/wiki/Mean_squared_error) (MSE). MSE is simply the average squared error of all training samples.
 
 ![Mean Square Error](images/mse.svg)
 
@@ -24,7 +24,7 @@ For classification, categorical [cross-entropy](https://en.wikipedia.org/wiki/Cr
 
 If your eyes just glazed over, don't worry. For most practical purposes the [loss functions for common tasks](https://keras.io/losses/) are bundled in machine learning libraries. Ignorance is bliss. 
 
-`L` is also often also the sum of a few different heuristically weighted functions customized for the task at hand. For most practical purposes the words, "loss", "cost", and "error" can be used interchangably.  
+`L` is often the sum of a few different heuristically weighted functions customized for the task at hand. For most practical purposes the words, "loss", "cost", and "error" can be used interchangably.  
 
 Next: [Linear Regression](linear-regression.html)
 

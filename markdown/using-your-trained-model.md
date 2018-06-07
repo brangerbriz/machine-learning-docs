@@ -4,4 +4,4 @@
 	- But sometimes with extra steps. Like with auto-regression.
 - How you sample matters
 	- Greedy argmax :/
-	- Sample from output distrobution :)
+	- Sample from output distribution :)

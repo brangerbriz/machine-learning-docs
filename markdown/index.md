@@ -1,6 +1,6 @@
 # Machine Learning
 
-This document is a hypertext tutorial/reference manual for all things Machine Learning at [Branger_Briz](http://brangerbriz.com). Since November 2016, our R&&D team has been exploring the current state-of-the art in machine learning and this document serves as the product of much of that research. The goal of this resource is to provide a central repository for BB developers to learn about machine learning so that it can be used in current and future projects.
+This document is a hypertext tutorial/reference manual for all things Machine Learning at [Branger_Briz](http://brangerbriz.com). Since November 2016, our research team has been exploring the current state-of-the art in machine learning and this document serves as the product of much of that research. The goal of this resource is to provide a central repository for BB developers to learn about machine learning so that it can be used in current and future projects.
 
 The structure of this document is intentionally non-linear. The first layer of content provides an overview of machine learning at large. In each page you will find hyperlinks that dig deeper into concepts and details. The deeper you go, the more specific the information becomes.
 

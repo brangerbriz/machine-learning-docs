@@ -7,8 +7,17 @@
 <body class='markdown-body'>
 <h3 id="experiment-structure">Experiment structure</h3>
 <ul>
-<li>Super important! Most of the code written for an ML pipeline is more about managing your experiments in a way where you stay sane. A good ML library will do the heavy lifting (don&#39;t implement stuff yourself, it will take too long and you will do it wrong. Trust me.)</li>
-<li>Show an example folder structure</li>
+<li>Keeping track of your experiments and model iterations is <strong>super important</strong>! Most of the code written for an ML pipeline is actually about managing your experiments in a way where you stay sane. </li>
+<li>Keep each experiment (trained model) in a separate place, and save all of the information you need to reproduce the experiment alongside it (notes, hyperparameter values, etc.) I usually have an <code>experiments/</code> folder that contains files like this:<ul>
+<li><code>experiment_1/</code><ul>
+<li><code>hyperparameters.json</code></li>
+<li><code>checkpoints/</code> (saved model weight checkpoints go in here)</li>
+<li><code>notes.txt</code> (general notes and comments about this experiment)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Here is a <a href="https://andrewhalterman.com/2018/03/05/managing-machine-learning-experiments/">blog post</a> of a similar approach by Andy Halterman.</li>
 </ul>
 </body>
 </html>

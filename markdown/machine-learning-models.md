@@ -1,6 +1,6 @@
 # Machine Learning Models
 
-Models are a synthetic representation of the way that something in the real life works. There is a function that describes every non-random occurrence in the universe. Knowing any particular real-world function is impossible without knowing its output for every input past and future. But estimating/approximating a function can be done if you have enough example outputs of that function. The estimation of this function is called a model. 
+Models are a synthetic representation of the way that something in the real life works. There exists a function that describes every non-random occurrence in the universe. Knowing any particular real-world function is impossible without knowing its output for every input past and future. But estimating/approximating a function can be done if you have enough example outputs of that function. The estimation of this function is called a model. 
 
 In machine learning, models are the result of [training](training.html). With [parametric](https://en.wikipedia.org/wiki/Parametric_model) ML algorithms like neural networks, the model is the trained network parameters (the weights and biases, more on that soon). Essentially, models are:
 

@@ -15,7 +15,7 @@ For hard problems, don't write heuristic rules. Instead learn from data. So long
 
 ### What Skills Does Machine Learning Require?
 
-While [bleeding-edge ML research](https://arxiv.org/list/stat.ML/pastweek) may require a bit of a barrier-to-entry, most applications of ML require only a general comfortability with programming. The language of choice for most machine learning libraries and tools is [Python](https://learnxinyminutes.com/docs/python/). This is likely a result of the language's history in scientific computing, and its reasonable to assume that Python will remain dominant in the field for the foreseeable future. For this reason, code examples in this resource will be written in Python. That said, the popularity of machine learning has spiked dramatically since ~2015-2016 and ML libraries are poping up in just about every language and platform imaginable (including embedded devices).
+While [bleeding-edge ML research](https://arxiv.org/list/stat.ML/pastweek) may have a bit of a barrier-to-entry, most applications of ML require only a general comfortability with programming. The language of choice for most machine learning libraries and tools is [Python](https://learnxinyminutes.com/docs/python/). This is likely a result of the language's history in scientific computing, and its reasonable to assume that Python will remain dominant in the field for the foreseeable future. That said, the popularity of machine learning has spiked dramatically since ~2015-2016 and ML libraries are poping up in just about every language and platform imaginable (including embedded devices). The code examples in this resource will be written in Python as well as JavaScript using the new [Tensorflow.js library](https://js.tensorflow.org/).
 
 Besides standard programming skills, ML specifically borrows from the following fields:
 
@@ -23,8 +23,8 @@ Besides standard programming skills, ML specifically borrows from the following 
 - Statistics
 - Probability
 
-While experience in any of these topics will certainly be helpful as you learn and employ ML, I want to stress that prior knowledge of these fields are in no way necessary. They should be thought of more as areas of further study if you want to improve your ML skills and understanding.
+While experience in any of these topics will certainly be helpful as you learn and employ ML, I want to stress that prior knowledge of these fields are in no way necessary. They should be thought of more as areas of [further study](https://www.youtube.com/watch?v=kjBOesZCoqc&list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) if you want to improve your ML skills and understanding.
 
-Lastly, the OS of choice for ML projects is certainty Ubuntu/Debian Linux. While many of the most popular frameworks have cross-platform options, linux is hands-down the most supportive OS for all things machine learning. If you are not yet comfortable with basic linux/unix commands, I recommend learning. While it is not required, you will find your productivity running ML experiments and iteratively improving ML algorithms will benefit greatly from this knowledge.
+Lastly, the OS of choice for ML projects is certainty Ubuntu/Debian Linux. While many of the most popular frameworks have cross-platform options, Linux is hands-down the most supportive OS for all things machine learning. If you are not yet comfortable with basic linux/unix commands, I recommend learning. While it is not required, you will find your productivity running ML experiments and iteratively improving ML algorithms will benefit greatly from this knowledge.
 
 Next: [General Purpose Algorithms](general-purpose-algorithms.html)
