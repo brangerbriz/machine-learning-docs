@@ -15,8 +15,10 @@ The structure of this document is intentionally non-linear. The first layer of c
 - [Linear Regression](linear-regression.html)
 - [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)
 
-For a complete list of hyperlinked pages accessible from the overview sections, see the [site index](site-index.html).
+For a complete list of every web page included in this resource, see the [site index](site-index.html).
 
 Over the past year, the BB R&&D lab has also created a small collection of ML related projects and case studies. You can explore what we've been up to on the [BB ML projects](bb-ml-projects.html) page. If you have questions about any of the content or practices that you find in this document, email <bdorsey@brangerbriz.com>. I've been doing lots of this research over the past few months and would love to answer questions or talk through how some of these ideas could be applied to your work.
+
+In addition to these resources, I recommend checking out Google's awesome [Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course/), a free self-study course on the basics of ML. They've also compiled an [ML Glossary of terms](https://developers.google.com/machine-learning/glossary/) that will be helpful to you as you try and make sense of data science jargon.
 
 Next: [What is Machine Learning?](what-is-machine-learning.html)

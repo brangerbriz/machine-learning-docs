@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# remove existing html pages
+rm www/*.html
+
 # for each .md file in markdown (won't search recursively)
 for FILE in $(ls markdown/*.md) ; do
 	OUTPUT="www/$(echo "$FILE" | sed -e "s/markdown\///" | sed -e "s/\.md$/.html/")"

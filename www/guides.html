@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset='utf-8'>
+  <title>markdown/guides.md</title>
+  <link rel="stylesheet" href="css/github-markdown.css">
+</head>
+<body class='markdown-body'>
+<h1 id="guides">Guides</h1>
+<p>I&#39;ve created several guides to include in this resource. These guides, and their reference code, take on the form of:</p>
+<p>1) IPython/Jupyter Notebooks<br>2) <a href="http://js.tensorflow.org/">Tensorflow.js</a> examples using <a href="https://electronjs.org/">Electron</a><br>3) High-level tutorials that make use of multiple languages and frameworks</p>
+<p>The machine learning library landscape has changed since we began writing these docs and Tensorflow.js has now emerged as a practical library for building and deploying machine learning models using web technologies. I began writing these tutorials using IPython + Keras but have now added several Tensorflow.js + Electron examples as well. Luckily, Python + JavaScript are very similar, and the Tensorflow.js Layers API was modeled after Keras, so it should be pretty easy to bounce back and forth between examples in either language.</p>
+<p>You will also notice that although the frameworks and languages may differ, the general process looks similar between tutorials. That is because the <a href="the-ml-pipeline.html">machine learning pipeline</a> is rather standard and looks similar between different tasks. Most machine learning algorithms require:</p>
+<p>1) Data acquisition and Preprocessing<br>2) Model training<br>3) Model evaluation (and usually more model training)<br>4) Model inference and deployment</p>
+<p>Whether those basic steps present themselves as a single python script, separate <code>train.sh</code> and <code>predict.sh</code> BASH scripts, or some other manifestation, rest assured that the basic principles between different machine learning pipelines, examples, and research projects are likely very similar. </p>
+<h2 id="preprocessing-data">Preprocessing Data</h2>
+<ul>
+<li><a href="https://github.com/brangerbriz/ml-notebooks/blob/master/notebooks/preprocessing.ipynb">Pokemon classification</a> (IPython): Here you will learn about normalizing input data and feature standardization. For this classification task we are attempting to classify Pokemon (grass, water, etc.) given 6 statistics like HP, Attack, Speed, etc. as features. This task was a weekly coding challenge from Siraj Raval&#39;s <a href="https://www.youtube.com/watch?v=0xVqLJe9_CY">dataset preparation video</a>. The 5-7 participants that submitted results seemed to have a classification accuracy from ~14% to 75% with a mode of ~30%. We achieved similar results.</li>
+<li><a href="https://github.com/brangerbriz/ml-notebooks/blob/master/notebooks/preprocessing_human_activity_classification.ipynb">Human activity classification using mobile accelerometer data</a> (IPython): This example revisits the topic of normalization and standardization with more visual examples showing what these transformations &quot;look&quot; like. Here we train a recurrent neural network (RNN) to predict human activities like walking, standing, and sitting using windows of temporal accelerometer sensor data. We reach ~75% classification accuracy!</li>
+</ul>
+<h2 id="-clustering-and-dimensionality-reduction-https-github-com-brangerbriz-ml-notebooks-blob-master-notebooks-clustering_and_dimensionality_reduction-ipynb-ipython-"><a href="https://github.com/brangerbriz/ml-notebooks/blob/master/notebooks/clustering_and_dimensionality_reduction.ipynb">Clustering and Dimensionality Reduction</a> (IPython)</h2>
+<p>This example demonstrates unsupervised learning using k-means clustering to group similar english words together using <a href="https://nlp.stanford.edu/projects/glove/">word embeddings</a>.</p>
+<h2 id="-hyperparameter-search-https-github-com-brangerbriz-ml-notebooks-blob-master-notebooks-hyperparameter_search-ipynb-ipython-"><a href="https://github.com/brangerbriz/ml-notebooks/blob/master/notebooks/hyperparameter_search.ipynb">Hyperparameter search</a> (IPython)</h2>
+<p>Training neural networks can be very difficult and it is often the role of the programmer to select the hyperparameters that will yield the best results. It is not uncommon for a programmer to run dozens of experiments, each with different hyperparameters, before arriving at a a &quot;good enough&quot; solution.</p>
+<p>Hyperparameter search (often called Hyperparameter Optimization) is a method used to automate the discovery of effective hyperparameters for a network. Rather than using intuition and experience to fine-tune your hyperparameters by hand, hyperparameter search can be used to automatically discover optimal hyperparameters given enough compute time and resources.</p>
+<h2 id="-handwriting-classification-in-browser-https-github-com-brangerbriz-tf-electron-blob-master-examples-mnist-index-js-tensorflow-js-"><a href="https://github.com/brangerbriz/tf-electron/blob/master/examples/mnist/index.js">Handwriting classification in browser</a> (Tensorflow.js)</h2>
+<p>I&#39;ve <a href="https://github.com/tensorflow/tfjs-examples/pull/92">added extensive code comments</a> to the official MNIST handwriting classification in Tensorflow.js. I&#39;ve also wrapped this example in our <a href="https://github.com/brangerbriz/tf-electron">tf-electron</a> repository so you can run it as a desktop app using Electron.</p>
+<p>Just clone the repo, install the dependencies, and view the <code>examples/mnist</code> page in the desktop app:</p>
+<pre><code>git clone https://github.com/brangerbriz/tf-electron
+cd tf-electron
+
+# install npm dependencies
+npm install
+
+# start the electron app
+npm start
+</code></pre><h2 id="-text-generation-in-browser-https-github-com-brangerbriz-tf-electron-blob-master-examples-char-rnn-js-main-js-tensorflow-js-"><a href="https://github.com/brangerbriz/tf-electron/blob/master/examples/char-rnn/js/main.js">Text generation in browser</a> (Tensorflow.js)</h2>
+<p><a href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/">Char-rnn</a> is an effective method of character-level text generation popularized by Andrej Karpathy. While it struggles to maintain long-term dependence and structure, given enough input text, it can learn to create new text that appears to be written in the style of an author, even if it&#39;s output is somewhat nonsensical. </p>
+<p>Ported the <a href="https://github.com/keras-team/keras/blob/master/examples/lstm_text_generation.py">Keras char-rnn example</a> to Tensorflow.js so that it can be used in the browser, or with Electron. To try it out yourself, download and run the tf-electron repo. Once you&#39;ve got it open, navigate to <code>examples/char-rnn</code> and open your developer console to see what&#39;s happening. This example trains and runs an RNN on 1MB of text from shakespeare plays.</p>
+<pre><code>git clone https://github.com/brangerbriz/tf-electron
+cd tf-electron
+
+# install npm dependencies
+npm install
+
+# start the electron app
+npm start
+</code></pre><h2 id="-real-time-pose-estimation-https-medium-com-tensorflow-real-time-human-pose-estimation-in-the-browser-with-tensorflow-js-7dd0bc881cd5-tensorflow-js-"><a href="https://medium.com/tensorflow/real-time-human-pose-estimation-in-the-browser-with-tensorflow-js-7dd0bc881cd5">Real-time pose estimation</a> (Tensorflow.js)</h2>
+<p>This high-level tutorial was written by Dan Oved. Dan ported the PoseNet model to the browser and created a simple API to interface with it. This is a nice example of how an ML model can be abstracted into a user-friendly library.</p>
+<h2 id="-simple-linear-network-https-github-com-brangerbriz-tf-electron-blob-master-examples-simple-linear-network-main-js-tensorflow-js-"><a href="https://github.com/brangerbriz/tf-electron/blob/master/examples/simple-linear-network/main.js">Simple linear network</a> (Tensorflow.js)</h2>
+<p>This example borrows from <a href="https://medium.com/tensorflow/getting-started-with-tensorflow-js-50f6783489b2">a Tensorflow.js intro tutorial</a> to train a linear one neuron network to learn the function <code>y = (x) =&gt; 2 * x -1</code>. The real function is used to produce 100 training samples that are learned by the model for 100 epochs.  </p>
+</body>
+</html>

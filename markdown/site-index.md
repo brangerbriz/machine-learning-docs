@@ -1,47 +1,61 @@
 # Site Index
 
-This is a collection of all pages linked from the [overview sections](index.html).
+## Primary Pages
+
+- [What is Machine Learning](what-is-machine-learning.html)
+- [General Purpose Algorithms](general-purpose-algorithms.html)
+- [Data is Key](data-is-key.html)
+- [Machine Learning Models](machine-learning-models.html)
+- [The Machine Learning Pipeline](the-ml-pipeline.html)
+- [Types of Learning](types-of-learning.html)
+- [Types of Tasks](types-of-tasks.html)
+- [Performance Measures](performance-measures.html)
+- [Linear Regression](linear-regression.html)
+- [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)
+
+## Secondary Pages
+
+This is a collection of all pages linked from the primary pages, or that augment that information in some way. Pages marked 🗒 are informal notes not finished chapters.
 
 - [Probability Distributions](probability-distributions.html)
 - [Normalization and Preprocessing](normalization-and-preprocessing.html)
-- ~~[Data Acquisition](data-acquisition.html)~~ (coming soon)
-- ~~[Data Preprocessing](data-preprocessing.html)~~ (coming soon)
-- ~~[Data Split](data-split.html)~~ (coming soon)
-- ~~[Model Architecture](model-architecture.html)~~ (coming soon)
-- ~~[Training](training.html)~~ (coming soon)
-- ~~[Model Evaluation and Tweaks](model-evaluation-and-tweaks.html)~~ (coming soon)
-- ~~[Using Your Trained Model](using-your-trained-model.html)~~ (coming soon)
-- ~~[One-hot Encoding](one-hot-encoding.html)~~ (coming soon)
-- ~~[Loss Functions](loss-functions.html)~~ (coming soon)
-- ~~[Cross Validation](cross-validation.html)~~ (coming soon)
-- ~~[Experiment Structure](experiment-structure.html)~~ (coming soon)
-- ~~[Tensors](tensors.html)~~ (coming soon)
 - [Features and Design Matrices](features-and-design-matrices.html)
-- ~~[Baseline Models](baseline-models.html)~~ (coming soon)
-- ~~[Hyperparameter Search](hyperparameter-search.html)~~ (coming soon)
-- ~~[Debugging Machine Learning Pipelines](debugging-ml-pipelines.html)~~ (coming soon)
-- ~~[Learning About Your Data](learning-about-your-data.html)~~ (coming soon)
-- ~~[Latent Space](latent-space.html)~~ (coming soon)
-- ~~[Measuring Distance](measuring-distance.html)~~ (coming soon)
-- ~~[t-SNE](t-sne.html)~~ (coming soon)
-- ~~[K Nearest Neighbor](knn.html)~~ (coming soon)
-- ~~[Regularization](regularization.html)~~ (coming soon)
-- ~~[Optimization](optimization.html)~~ (coming soon)
-- ~~[Local Minima, Saddle Points, and Plateaux](local-minima-saddle-points-and-plateaux.html)~~ (coming soon)
-- ~~[Activation Functions](activation-functions.html)~~ (coming soon)
-- ~~[GPU Hardware](gpu-hardware.html)~~ (coming soon)
-- ~~[Nvidia-docker](nvidia-docker.html)~~ (coming soon)
-- ~~[Network Types](network-types.html)~~ (coming soon)
-- ~~[Generative Models](generative-models.html)~~ (coming soon)
-- ~~[Ipython](ipython.html)~~ (coming soon)
-- ~~[Keras](keras.html)~~ (coming soon)
-- ~~[Training/Test/Validation Data](training-test-validation-data.html)~~ (coming soon)
-- ~~[Overfitting and Underfitting](overfitting-and-underfitting.html)~~ (coming soon)
-- ~~[Style Transfer](style-transfer.html)~~ (coming soon)
-- ~~[Model Capacity](model-capacity.html)~~ (coming soon)
-- ~~[Parallel Computing](parallel-computing.html)~~ (coming soon)
-- ~~[Empirical Testing](empirical-testing.html)~~ (coming soon)
-- ~~[Discrete vs Continuous Data](discrete-vs-continuous-data.html)~~ (coming soon)
-- ~~[A Brief ML History](a-brief-ml-history.html)~~ (coming soon)
-- ~~[Online Models](online-models.html)~~ (coming soon)
-- ~~[Glossary of Terms](glossary-of-terms.html)~~ (coming soon)
+- [Regularization](regularization.html)
+- [Tensorflow.js](tfjs.html)
+- [Model Architecture](model-architecture.html) 🗒
+- [Model Evaluation and Tweaks](model-evaluation-and-tweaks.html) 🗒
+- [Using Your Trained Model](using-your-trained-model.html) 🗒
+- [Cross Validation](cross-validation.html) 🗒
+- [Experiment Structure](experiment-structure.html) 🗒
+- [Debugging Machine Learning Pipelines](debugging-ml-pipelines.html) 🗒
+- [Latent Space](latent-space.html) 🗒
+- [Measuring Distance](measuring-distance.html) 🗒
+- [Optimization](optimization.html) 🗒
+- [GPU Hardware](gpu-hardware.html) 🗒
+- [Network Types](network-types.html) 🗒
+- [Overfitting and Underfitting](overfitting-and-underfitting.html) 🗒
+- [Model Capacity](model-capacity.html) 🗒
+- [Empirical Testing](empirical-testing.html) 🗒
+- [Online Models](online-models.html) 🗒
+
+## Guides & Examples
+
+I've written and compiled collection of machine learning guides in the form of tutorials, ipython notebooks, and Tensorflow.js examples. 
+
+- [Guides](guides.html)
+
+The guides page includes descriptions and links to two repositories that hold example code:
+
+- [ml-notebooks](https://github.com/brangerbriz/ml-notebooks): A collection of IPython notebooks
+- [tf-electron](https://github.com/brangerbriz/tf-electron): A collection of Tensorflow.js examples wrapped in an Electron app
+
+## Branger_Briz ML Projects
+
+We've created a small collection of experiments and commercial projects using machine learning over the past two years.
+
+- [ML Projects](bb-ml-projects.html)
+
+## Misc
+
+- [Google's Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course/)
+- [Google's machine learning glossary](https://developers.google.com/machine-learning/glossary/)
