@@ -1,6 +1,6 @@
 ## Branger_Briz Machine Learning Projects
 
-- Pix2Pix experiments ([video #1](https://www.youtube.com/watch?v=nUMdCBwsrtQ)) ([video #2](https://twitter.com/brannondorsey/status/808461108881268736?lang=en))(pix2pix-experiments.html)
+- Pix2Pix experiments ([video #1](https://www.youtube.com/watch?v=nUMdCBwsrtQ)) ([video #2](https://twitter.com/brannondorsey/status/808461108881268736?lang=en))
 - [GloVe experiments](https://github.com/brangerbriz/glove-experiments)
 - [midi-rnn](https://github.com/brangerbriz/midi-rnn)
 - [Tensorflow.js Electron Examples](https://github.com/brangerbriz/tf-electron)
