@@ -10,10 +10,10 @@ Before we dig into exactly how this works in the [Neural Networks & Deep Learnin
 
 Classification tasks are perhaps the most traditional application of machine learning. A model that predicts which [discrete](https://stats.stackexchange.com/questions/206/what-is-the-difference-between-discrete-data-and-continuous-data) category a piece of input data belongs to solves a classification task. The number of classes varies per problem, but is always greater than one. Examples of classification problems include:
 
-- Predicting if a stock will be higher or lower by the end of the month (2 classes)
-- Choosing whether or not an email should be flagged as spam (2 classes)
-- Recognizing a handwritten digit (10 classes)
-- Guessing the age of a human using computer vision (100+ classes)
+- [Predicting how a company's stock will perform](https://www.microsoft.com/developerblog/2017/12/04/predicting-stock-performance-deep-learning/) (3 classes: high, medium, and low performance)
+- [Choosing whether or not an email should be flagged as spam](https://www.codeproject.com/Articles/1232040/Spam-classification-using-Python-and-Keras) (2 classes)
+- [Recognizing a handwritten digit](https://js.tensorflow.org/tutorials/mnist.html) (10 classes)
+- [Guessing the age of a human using computer vision](https://www.analyticsvidhya.com/blog/2017/06/hands-on-with-deep-learning-solution-for-age-detection-practice-problem/) (100+ classes)
 - Predicting the next sample in a raw audio buffer (2048 classes)
 - Predicting the next move in a game of chess (10,000+ classes)
 
@@ -29,20 +29,20 @@ Rather than outputting a specific class, regression problems output continuous f
 
 Machine translation applications have seen a huge boost in performance correlated with development of ML algorithms. This task necessitates the translation of arbitrary data from one form to another:
 
-- Translation from English to Spanish
+- [Translation from English to German](https://www.tensorflow.org/tutorials/seq2seq)
 - Translation from Tweets to Facebook posts
 - Translation from LaTeX math formulas to plotted 2D functions
 - Translation from sentences to Emoji
-- Transcription from audio recording to text (speech-to-text)
+- [Transcription from audio recording to text](https://medium.com/@ageitgey/machine-learning-is-fun-part-6-how-to-do-speech-recognition-with-deep-learning-28293c162f7a) (speech-to-text)
 
 ## Anomaly Detection
 
 ML models are exceptionally good at detecting irregularities in patterns. In these situations the number of positive examples (irregularity) is far fewer than negative examples (common data). They are often used to:
 
-- Detect credit card fraud
-- Detect malicious traffic on a computer network
+- [Detect credit card fraud](https://github.com/ellisvalentiner/credit-card-fraud)
+- [Detect malicious traffic on a computer network](https://securityintelligence.com/applying-machine-learning-to-improve-your-intrusion-detection-system/)
 - Detect irregular behavior on the ground using aerial photography
-- Diagnose rare diseases
+- [Diagnose rare diseases](http://file.scirp.org/pdf/JILSA_2017012413273284.pdf)
 
 ## Synthesis and Sampling
 
@@ -58,7 +58,7 @@ ML models that synthesize new data based on example data are called [generative 
 De-noising problems involve removing artifacts and noise from data in order to produce a clean sample. De-noising models are often trained by artificially introducing noise to otherwise clean samples in order to learn de-noising patterns. A trained model can then apply what its learned from the synthesized data to noisy data found in the real-world. Examples include:
 
 - Removing noise from a weak audio or video signal
-- Re-coloring faded photographs
+- [Coloring black-and-white images](https://hackernoon.com/remastering-classic-films-in-tensorflow-with-pix2pix-f4d551fa0503)
 - Recovering missing information from redacted documents
 
 Note that the above list of common machine learning problem domains is far from extensive. Rather, it is a small collection of a few of the tasks that ML-based approaches are dependably good at solving. Many tasks also fall into a few of these categories at once.
