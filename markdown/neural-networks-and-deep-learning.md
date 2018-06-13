@@ -24,9 +24,12 @@ With each layer comes an added level of semantic abstraction. Later layers learn
 
 When we say that a unit is able to "learn" a concept, we mean that it outputs a high value when it receives an input that resembles the data that it has learned to preference. Neurons "learn" to recognize tires once they output high values when they are shown tires or things that look like tires, and low values for anything else. We as programmers do not explicitly tell a neuron what to learn, it learns to respond to patterns that are beneficial to the performance of the overall network itself during training.
 
-The more neurons in a network, the more model parameters must be learned, giving the model a larger capacity to represent more complex functions. Be careful though, because increased [model capacity](https://stats.stackexchange.com/questions/312424/what-is-the-capacity-of-a-machine-learning-model) leads to [overfitting](overfitting-and-underfitting.html), where the network simply memorizes the training data instead of learning to extract patterns from it. This leads to poor generalization, causing the network to perform poorly on the unseen test data and when deployed in the real-world.
+> Marginal notes: "increased model capacity": info from model-capacity.html
+> Marginal notes: "leads to overfitting": info from overfitting-and-underfitting.html
 
-In general, wide but shallow networks, that is networks that have many neurons per layer but only one or two layers, are easiest to train. Deep networks, with many layers (sometimes 20+) are very difficult to train, but generalize better if you can figure out how to train them. As a rule of thumb, the more model parameters you have, the more data and [regularization techniques](regularization.html) you will be needed to keep from overfitting.
+The more neurons in a network, the more model parameters must be learned, giving the model a larger capacity to represent more complex functions. Be careful though, because increased model capacity leads to overfitting, where the network simply memorizes the training data instead of learning to extract patterns from it. This leads to poor generalization, causing the network to perform poorly on the unseen test data and when deployed in the real-world.
+
+In general, wide but shallow networks, that is networks that have many neurons per layer but only one or two layers, are easiest to train. Deep networks, with many layers (sometimes 20+) are very difficult to train, but generalize better if you can figure out how to train them. As a rule of thumb, the more model parameters you have, the more data and regularization techniques you will be needed to keep from overfitting (see [Regularization](regularization.html)).
 
 The term Deep Learning comes from the notion of stacking many layers on top of one another to form a deep [model architecture](model-architecture.html). You can actually think of each layer as its own self-contained neural network, each using increasingly abstract features as inputs as you move deeper into the model.
 
@@ -141,8 +144,4 @@ You will notice that the loss tends to decrease with each epoch, especially at t
 
 Well look at that! Our neural network model performed better than our linear regressors, with a mean error of only $3,700 instead of $4,700. Note that your result may be different, as the initialization of model parameters is random, and so therefor the "path" taken during the optimization path is non-deterministic.
 
-Keep in mind that neural networks don't always outperform other ML algorithms and it is usually a good idea to try a range of different algorithms and choose the one that works the best. It is also common practice to begin a problem using a common [baseline model](baseline-models.html), like we did here with linear regression, before trying more complex methods. That way you have something to compare your other models to. And hey, if you're baseline performs well enough on its own, you're done!
-
-# Tutorials
-
-This concludes the overview section of this document. Head over to the [tutorials](index.html#tutorials) to get started learning more about ML implementation now that you've got a rough idea of the landscape, or peruse the list of [Branger_Briz machine learning projects](branger-briz-ml-projects.html) to see what the the team has been up to.
+Keep in mind that neural networks don't always outperform other ML algorithms and it is usually a good idea to try a range of different algorithms and choose the one that works the best. It is also common practice to begin a problem using a common baseline model, like we did here with linear regression, before trying more complex methods. That way you have something to compare your other models to. And hey, if you're baseline performs well enough on its own, you're done!

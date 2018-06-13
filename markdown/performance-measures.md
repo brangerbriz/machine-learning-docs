@@ -1,6 +1,6 @@
 # Performance Measures
 
-The method used to evaluate the performance of a machine learning model is increadibly important. Not just for you to know how well it is performing at a given task, but for the model to know has well it is doing itself. With supervised learning this is how the algorithm knows what type of good behavior to reward and what type to punish. Choosing the right performance measure in an ML task is far from trivial and depends entirely on the task at hand. For instance, you would not use the same method to determine how close a predicted stock price is from its actual price as you would to determine the realism of a sythesized portrait. Ultimately, the quality of the performance metric used to evaluate the success or failure at a specific task greatly influences the success of that task itself.
+The method used to evaluate the performance of a machine learning model is increadibly important. Not just for you to know how well it is performing at a given task, but for the model to know how well it is doing itself. With supervised learning this is how the algorithm knows what type of good behavior to reward and what type to punish. Choosing the right performance measure in an ML task is far from trivial and depends entirely on the task at hand. For instance, you would not use the same method to determine how close a predicted stock price is from its actual price as you would to determine the realism of a synthesized portrait. Ultimately, the quality of the performance metric used to evaluate the success or failure at a specific task greatly influences the success of that task itself.
 
 ## Cost/Loss function
 
@@ -9,14 +9,15 @@ All machine learning algorithms rely on a [loss function](https://heartbeat.frit
 ![Mean Square Error](images/mse.svg)
 
 ```
-# a and b are both arrays of floats with the same
-# number of elements.
-def mse(a, b):
-	error = 0.0
-	for i in range(len(a)):
-		error += (b[i] - a[i]) ** 2
-	return error / len(a)
+function mse(a, b) {
+	let error = 0
+	for (let i = 0; i < a.length; i++) {
+		error += Math.pow((b[i] - a[i]), 2)
+	}
+	return error / a.length
+}
 ```
+> Marginal note: See [here](https://gist.github.com/brannondorsey/7462ae795cb11d32b480429182aff9f6) for MSE implemented in C, Python, and JavaScript.
 
 For classification, categorical [cross-entropy](https://en.wikipedia.org/wiki/Cross_entropy) is a popular loss function. The categorical cross-entropy of two discrete probability distributions `p` and `q` is:
 
