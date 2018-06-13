@@ -10,13 +10,17 @@ This document is a reference for all things Machine Learning at [Branger_Briz](h
 - [Types of Learning](types-of-learning.html)
 - [Types of Tasks](types-of-tasks.html)
 - [Performance Measures](performance-measures.html)
+
+## Guides & Examples
+
 - [Linear Regression](linear-regression.html)
 - [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)
 
-For a complete list of every web page included in this resource, see the [site index](site-index.html).
+## Commercial ML Projects
 
-Over the past year, the BB R&&D lab has also created a small collection of ML related projects and case studies. You can explore what we've been up to on the [BB ML projects](bb-ml-projects.html) page. If you have questions about any of the content or practices that you find in this document, email <bdorsey@brangerbriz.com>. I've been doing lots of this research over the past few months and would love to answer questions or talk through how some of these ideas could be applied to your work.
+- [Muse Music Videos (speech-to-text w/ CMU Sphihx)](https://brangerbriz.com/portfolio/muse-ai-supercut)
+- Miami Children's Museum [*Masterpiece Me*](https://brangerbriz.com/portfolio/masterpiece-me-miami-childrens-museum) and [*Interactive Mural*](https://brangerbriz.com/portfolio/interactive-mural-miami-childrens-museum) installations
+
+## Other Resources
 
 In addition to these resources, I recommend checking out Google's awesome [Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course/), a free self-study course on the basics of ML. They've also compiled an [ML Glossary of terms](https://developers.google.com/machine-learning/glossary/) that will be helpful to you as you try and make sense of data science jargon.
-
-Next: [What is Machine Learning?](what-is-machine-learning.html)
