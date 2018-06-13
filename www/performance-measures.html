@@ -6,18 +6,21 @@
 </head>
 <body class='markdown-body'>
 <h1 id="performance-measures">Performance Measures</h1>
-<p>The method used to evaluate the performance of a machine learning model is increadibly important. Not just for you to know how well it is performing at a given task, but for the model to know has well it is doing itself. With supervised learning this is how the algorithm knows what type of good behavior to reward and what type to punish. Choosing the right performance measure in an ML task is far from trivial and depends entirely on the task at hand. For instance, you would not use the same method to determine how close a predicted stock price is from its actual price as you would to determine the realism of a sythesized portrait. Ultimately, the quality of the performance metric used to evaluate the success or failure at a specific task greatly influences the success of that task itself.</p>
+<p>The method used to evaluate the performance of a machine learning model is increadibly important. Not just for you to know how well it is performing at a given task, but for the model to know how well it is doing itself. With supervised learning this is how the algorithm knows what type of good behavior to reward and what type to punish. Choosing the right performance measure in an ML task is far from trivial and depends entirely on the task at hand. For instance, you would not use the same method to determine how close a predicted stock price is from its actual price as you would to determine the realism of a synthesized portrait. Ultimately, the quality of the performance metric used to evaluate the success or failure at a specific task greatly influences the success of that task itself.</p>
 <h2 id="cost-loss-function">Cost/Loss function</h2>
 <p>All machine learning algorithms rely on a <a href="https://heartbeat.fritz.ai/5-regression-loss-functions-all-machine-learners-should-know-4fb140e9d4b0">loss function</a> that measures the error produced at each training iteration. This scalar-valued error is simply the distance a predicted value is from a target value. In a supervised learning algorithm, the error is given by <code>L(y^, y)</code>, where loss <code>L</code> is a function of the predicted output value <code>y^</code> (y hat) and the target value <code>y</code>. How this distance is measured depends greatly on the task at hand. One common loss function for regression tasks is <a href="https://en.wikipedia.org/wiki/Mean_squared_error">Mean Squared Error</a> (MSE). MSE is simply the average squared error of all training samples.</p>
 <p><img src="images/mse.svg" alt="Mean Square Error"></p>
-<pre><code># a and b are both arrays of floats with the same
-# number of elements.
-def mse(a, b):
-    error = 0.0
-    for i in range(len(a)):
-        error += (b[i] - a[i]) ** 2
-    return error / len(a)
-</code></pre><p>For classification, categorical <a href="https://en.wikipedia.org/wiki/Cross_entropy">cross-entropy</a> is a popular loss function. The categorical cross-entropy of two discrete probability distributions <code>p</code> and <code>q</code> is:</p>
+<pre><code>function mse(a, b) {
+    let error = 0
+    for (let i = 0; i &lt; a.length; i++) {
+        error += Math.pow((b[i] - a[i]), 2)
+    }
+    return error / a.length
+}
+</code></pre><blockquote>
+<p>Marginal note: See <a href="https://gist.github.com/brannondorsey/7462ae795cb11d32b480429182aff9f6">here</a> for MSE implemented in C, Python, and JavaScript.</p>
+</blockquote>
+<p>For classification, categorical <a href="https://en.wikipedia.org/wiki/Cross_entropy">cross-entropy</a> is a popular loss function. The categorical cross-entropy of two discrete probability distributions <code>p</code> and <code>q</code> is:</p>
 <p><img src="images/cross-entropy.svg" alt="Categorical Cross-Entropy"></p>
 <p>If your eyes just glazed over, don&#39;t worry. For most practical purposes the <a href="https://keras.io/losses/">loss functions for common tasks</a> are bundled in machine learning libraries. Ignorance is bliss. </p>
 <p><code>L</code> is often the sum of a few different heuristically weighted functions customized for the task at hand. For most practical purposes the words, &quot;loss&quot;, &quot;cost&quot;, and &quot;error&quot; can be used interchangably.  </p>
