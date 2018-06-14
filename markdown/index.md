@@ -10,17 +10,21 @@ This document is a reference for all things Machine Learning at [Branger_Briz](h
 - [Types of Learning](types-of-learning.html)
 - [Types of Tasks](types-of-tasks.html)
 - [Performance Measures](performance-measures.html)
+- [Features & Design Matrices](features-and-design-matrices.html)
 
 ## Guides & Examples
 
 - [Linear Regression](linear-regression.html)
 - [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)
+- [Regularization](regularization.html)
 
 ## Commercial ML Projects
 
-- [Muse Music Videos (speech-to-text w/ CMU Sphihx)](https://brangerbriz.com/portfolio/muse-ai-supercut)
+- [Muse Music Videos](https://brangerbriz.com/portfolio/muse-ai-supercut)
 - Miami Children's Museum [*Masterpiece Me*](https://brangerbriz.com/portfolio/masterpiece-me-miami-childrens-museum) and [*Interactive Mural*](https://brangerbriz.com/portfolio/interactive-mural-miami-childrens-museum) installations
 
 ## Other Resources
 
 In addition to these resources, I recommend checking out Google's awesome [Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course/), a free self-study course on the basics of ML. They've also compiled an [ML Glossary of terms](https://developers.google.com/machine-learning/glossary/) that will be helpful to you as you try and make sense of data science jargon.
+
+Machine Learning Mastery's [blog](https://machinelearningmastery.com/blog/) also has hundreds of helpful short blog posts and code snippets on tons of topics in Machine Learning. I've found myself using several of those guides to learn about various topics in ML.
