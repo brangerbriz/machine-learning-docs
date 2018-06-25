@@ -1,0 +1,127 @@
+add "Previous:" link at bottom of primary pages
+link to home page on primary pages
+
+most links need to be contextualized a bit more (see notes below)
+marginal notes??
+target _blank external links
+
+...BB styling
+where in the sections below can we link to our code examples? maybe in the "General Purpose Algorithms" section?
+
+---------------------------
+general overview sections
+---------------------------
+
+INTRO PAGE
+    x p1: "reference" instead of "hypertext tutorial/reference manual"
+    - p1: link to commercial projects? maybe BB ML projects (reorganize???)
+    x p2: no longer "digging deeper" so maybe we get rid of this paragraph
+    x list: What is Machine Learning (start here) << instead of Next:
+    x p3: should we remove site index at this point?
+
+
+WHAT IS MACHINE LEARNING
+    x "modern machine learning" (see...section)
+    x "You have a lot of data" (see...section)
+    - "bleeding-edge ML research" context? marginal note?
+
+
+GENERAL PURPOSE ALGORITHMS
+    x CHOSE TO UNLINK "model" (see...section)
+    x "dig into" (see...section)
+    x Q: "machine learning algorithms excel most at various forms of pattern recognition"... is there something else they excel at that is diff form this?
+    x "continuous" broken-link
+    - Q: is translation/transcription a classification or regression problem? same w/ anomaly detection?
+    x it's cool that Synthesis and Sampling link to examples, can we do that for others? this section could be a great way to really paint the picture for what's possible,
+    - Q: de-noising: does that include "zoom and enhance"?
+
+
+DATA IS KEY
+    x replace key-emoji with "key" (cause the guys)
+    x "ML Pipeline" (see...section)
+    x "pre-processing" broken-link
+    - "model-capacity" (marginal note?)
+    - "empirically tested" (marginal note?)
+    x "features" (too big for marginal note? new section?)
+    x "performance of that model" (see ...section)
+    - "overfitting" (marginal note?)
+    x CHOSE TO UNLINK "supervised" (see...section)
+    x "data split Wikipedia page]()" << markdown code showing in text
+    - maybe add section on generating ur own data ( style transfer, pix2pix )
+
+MACHINE LEARNING MODELS
+    x CHOSE TO UNLINK "training" broken-link
+    x models are: ...The algorithm << disambiguate from way u use algorithm in 1st section. maybe combine with first buttlet: The "trained/learned" algorithm, or maybe keep but change to "algorithms" instead of "The..."
+    x "Function approximators" (see...section)
+    x "model architecture" (marginal note?)
+    - NEED TO FIND A NEW PLACE FOR IT what's the reasoning behind last paragraph?... a bit confusing, maybe put in general purpose algorithms section
+    - should the rest of this be explained earlier in docs, along side it's relationship to "architectures"?
+
+MACHINE LEARNING PIPELINE
+    - change graph to be shades of BB color (#e40477)
+    - FIGURE OUT HOW TO HANDLE THE SECTION THAT GETS ADDED TO DATA AS KEY HERE. FIFTH BULLET POINT, NEW PARAGRAPH? Get Data: maybe also add here "create your own" like pix2pix mention before
+    x "normalization" broken-link (noticed there was a secondary page, new section?), or should this info be in the ipython example?
+    x "split itd" spelling edit
+    x "train your model", this is a good link, but maybe this is the wrong place for it (link to it elsewhere), maybe this should be a marginal note that references the examples/guides as good examples of training in context
+    x "model architecture" (marginal note?)
+    x "validation loss)" where's this link supposed to go?
+    x "evaluate its performance" (see...section)
+    x "many iterations of training and evaluating" (marginal note?)
+    x "different experiments" (marginal note?)
+    x "using your trained model" (marginal note?)
+    x should we mention tensorflow.js in "deploy your model"
+    x "These models" (marginal note?)
+
+
+TYPES OF LEARNING
+    x "K-Means" broken-link
+    x "can be though of as a form" spelling edit
+
+TYPES OF TASKS
+    - consider making this a part of the re-working of General Purpose Algorithms section
+    - "we mentioned before" (see...section)
+    x "a a probability distribution" grammar edit
+    x "probability distribution" (too big for marginal note? new section?)
+
+PERFORMANCE MEASURES
+    x "model to know has well it is doing itself" spelling edit
+    x "sythesized portrait." spelling edit
+    x could we see MSE in JS as well?
+    x "loss functions for common tasks", links to keras, do we use this lib in examples? should we link to tensorflow?
+
+LINEAR REGRESSION
+    x CHOSE TO UNLINK "regression problem" (see...section)
+    - LEAVE AS IS "an optimization algorithm", also keras, same note as before
+    x "local minima" broken-link
+    x "test data" (see...section)
+    x "design matrix" (features, mentioned before, new section?)
+    - ...what's the reasoning for this section?
+    - example, is that's what's going on here: http://www.r2d3.us/visual-intro-to-machine-learning-part-1/
+
+NEURAL NETWORKS AND DEEP LEARNING
+    - "model capacity" links to page rather than marginal note here?
+    - "overfitting" (marginal note?)
+    x "regularization" (too big for marginal note? new section?)
+    - should the example be part of "code examples" section?
+    x "baseline model" broken-link
+    x "Branger_Briz machine learning projects" broken-link
+
+
+---------------------------
+guides && code examples
+---------------------------
+
+contextualize "guides" into index page
+
+move linear regression && NN into guies section
+maybe also those couple of orphan pages
+
+can we make these more like "small projects", demos that could get press on their own + demos that provide a bit more context for the "kinds of" situations u'd use these techniques?
+for example:
+    - s the "Clustering and Dimensionality Reduction" related to ur word calculator? could be that
+    - Text generation in browser, instead of Shakespeare what about Trump Tweet generator?
+    - Real-time pose estimation, what about a "dabbing" alarm, or student raising hand for question, or something more artful >> controlling music through dance?
+    ( side note: wonder if there's a way to use LEAP data to trin a NN that speaks words from ASL )
+
+we don't have teachable machines mentioned anywhere?
+we dont' have our pix2pix demo anywhere?

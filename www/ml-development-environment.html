@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset='utf-8'>
+  <title>markdown/ml-development-environment.md</title>
+  <link rel="stylesheet" href="css/github-markdown.css">
+</head>
+<body class='markdown-body'>
+<h1 id="ml-development-environment">ML Development Environment</h1>
+<p>As of 2018, most modern machine learning libraries offer hardware accelerated computation though NVIDIA graphics cards. Unlike most programs that you are probably accustomed to writing, much of the code that you will be writing will be run on a computer&#39;s GPU instead of CPU. This process is nicely abstracted from you as the software programming, and you probably won&#39;t have to write any low-level parallel processing operations in GPU-specific APIs, but you will need to have the necessary graphics hardware, drivers, and low-level libraries installed on your development machines so that high-level libraries like Tensorflow can work their magic.</p>
+<p>This is a short, non-comprehensive guide to setting up a machine learning development environment on an Ubuntu 16.04 desktop with an NVIDIA GeForce graphics card. Both OSX and Windows are supported by NVIDIA&#39;s graphics libraries and some of the ML libraries commonly used, but Ubuntu is by far the preferred OS for machine learning development. </p>
+<p>Unless you are building, training, and running your ML models exclusively in WebGL with <a href="https://js.tensorflow.org/">Tensorflow.js</a>, an NVIDIA GPU is non-optional. AMD, Intel, and other competitors do not provide industry-standard APIs and tooling for machine learning, at least not anything that is comparable to NVIDIAs support. </p>
+<p>I recommend a GTX 1080Ti or GTX 1080 if you can afford it. If not any of the GTX 10 series should work. If you don&#39;t have access to physical GPU hardware, you can rent cloud-based GPU servers and VPSes from AWS and their competitors. This solution is the cheapest for quick experiments, but cloud-based GPU instances are very expensive in the long run.</p>
+<h2 id="nvidia-cuda">NVIDIA CUDA</h2>
+<p>CUDA is NVIDIA&#39;s proprietary parallel computing API. It enables developers to write general purpose parallel programs for NVIDIA GPUs, or <a href="https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units">GPGPU</a>. While it is possible to write your own CUDA C and C++ programs from scratch, you will most likely be interfacing with CUDA indirectly though a popular deep learning library. These libraries abstract away the custom CUDA code and provide high-level APIs in Python, etc.</p>
+<p>Here is a short list of some of the most popular machine learning / deep learning libraries that use NVIDIA&#39;s CUDA underneath:</p>
+<ul>
+<li>Tensorflow</li>
+<li>Keras</li>
+<li>Pytorch</li>
+<li>Torch</li>
+<li>Caffe</li>
+<li>Theano (deprecated)</li>
+</ul>
+<h2 id="install-cuda-cudnn">Install CUDA &amp; CuDNN</h2>
+<p><a href="https://developer.nvidia.com/cuda-90-download-archive">https://developer.nvidia.com/cuda-90-download-archive</a></p>
+<p>Do you accept the previously read EULA?<br>accept/decline/quit: accept      </p>
+<p>Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 384.81?<br>(y)es/(n)o/(q)uit: n</p>
+<p>Install the CUDA 9.0 Toolkit?<br>(y)es/(n)o/(q)uit: y</p>
+<p>Enter Toolkit Location<br> [ default is /usr/local/cuda-9.0 ]: </p>
+<p> Do you want to install a symbolic link at /usr/local/cuda?</p>
+<ul>
+<li>PATH includes /usr/local/cuda-9.0/bin</li>
+<li>LD_LIBRARY_PATH includes /usr/local/cuda-9.0/lib64, or, add /usr/local/cuda-9.0/lib64 to /etc/ld.so.conf and run ldconfig as root</li>
+</ul>
+<p>To uninstall the CUDA Toolkit, run the uninstall script in /usr/local/cuda-9.0/bin</p>
+<p>Please see CUDA_Installation_Guide_Linux.pdf in /usr/local/cuda-9.0/doc/pdf for detailed information on setting up CUDA.</p>
+<p>sudo dpkg -i libcudnn7-dev_7.1.4.18-1+cuda9.0_amd64.deb libcudnn7_7.1.4.18-1+cuda9.0_amd64.deb</p>
+<h2 id="tensorflow-gpu">Tensorflow GPU</h2>
+</body>
+</html>
