@@ -1,8 +1,8 @@
-## What is Machine Learning?
+# What is Machine Learning?
 
 Machine learning (ML) is a technique whereby computer programs **learn** to perform a task **by example**. This is in contrast to traditional programming, where a computer executes heuristic instructions that are explicitly "handwritten" by a programmer. In many areas, ML-based approaches have far surpassed previous state-of-the-art algorithms that have taken decades of domain-specific knowledge and research to develop. Modern machine learning techniques like Deep Learning (see [Neural Networks & Deep Learning](neural-networks-and-deep-learning.html)) have already been embedded in much of the software that we use everyday, and this rate of integration is increasing faster than ever. Machine learning is currently poised to dominate the coming decade of computing, and beyond. 
 
-### When Should I Use It?
+## When Should I Use It?
 
 ML is both an active area of research and a set of practices that can be used to dramatically improve many software tasks today. It is not, however, a blanket solution to all of your programming problems. ML techniques are great for solving problems when:
 
@@ -13,7 +13,7 @@ ML is both an active area of research and a set of practices that can be used to
 
 For hard problems, don't write heuristic rules. Instead learn from data. So long as you have enough data, a machine learning solution will often be easier to write and perform better than a rule-based approach.
 
-### What Skills Does Machine Learning Require?
+## What Skills Does Machine Learning Require?
 
 While bleeding-edge ML research
 <span class="marginal-note" data-info='Most new ML research papers appear on [arxiv.org](https://arxiv.org/list/stat.ML/pastweek) before they are even presented at conferences and included in academic journals. Today, it has become standard to release open source software on sites like GitHub along with the papers on ArXiv.'></span>
