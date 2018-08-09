@@ -12,17 +12,22 @@ I recommend a GTX 1080Ti or GTX 1080 if you can afford it. If not, any of the GT
 
 First, make sure the software and dependencies are up to date on your machine.
 
-```
+<pre class="code">
+    <code class="bash" data-wrap="true">
 sudo apt update && sudo apt upgrade
-```
+    </code>
+</pre>
 
 NVIDIA drivers can be installed using the "Additional Drivers" application. Use your spotlight to open this app (press command, then search "Additional Drivers"). You may need to wait a few seconds for driver results to show up in the UI. Once they do, select "Using NVIDIA binary driver", then click "Apply Changes". Once the changes have been applied, reboot the machine.
 
-![NVIDIA drivers](images/nvidia-driver-install.png)
+<section class="media">
+    <img src="images/nvidia-driver-install.png">
+</section>
 
 Once the machine is back up open a terminal and run `nvidia-smi`. If you see a table-like output like whats below, you have successfully installed the NVIDIA drivers.
 
-```
+<pre class="code">
+    <code class="bash" data-wrap="false">
 Mon Jun 25 16:24:20 2018       
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 384.130                Driver Version: 384.130                   |
@@ -47,14 +52,18 @@ Mon Jun 25 16:24:20 2018
 |    0      3386      G   /usr/lib/firefox/firefox                       3MiB |
 |    0     10034      G   ...passed-by-fd --v8-snapshot-passed-by-fd   331MiB |
 +-----------------------------------------------------------------------------+
-```
+    </code>
+</pre>
 
 The NVIDIA System Management Interface, or `nvidia-smi`, is a useful tool to monitor GPU utilization, fan speed, and GPU processes. I find it useful to run it in another terminal using `watch` when I am running long-running machine learning processes.
 
-```
+<pre class="code">
+    <code class="bash" data-wrap="true">
 # refresh every tenth of a second
 watch -n 0.1 nvidia-smi
-```
+    </code>
+</pre>
+
 ## NVIDIA CUDA
 
 CUDA is NVIDIA's proprietary parallel computing API. It enables developers to write general purpose parallel programs for NVIDIA GPUs, or [GPGPU](https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units). While it is possible to write your own CUDA C and C++ programs from scratch, you will most likely be interfacing with CUDA indirectly though a popular deep learning library. These libraries abstract away the custom CUDA code and provide high-level APIs in Python, etc.
@@ -74,7 +83,8 @@ At the time of this writing, CUDA 9.0 is the version compatible with the latest 
 
 Once downloaded, run `sudo sh cuda_9.0.176_384.81_linux.run`. You will be prompted with several questions like those below. If you've already installed the NVIDIA drivers (in the steps above), type "n" when prompted to install them via the runfile.
 
-```
+<pre class="code">
+    <code class="bash" data-wrap="false">
 Do you accept the previously read EULA?
 accept/decline/quit: accept      
 
@@ -89,11 +99,13 @@ Enter Toolkit Location
 
  Do you want to install a symbolic link at /usr/local/cuda? y
 ...
-```
+    </code>
+</pre>
 
 Finally, we need to point our OS to the CUDA libs and binaries:
 
-```
+<pre class="code">
+    <code class="bash" data-wrap="false">
 # add CUDA libs to linker path
 sudo su -c 'echo "/usr/local/cuda-9.0/lib64" >> /etc/ld.so.conf'
 
@@ -105,7 +117,8 @@ echo "PATH=\$PATH:/usr/local/cuda-9.0/bin" >> ~/.bashrc
 
 # reload .bashrc
 . ~/.bashrc
-```
+    </code>
+</pre>
 
 ### Install CuDNN
 
@@ -113,23 +126,26 @@ Next, you'll need to install NVIDIA's deep neural network library, CuDNN. At the
 
 Download and unzip the archive, then copy the source and library files from CuDNN into your CUDA install location.
 
-```
+<pre class="code">
+    <code class="bash" data-wrap="false">
 sudo cp cuda/include/* /usr/local/cuda-9.0/include/
 sudo cp cuda/lib64/* /usr/local/cuda-9.0/lib64/
-```
+    </code>
+</pre>
 
 ## Tensorflow GPU
 
 Now that you've installed CUDA and CuDNN, you're ready to install Tensorflow. Tensorflow is installed using Python's `pip`, so make sure you have that first:
 
-```bash
+<pre class="code">
+    <code class="bash" data-wrap="true">
+# install the python package manager if you don't have it
 sudo apt install python-pip
-```
 
-```bash
 # may need to run as sudo
 pip install tensorflow tensorflow-gpu
-```
+    </code>
+</pre>
 
 That's it, you should now have a GPU Tensorflow environment setup.
 
@@ -139,7 +155,8 @@ That's it, you should now have a GPU Tensorflow environment setup.
 
 We'll use Keras and `nvidia-smi` to make sure our environment is setup correctly.
 
-```bash
+<pre class="code">
+    <code class="bash" data-wrap="false">
 # install keras
 pip install keras
 
@@ -147,16 +164,20 @@ pip install keras
 git clone https://github.com/keras-team/keras
 cd keras/examples
 
-# run the self-contained text generation example. This example learns to produce text that
+# run the self-contained text generation example. 
+# This example learns to produce text that
 # looks like it was produced by Shakespeare
 python lstm_text_generation.py
-```
+    </code>
+</pre>
 
 Now open another terminal and run:
 
-```bash
+<pre class="code">
+    <code class="bash" data-wrap="true">
 watch -n 0.1 nvidia-smi
-```
+    </code>
+</pre>
 
 If all went well, you should see that the keras example is running and that GPU utilization has spiked, meaning the Tensorflow process is running correctly on your graphics card.
 
@@ -165,13 +186,16 @@ If all went well, you should see that the keras example is running and that GPU 
 If you have the luxury of running Tensorflow code on a machine that has multiple NVIDIA graphics cards, you may prefer to specify which GPU a specific program runs on. I try and keep my compute-intensive GPU processes off of the graphics card that is running my X window server. You can specify which GPUs a CUDA process will run on using the `CUDA_VISIBLE_DEVICES` environment variable.
 
 
-```bash
+<pre class="code">
+    <code class="bash" data-wrap="false">
 # run on the second GPU
 CUDA_VISIBLE_DEVICES=1 python train.py
 
-# you can also specify multiple GPUs, although the code in train.py must be written
-# to utilize both cards in order to get a performance boost from this
+# you can also specify multiple GPUs, although the code in train.py 
+# must be written to utilize both cards in order to get a 
+# performance boost from this
 CUDA_VISIBLE_DEVICES=0,2 python train.py
-```
+    </code>
+</pre>
 
 You can use `nvidia-smi` to see the IDs of your GPUs.

@@ -1,22 +1,83 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset='utf-8'>
-  <title>markdown/ml-development-environment.md</title>
-  <link rel="stylesheet" href="css/github-markdown.css">
-</head>
-<body class='markdown-body'>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
 <h1 id="ml-development-environment">ML Development Environment</h1>
 <p>As of 2018, most modern machine learning libraries offer hardware accelerated computation though NVIDIA graphics cards. Unlike most programs that you are probably accustomed to writing, much of your ML code will be run on a computer&#39;s GPU instead of CPU. This process is nicely abstracted from you as the software programmer, and you probably won&#39;t have to write any low-level parallel processing operations in GPU-specific APIs, but you will need to have the necessary graphics hardware, drivers, and low-level libraries installed on your development machines so that high-level libraries like Tensorflow can work their magic.</p>
 <p>This is a short, non-comprehensive guide to setting up a machine learning development environment on an Ubuntu 16.04 desktop with an NVIDIA GeForce graphics card. Both OSX and Windows are supported by NVIDIA&#39;s graphics libraries and some of the ML libraries commonly used, but Ubuntu is by far the preferred OS for machine learning development.</p>
-<p>Unless you are building, training, and running your ML models exclusively in WebGL with <a href="https://js.tensorflow.org/">Tensorflow.js</a>, an NVIDIA GPU is non-optional. AMD, Intel, and other competitors do not provide industry-standard APIs and tooling for machine learning, at least not anything that is comparable to NVIDIA&#39;s support.</p>
-<p>I recommend a GTX 1080Ti or GTX 1080 if you can afford it. If not, any of the GTX 10 series should work. If you don&#39;t have access to physical GPU hardware, <a href="https://docs.aws.amazon.com/dlami/latest/devguide/gpu.html">you can rent cloud-based GPU servers</a> and VPSes from AWS and their competitors. This solution is the cheapest for quick experiments, but cloud-based GPU instances are very expensive in the long run.</p>
+<p>Unless you are building, training, and running your ML models exclusively in WebGL with <a href="https://js.tensorflow.org/" target="_blank">Tensorflow.js</a>, an NVIDIA GPU is non-optional. AMD, Intel, and other competitors do not provide industry-standard APIs and tooling for machine learning, at least not anything that is comparable to NVIDIA&#39;s support.</p>
+<p>I recommend a GTX 1080Ti or GTX 1080 if you can afford it. If not, any of the GTX 10 series should work. If you don&#39;t have access to physical GPU hardware, <a href="https://docs.aws.amazon.com/dlami/latest/devguide/gpu.html" target="_blank">you can rent cloud-based GPU servers</a> and VPSes from AWS and their competitors. This solution is the cheapest for quick experiments, but cloud-based GPU instances are very expensive in the long run.</p>
 <h2 id="install-nvidia-drivers">Install NVIDIA drivers</h2>
 <p>First, make sure the software and dependencies are up to date on your machine.</p>
-<pre><code>sudo apt update &amp;&amp; sudo apt upgrade
-</code></pre><p>NVIDIA drivers can be installed using the &quot;Additional Drivers&quot; application. Use your spotlight to open this app (press command, then search &quot;Additional Drivers&quot;). You may need to wait a few seconds for driver results to show up in the UI. Once they do, select &quot;Using NVIDIA binary driver&quot;, then click &quot;Apply Changes&quot;. Once the changes have been applied, reboot the machine.</p>
-<p><img src="images/nvidia-driver-install.png" alt="NVIDIA drivers"></p>
+<pre class="code">
+    <code class="bash" data-wrap="true">
+sudo apt update && sudo apt upgrade
+    </code>
+</pre>
+
+<p>NVIDIA drivers can be installed using the &quot;Additional Drivers&quot; application. Use your spotlight to open this app (press command, then search &quot;Additional Drivers&quot;). You may need to wait a few seconds for driver results to show up in the UI. Once they do, select &quot;Using NVIDIA binary driver&quot;, then click &quot;Apply Changes&quot;. Once the changes have been applied, reboot the machine.</p>
+<section class="media">
+    <img src="images/nvidia-driver-install.png">
+</section>
+
 <p>Once the machine is back up open a terminal and run <code>nvidia-smi</code>. If you see a table-like output like whats below, you have successfully installed the NVIDIA drivers.</p>
-<pre><code>Mon Jun 25 16:24:20 2018       
+<pre class="code">
+    <code class="bash" data-wrap="false">
+Mon Jun 25 16:24:20 2018       
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 384.130                Driver Version: 384.130                   |
 |-------------------------------+----------------------+----------------------+
@@ -40,11 +101,19 @@
 |    0      3386      G   /usr/lib/firefox/firefox                       3MiB |
 |    0     10034      G   ...passed-by-fd --v8-snapshot-passed-by-fd   331MiB |
 +-----------------------------------------------------------------------------+
-</code></pre><p>The NVIDIA System Management Interface, or <code>nvidia-smi</code>, is a useful tool to monitor GPU utilization, fan speed, and GPU processes. I find it useful to run it in another terminal using <code>watch</code> when I am running long-running machine learning processes.</p>
-<pre><code># refresh every tenth of a second
+    </code>
+</pre>
+
+<p>The NVIDIA System Management Interface, or <code>nvidia-smi</code>, is a useful tool to monitor GPU utilization, fan speed, and GPU processes. I find it useful to run it in another terminal using <code>watch</code> when I am running long-running machine learning processes.</p>
+<pre class="code">
+    <code class="bash" data-wrap="true">
+# refresh every tenth of a second
 watch -n 0.1 nvidia-smi
-</code></pre><h2 id="nvidia-cuda">NVIDIA CUDA</h2>
-<p>CUDA is NVIDIA&#39;s proprietary parallel computing API. It enables developers to write general purpose parallel programs for NVIDIA GPUs, or <a href="https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units">GPGPU</a>. While it is possible to write your own CUDA C and C++ programs from scratch, you will most likely be interfacing with CUDA indirectly though a popular deep learning library. These libraries abstract away the custom CUDA code and provide high-level APIs in Python, etc.</p>
+    </code>
+</pre>
+
+<h2 id="nvidia-cuda">NVIDIA CUDA</h2>
+<p>CUDA is NVIDIA&#39;s proprietary parallel computing API. It enables developers to write general purpose parallel programs for NVIDIA GPUs, or <a href="https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units" target="_blank">GPGPU</a>. While it is possible to write your own CUDA C and C++ programs from scratch, you will most likely be interfacing with CUDA indirectly though a popular deep learning library. These libraries abstract away the custom CUDA code and provide high-level APIs in Python, etc.</p>
 <p>Here is a short list of some of the most popular machine learning / deep learning libraries that use NVIDIA&#39;s CUDA underneath:</p>
 <ul>
 <li>Tensorflow</li>
@@ -55,9 +124,11 @@ watch -n 0.1 nvidia-smi
 <li>Theano (deprecated)</li>
 </ul>
 <h3 id="install-cuda">Install CUDA</h3>
-<p>At the time of this writing, CUDA 9.0 is the version compatible with the latest version of Tensorflow (v1.9). You can install this version for Ubuntu/Debian by downloading a <code>.run</code> file <a href="https://developer.nvidia.com/cuda-90-download-archive">here</a>.</p>
+<p>At the time of this writing, CUDA 9.0 is the version compatible with the latest version of Tensorflow (v1.9). You can install this version for Ubuntu/Debian by downloading a <code>.run</code> file <a href="https://developer.nvidia.com/cuda-90-download-archive" target="_blank">here</a>.</p>
 <p>Once downloaded, run <code>sudo sh cuda_9.0.176_384.81_linux.run</code>. You will be prompted with several questions like those below. If you&#39;ve already installed the NVIDIA drivers (in the steps above), type &quot;n&quot; when prompted to install them via the runfile.</p>
-<pre><code>Do you accept the previously read EULA?
+<pre class="code">
+    <code class="bash" data-wrap="false">
+Do you accept the previously read EULA?
 accept/decline/quit: accept      
 
 Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 384.81?
@@ -71,58 +142,96 @@ Enter Toolkit Location
 
  Do you want to install a symbolic link at /usr/local/cuda? y
 ...
-</code></pre><p>Finally, we need to point our OS to the CUDA libs and binaries:</p>
-<pre><code># add CUDA libs to linker path
-sudo su -c &#39;echo &quot;/usr/local/cuda-9.0/lib64&quot; &gt;&gt; /etc/ld.so.conf&#39;
+    </code>
+</pre>
+
+<p>Finally, we need to point our OS to the CUDA libs and binaries:</p>
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# add CUDA libs to linker path
+sudo su -c 'echo "/usr/local/cuda-9.0/lib64" >> /etc/ld.so.conf'
 
 # reload linker cache
 sudo ldconfig
 
 # append add CUDA to PATH in .bashrc
-echo &quot;PATH=\$PATH:/usr/local/cuda-9.0/bin&quot; &gt;&gt; ~/.bashrc
+echo "PATH=\$PATH:/usr/local/cuda-9.0/bin" >> ~/.bashrc
 
 # reload .bashrc
 . ~/.bashrc
-</code></pre><h3 id="install-cudnn">Install CuDNN</h3>
-<p>Next, you&#39;ll need to install NVIDIA&#39;s deep neural network library, CuDNN. At the time of this writing, the CuDNN version compatible with Tensorflow is 7.1. To install this library, you will need to register for an NVIDIA developers account (registration is free). Once you&#39;ve registered, you can download CuDNN from <a href="https://developer.nvidia.com/rdp/cudnn-download">here</a>.</p>
+    </code>
+</pre>
+
+<h3 id="install-cudnn">Install CuDNN</h3>
+<p>Next, you&#39;ll need to install NVIDIA&#39;s deep neural network library, CuDNN. At the time of this writing, the CuDNN version compatible with Tensorflow is 7.1. To install this library, you will need to register for an NVIDIA developers account (registration is free). Once you&#39;ve registered, you can download CuDNN from <a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank">here</a>.</p>
 <p>Download and unzip the archive, then copy the source and library files from CuDNN into your CUDA install location.</p>
-<pre><code>sudo cp cuda/include/* /usr/local/cuda-9.0/include/
+<pre class="code">
+    <code class="bash" data-wrap="false">
+sudo cp cuda/include/* /usr/local/cuda-9.0/include/
 sudo cp cuda/lib64/* /usr/local/cuda-9.0/lib64/
-</code></pre><h2 id="tensorflow-gpu">Tensorflow GPU</h2>
+    </code>
+</pre>
+
+<h2 id="tensorflow-gpu">Tensorflow GPU</h2>
 <p>Now that you&#39;ve installed CUDA and CuDNN, you&#39;re ready to install Tensorflow. Tensorflow is installed using Python&#39;s <code>pip</code>, so make sure you have that first:</p>
-<pre><code class="lang-bash">sudo apt install python-pip
-</code></pre>
-<pre><code class="lang-bash"># may need to run as sudo
+<pre class="code">
+    <code class="bash" data-wrap="true">
+# install the python package manager if you don't have it
+sudo apt install python-pip
+
+# may need to run as sudo
 pip install tensorflow tensorflow-gpu
-</code></pre>
+    </code>
+</pre>
+
 <p>That&#39;s it, you should now have a GPU Tensorflow environment setup.</p>
 <p><strong>Note</strong>: If you&#39;d prefer to write and run Tensorflow code with Python 3.x instead of 2.7, replace <code>pip</code> with <code>pip3</code> and <code>python</code> with <code>python3</code> in these example commands.</p>
 <h2 id="test-the-install">Test the Install</h2>
 <p>We&#39;ll use Keras and <code>nvidia-smi</code> to make sure our environment is setup correctly.</p>
-<pre><code class="lang-bash"># install keras
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# install keras
 pip install keras
 
 # clone the keras repo so that we can run an example
 git clone https://github.com/keras-team/keras
 cd keras/examples
 
-# run the self-contained text generation example. This example learns to produce text that
+# run the self-contained text generation example. 
+# This example learns to produce text that
 # looks like it was produced by Shakespeare
 python lstm_text_generation.py
-</code></pre>
+    </code>
+</pre>
+
 <p>Now open another terminal and run:</p>
-<pre><code class="lang-bash">watch -n 0.1 nvidia-smi
-</code></pre>
+<pre class="code">
+    <code class="bash" data-wrap="true">
+watch -n 0.1 nvidia-smi
+    </code>
+</pre>
+
 <p>If all went well, you should see that the keras example is running and that GPU utilization has spiked, meaning the Tensorflow process is running correctly on your graphics card.</p>
 <h2 id="running-tensorflow-on-specific-graphics-cards">Running Tensorflow on Specific Graphics Cards</h2>
 <p>If you have the luxury of running Tensorflow code on a machine that has multiple NVIDIA graphics cards, you may prefer to specify which GPU a specific program runs on. I try and keep my compute-intensive GPU processes off of the graphics card that is running my X window server. You can specify which GPUs a CUDA process will run on using the <code>CUDA_VISIBLE_DEVICES</code> environment variable.</p>
-<pre><code class="lang-bash"># run on the second GPU
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# run on the second GPU
 CUDA_VISIBLE_DEVICES=1 python train.py
 
-# you can also specify multiple GPUs, although the code in train.py must be written
-# to utilize both cards in order to get a performance boost from this
+# you can also specify multiple GPUs, although the code in train.py 
+# must be written to utilize both cards in order to get a 
+# performance boost from this
 CUDA_VISIBLE_DEVICES=0,2 python train.py
-</code></pre>
+    </code>
+</pre>
+
 <p>You can use <code>nvidia-smi</code> to see the IDs of your GPUs.</p>
-</body>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
 </html>

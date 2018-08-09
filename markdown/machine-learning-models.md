@@ -10,9 +10,9 @@ In machine learning, models are the result of training. With [parametric](https:
 - Function approximators (see [General Purpose Algorithms](general-purpose-algorithms.html))
 - Used to create predictions or generate new data once trained
 
-> Marginal note: "however, model architecture": fill with content from model-architecture.html
-
-Sometimes the word model and architecture are used interchangeably, however, model architecture usually describes the structure of the model (how many parameters, multiple combined models, depth of the model, etc...). A machine learning model usually refers to the product of training; the learned algorithm.
+Sometimes the word model and architecture are used interchangeably, however, model architecture usually describes the structure of the model (how many parameters, multiple combined models, depth of the model, etc.).
+<span class="marginal-note" data-info="Choosing or engineering a model architecture that works well for your machine learning problem is no easy task. As a rule of thumb, wide networks (more neurons per layer, but fewer layers) are often easier to train, while deep networks are more difficult to train correctly, but if you do it right they often generalize better. In practice, you should try experiment with several architectures and move towards the ones that work. Best results in deep learning are found empirically. This holds true for all kinds of things: activation functions, optimizers, etc."></span>
+A machine learning model usually refers to the product of training; the learned algorithm.
 
 <!--
 It is not uncommon to slightly alter the way that a model is used depending on whether it is being trained or being used in production (often confusingly called testing or sampling). For example, with Autoregressive Recurrent Neural Networks, models are fed ground-truth data during testing. During training, they are then fed their own past predictions in a sort of tail-eating feedback loop.

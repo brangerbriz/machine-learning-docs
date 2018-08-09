@@ -1,27 +1,84 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset='utf-8'>
-  <title>markdown/data-is-key.md</title>
-  <link rel="stylesheet" href="css/github-markdown.css">
-</head>
-<body class='markdown-body'>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
 <h1 id="data-is-key">Data is Key</h1>
 <p>Large amounts of quality data are the key to the success of any machine learning algorithm. After all, models can only be as good as the data used to train them. The bottleneck in an ML pipeline (see <a href="the-ml-pipeline.html">The ML Pipeline</a>) is often in access to large quantities of high-quality data. It is not uncommon for the majority of the development time it takes to implement an ML solution will be spent collecting, organizing, cleaning and preprocessing, your data (see <a href="normalization-and-preprocessing.html">Normalization &amp; Preprocessing</a>).</p>
 <h2 id="data-quantities">Data Quantities</h2>
-<p>There are <a href="http://ai.stanford.edu/~zayd/why-is-machine-learning-hard.html">so many factors at play</a> in any given ML algorithm that it is often difficult to know the minimum amount of data needed for your model to start performing well in practice. Simple data statistics like standard deviation, number and quality of features, number of model parameter, and problem task all play a significant role in determining how much data is needed. That said, the answer to the question of &quot;how much data do I need?&quot; is usually always &quot;more data.&quot;</p>
-<p>I&#39;ve seen rules of thumb that suggest that the minimum number of samples needed to train a model range anywhere from <code>10xN</code> to <code>N^2</code> where <code>N</code> is the number of features (columns) in your data. The truth is that the amount of data required scales with model capacity and complexity. Like many things in machine learning, the quantity of data required to solve a given problem must be <a href="empirical-testing.html">empirically tested</a>.</p>
-<blockquote>
-<p>Marginal note: &quot;scales with model capacity&quot;. Cover info currently in model-capacity.md<br>Marginal note: &quot;must be empirically tested&quot;. Cover info currently in empirical-testing.md</p>
-</blockquote>
+<p>There are <a href="http://ai.stanford.edu/~zayd/why-is-machine-learning-hard.html" target="_blank">so many factors at play</a> in any given ML algorithm that it is often difficult to know the minimum amount of data needed for your model to start performing well in practice. Simple data statistics like standard deviation, number and quality of features, number of model parameter, and problem task all play a significant role in determining how much data is needed. That said, the answer to the question of &quot;how much data do I need?&quot; is usually always &quot;more data.&quot;</p>
+<p>I&#39;ve seen rules of thumb that suggest that the minimum number of samples needed to train a model range anywhere from <code>10xN</code> to <code>N^2</code> where <code>N</code> is the number of features (columns) in your data. The truth is that the amount of data required scales with model capacity and complexity.
+<span class="marginal-note" data-info="Model capacity is the number of functions that a model can technically approximate. The more weights/parameters a model has the higher it's capacity will be, and therefore the more unique functions it can learn to approximate. The problem is that as the ability to learn more functions increases, so does the likelyhood that the function learned during training will not be the true function that represents the underlying data trying to be learned. Therefore a model with too many parameters can lead to overfitting."></span> Like many things in machine learning, the quantity of data required to solve a given problem must be empirically tested.
+<span class="marginal-note" data-info="The truth is that there is so much that we don't yet understand about ML. We are at just the tip of the iceberg when it comes to ML discovery and understanding. We can mathematically prove that neural networks with unlimited neurons can model any function (see [General Purpose Algorithms](general-purpose-algorithms.html)), but we don't yet know how to systematically train them effectively. Huge progress has been made in this area recently, but ultimately ML researchers are poking around in the dark to find answers. Often solutions or techniques work but there is very little explanation or understanding as to why. It is for this reason that training ML models is sometimes considered more of an art than a science. If you're not sure how something will work the best solution is probably just to try it."></span></p>
+<!-- > Marginal note: "must be empirically tested". Cover info currently in empirical-testing.md -->
+
 <h2 id="data-representation">Data Representation</h2>
-<p>The way that you represent your data is arguably more important than the amount of raw data itself. Data is represented using features, and the ones you choose (or better yet, <a href="https://en.wikipedia.org/wiki/Feature_learning">learn</a>) influence how effectively your model can learn about the data (see <a href="features-and-design-matrices.html">Features &amp; Design Matrices</a>). Just because you have 20 columns in your database to represent a user doesn&#39;t mean that all 20 of those columns are necessary to solve a simple classification task. You may find that your model performs best using only 4 features from each data sample.</p>
+<p>The way that you represent your data is arguably more important than the amount of raw data itself. Data is represented using features, and the ones you choose (or better yet, <a href="https://en.wikipedia.org/wiki/Feature_learning" target="_blank">learn</a>) influence how effectively your model can learn about the data (see <a href="features-and-design-matrices.html">Features &amp; Design Matrices</a>). Just because you have 20 columns in your database to represent a user doesn&#39;t mean that all 20 of those columns are necessary to solve a simple classification task. You may find that your model performs best using only 4 features from each data sample.</p>
 <p>Its also very common not to use the features from your dataset directly, but rather process them first to compute new features that are more helpful for your model. For instance, if you were training a classifier to predict durations of metro-rail commutes given a database of card swipe timestamps, a ride duration feature (<code>swipe_out - swipe_in</code>) may be more beneficial than two separate swipe timestamp features. Knowing how best to represent your data is difficult and empirical testing is often the best way to determine what features to use or derive from your data when training your models.</p>
 <h2 id="training-data-vs-test-data">Training Data vs Test Data</h2>
-<blockquote>
-<p>Marginal note: &quot;lead to drastic overfitting&quot;: Fill with info from overfitting-and-underfitting.html.</p>
-</blockquote>
-<p>There is a critically important distinction to be made between data used to train a model and data used to test the performance of that model (see <a href="performance-measures.html">Performance Measures</a>). The same data <strong>cannot</strong> be used to both train your model and evaluate its performance, as this will lead to drastic overfitting. The training of every supervised machine learning model requires that you split your data, using the majority of it for training and holding out the minority for testing and model evaluation. A split of 80% training data and 20% test data is common. If you have a lot of data, you can experiment with 85%+ training data. Model performance will likely always be better on your test data, but hopefully only a few percentage points away from the accuracy evaluation on your test data. Test performance is a measure of how well your model will generalize to unseen real-world data it will encounter &quot;in the wild&quot; once it is deployed. Data holdout is an important topic and I recommend checking out the <a href="https://en.wikipedia.org/wiki/Training%2C_test%2C_and_validation_sets">data split Wikipedia page</a> for more info.</p>
-<p>Finally, <a href="https://kaggle.com">Kaggle</a> is an amazing data science community that hosts paid data science competitions and publishes publicly available datasets and code examples. Perusing the site should give you a good overview of the types of data representations that are often used in machine learning.</p>
+<p>There is a critically important distinction to be made between data used to train a model and data used to test the performance of that model (see <a href="performance-measures.html">Performance Measures</a>). The same data <strong>cannot</strong> be used to both train your model and evaluate its performance, as this will lead to drastic overfitting.
+<span class="marginal-note" data-info='Overfitting means that your model capacity is too large and that it is memorizing your training data rather than learning to generalize, a quality needed to perform well on unseen data. The solution to overfitting is to use [regularization](regularization.html). The opposite of overfitting is underfitting. Underfitting occurs when model capacity is too small and the model is unable to learn patterns from the training data. The solution to underfitting is to increase model capacity, use more training data, and/or change your training data representation (see [Features and Design Matrices](features-and-design-matrices.html)).'></span>
+The training of every supervised machine learning model requires that you split your data, using the majority of it for training and holding out the minority for testing and model evaluation. A split of 80% training data and 20% test data is common. If you have a lot of data, you can experiment with 85%+ training data. Model performance will likely always be better on your test data, but hopefully only a few percentage points away from the accuracy evaluation on your test data. Test performance is a measure of how well your model will generalize to unseen real-world data it will encounter &quot;in the wild&quot; once it is deployed. Data holdout is an important topic and I recommend checking out the <a href="https://en.wikipedia.org/wiki/Training%2C_test%2C_and_validation_sets" target="_blank">data split Wikipedia page</a> for more info.</p>
+<p>Finally, <a href="https://kaggle.com" target="_blank">Kaggle</a> is an amazing data science community that hosts paid data science competitions and publishes publicly available datasets and code examples. Perusing the site should give you a good overview of the types of data representations that are often used in machine learning.</p>
 <p>Next: <a href="machine-learning-models.html">Machine Learning Models</a></p>
-</body>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
 </html>

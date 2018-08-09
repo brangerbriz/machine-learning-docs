@@ -15,9 +15,9 @@ For hard problems, don't write heuristic rules. Instead learn from data. So long
 
 ### What Skills Does Machine Learning Require?
 
-> Marginal note "While bleeding-edge ML research". Most new ML research appears on arxiv.org: https://arxiv.org/list/stat.ML/pastweek blah blah blah
-
-While bleeding-edge ML research may have a bit of a barrier-to-entry, most applications of ML require only a general comfortability with programming. The language of choice for most machine learning libraries and tools is [Python](https://learnxinyminutes.com/docs/python/). This is likely a result of the language's history in scientific computing, and its reasonable to assume that Python will remain dominant in the field for the foreseeable future. That said, the popularity of machine learning has spiked dramatically since ~2015-2016 and ML libraries are poping up in just about every language and platform imaginable (including embedded devices). The code examples in this resource will be written in Python as well as JavaScript using the new [Tensorflow.js library](https://js.tensorflow.org/).
+While bleeding-edge ML research
+<span class="marginal-note" data-info='Most new ML research papers appear on [arxiv.org](https://arxiv.org/list/stat.ML/pastweek) before they are even presented at conferences and included in academic journals. Today, it has become standard to release open source software on sites like GitHub along with the papers on ArXiv.'></span>
+may have a bit of a barrier-to-entry, most applications of ML require only a general comfortability with programming. The language of choice for most machine learning libraries and tools is [Python](https://learnxinyminutes.com/docs/python/). This is likely a result of the language's history in scientific computing, and its reasonable to assume that Python will remain dominant in the field for the foreseeable future. That said, the popularity of machine learning has spiked dramatically since ~2015-2016 and ML libraries are popping up in just about every language and platform imaginable (including embedded devices). The code examples in this resource will be written in Python as well as JavaScript using the new [Tensorflow.js library](https://js.tensorflow.org/).
 
 Besides standard programming skills, ML specifically borrows from the following fields:
 

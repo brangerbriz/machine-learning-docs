@@ -6,28 +6,26 @@ Neural networks have been all the rage for the last few years, and their popular
 
 The perceptron is the atomic unit of a neural network. It represents one "neuron", whose output is calculated as a simple function of its inputs, weights, and a bias, which is then passed through an [activation function](https://machinelearningonline.blog/2017/06/21/activation-functions/). The output `O`, is calculated as `O = A(WX + b)`, where `X` is a vector containing features for each input sample, `W` is a vector containing the corresponding weight parameters to scale each input feature by, `b` is a scaler `bias` parameter, and `A` is the non-linear activation function. You can view an interactive multi-layer example of this process [here](https://ml4a.github.io/demos/simple_forward_pass/).
 
+<section class="media">
+	<img src="images/sigmoid.gif" alt="The sigmoid activation function">
+</section>
+
 You should notice that `WX + b` is the exact expression used to calculate linear regression. It is the activation function alone that causes neural networks to be be non-linear. Non-linear activation functions are very simple functions that "bend" their linear input. There are only a handful of activations functions that are generally used in practice, including `sigmoid`, `tanh`, and the recently popular, `relu`. Below is an example of one of the most famous activation functions, the sigmoid. 
 
-![Sigmoid Activation Function](images/sigmoid.gif)
 
 ## Multiple Layers and Semantic Hierarchy
 
 The true power of neural networks comes from the ability to chain hundreds, thousands, and even millions of these small perceptron units together to create a complex function. Each unit learns to play a specific (though hard to explicitly identify) role in the network that eventually produces the output. 
 
-![Neural Network](images/nn.png)
+![Neural Network](images/nn.png) Units are organized into layers, with the output value of each unit in one layer acting as an input value to another neuron in one or more of the next layers. The first layer takes the inputs from a sample in the training data itself, while each layer that follows takes the output of the neurons at a previous layer as its inputs. When each unit in a layer is connected to every unit in the next layer, we call the layer "fully connected", and this is perhaps the most common layer topology. Layers that do not take the training data as input, that is, every layer after the first, are called "hidden layers", as the role of each unit is hidden from us, derived as a combination of inputs processed from earlier layers. Finally, we have an output layer with as many neurons as we have output values. For a simple scalar regression problem that's just one neuron. We take the output from that neuron to be the prediction of our model. But for a mult-class classification problem we may have tens or hundreds of neurons, each representing a confidence score that the input belongs to that class.
 
-Units are organized into layers, with the output value of each unit in one layer acting as an input value to another neuron in one or more of the next layers. The first layer takes the inputs from a sample in the training data itself, while each layer that follows takes the output of the neurons at a previous layer as its inputs. When each unit in a layer is connected to every unit in the next layer, we call the layer "fully connected", and this is perhaps the most common layer topology. Layers that do not take the training data as input, that is, every layer after the first, are called "hidden layers", as the role of each unit is hidden from us, derived as a combination of inputs processed from earlier layers. Finally, we have an output layer with as many neurons as we have output values. For a simple scalar regression problem that's just one neuron. We take the output from that neuron to be the prediction of our model. But for a mult-class classification problem we may have tens or hundreds of neurons, each representing a confidence score that the input belongs to that class.
-
-![Layer Heirarchy](images/layer-heirarchy.png)
-
-With each layer comes an added level of semantic abstraction. Later layers learn functions that are more complex and "higher-level" than the layers below them. As an example, take a four layer neural network that takes a monochromatic 256x256 image as input and classifies it as belonging to one of three categories: animal, person, or car. In this network, each pixel is treated as an input, so the first layer has `256x256=65,536` units (note, an RGB image would have `3x256x256=196,608` inputs). The second layer receives the outputs of the first layer as input, so it has the potential to learn from the features that are derived from the original features once they have been processed through a layer of perceptrons. This layer may learn neurons that fire for simple patterns like edges or lines. The third layer takes the second layer output as its input, so it's able to learn from the edges and lines learned by the second layer. It may be able to learn higher-level features like corners and contours. The fourth layer receives corners, lines, etc. as input, so its units may learn to represent object parts like tires, ears, or fur. 
+![Layer Heirarchy](images/layer-heirarchy.png) With each layer comes an added level of semantic abstraction. Later layers learn functions that are more complex and "higher-level" than the layers below them. As an example, take a four layer neural network that takes a monochromatic 256x256 image as input and classifies it as belonging to one of three categories: animal, person, or car. In this network, each pixel is treated as an input, so the first layer has `256x256=65,536` units (note, an RGB image would have `3x256x256=196,608` inputs). The second layer receives the outputs of the first layer as input, so it has the potential to learn from the features that are derived from the original features once they have been processed through a layer of perceptrons. This layer may learn neurons that fire for simple patterns like edges or lines. The third layer takes the second layer output as its input, so it's able to learn from the edges and lines learned by the second layer. It may be able to learn higher-level features like corners and contours. The fourth layer receives corners, lines, etc. as input, so its units may learn to represent object parts like tires, ears, or fur. 
 
 When we say that a unit is able to "learn" a concept, we mean that it outputs a high value when it receives an input that resembles the data that it has learned to preference. Neurons "learn" to recognize tires once they output high values when they are shown tires or things that look like tires, and low values for anything else. We as programmers do not explicitly tell a neuron what to learn, it learns to respond to patterns that are beneficial to the performance of the overall network itself during training.
 
-> Marginal notes: "increased model capacity": info from model-capacity.html
-> Marginal notes: "leads to overfitting": info from overfitting-and-underfitting.html
-
-The more neurons in a network, the more model parameters must be learned, giving the model a larger capacity to represent more complex functions. Be careful though, because increased model capacity leads to overfitting, where the network simply memorizes the training data instead of learning to extract patterns from it. This leads to poor generalization, causing the network to perform poorly on the unseen test data and when deployed in the real-world.
+The more neurons in a network, the more model parameters must be learned, giving the model a larger capacity to represent more complex functions. Be careful though, because increased model capacity
+<span class="marginal-note" data-info="Model capacity is the number of functions that a model can technically approximate. The more weights/parameters a model has the higher it's capacity will be, and therefore the more unique functions it can learn to approximate. The problem is that as the ability to learn more functions increases, so does the likelyhood that the function learned during training will not be the true function that represents the underlying data trying to be learned. Therefore a model with too many parameters can lead to overfitting."></span> 
+leads to overfitting, where the network simply memorizes the training data instead of learning to extract patterns from it. <span class="marginal-note" data-info='Overfitting means that your model capacity is too large and that it is memorizing your training data rather than learning to generalize, a quality needed to perform well on unseen data. The solution to overfitting is to use [regularization](regularization.html). The opposite of overfitting is underfitting. Underfitting occurs when model capacity is too small and the model is unable to learn patterns from the training data. The solution to underfitting is to increase model capacity, use more training data, and/or change your training data representation (see [Features and Design Matrices](features-and-design-matrices.html)).'></span> This leads to poor generalization, causing the network to perform poorly on the unseen test data and when deployed in the real-world.
 
 In general, wide but shallow networks, that is networks that have many neurons per layer but only one or two layers, are easiest to train. Deep networks, with many layers (sometimes 20+) are very difficult to train, but generalize better if you can figure out how to train them. As a rule of thumb, the more model parameters you have, the more data and regularization techniques you will be needed to keep from overfitting (see [Regularization](regularization.html)).
 
@@ -37,7 +35,8 @@ The term Deep Learning comes from the notion of stacking many layers on top of o
 
 Here we will use [Keras](https://keras.io) to predict housing prices from the 1978 Boston housing dataset just like in the [linear regression](linear-regression.html) example.
 
-```
+<pre class="code">
+    <code class="python" data-wrap="false">
 # "pip install keras scikit-learn" if you have not already done so
 from keras.models import Sequential
 from keras.layers import Dense, Activation
@@ -75,11 +74,14 @@ for i in range(len(y_hat)):
 	print ('[+] predicted: {:.1f}    real: {}     error: {:.1f}'\
 		   .format(y_hat[i][0], y_test[i], abs(y_hat[i][0] - y_test[i])))
 
-print('[+] the mean absolute error is {:.1f}'.format(mean_absolute_error(y_hat, y_test)))```
+print('[+] the mean absolute error is {:.1f}'.format(mean_absolute_error(y_hat, y_test)))
+	</code>
+</pre>
 
 This script takes a bit longer to run than the linear regression example as the training process is much more computationally intensive. Instead of training 13 parameters like with the linear regression example (13 weights, 1 bias), we are training 5,121 parameters. 
 
-```
+<pre class="code">
+	<code class="bash" data-wrap="false">
 Layer (type)                 Output Shape              Param #   
 =================================================================
 dense_1 (Dense)              (None, 64)                896       
@@ -96,11 +98,13 @@ Total params: 5,121
 Trainable params: 5,121
 Non-trainable params: 0
 _________________________________________________________________
-```
+	</code>
+</pre>
 
 The script will begin training on your GPU if you have with Nvidia CUDA installed on your machine, or default to your CPU if not. You will see the current training loss output after each epoch (full pass of all training data) like so:
 
-```
+<pre class="code">
+	<code class="bash" data-wrap="false">
 Epoch 2/150
 0s - loss: 459.0608
 Epoch 2/150
@@ -121,11 +125,13 @@ Epoch 9/150
 0s - loss: 139.0648
 Epoch 10/150
 0s - loss: 136.8655
-```
+	</code>
+</pre>
 
 You will notice that the loss tends to decrease with each epoch, especially at the beginning. Once training is done, the script will use our trained models to predict the housing prices using our test data.
 
-```
+<pre class="code">
+	<code class="bash" data-wrap="false">
 [*] predicting from test set...
 [+] predicted: 3.6    real: 7.2     error: 3.6
 [+] predicted: 18.6    real: 18.8     error: 0.2
@@ -140,7 +146,8 @@ You will notice that the loss tends to decrease with each epoch, especially at t
 ...
 [+] predicted: 18.9    real: 25.0     error: 6.1
 [+] the mean absolute error is 3.7
-```
+	</code>
+</pre>
 
 Well look at that! Our neural network model performed better than our linear regressors, with a mean error of only $3,700 instead of $4,700. Note that your result may be different, as the initialization of model parameters is random, and so therefor the "path" taken during the optimization path is non-deterministic.
 

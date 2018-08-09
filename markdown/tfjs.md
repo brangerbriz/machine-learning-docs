@@ -26,5 +26,3 @@ Tensorflow.js tries to provide an API that is as close to Python Tensorflow as p
 ## Electron
 
 With Electron, you can also build desktop applications using Tensorflow.js that also benefit from zero hardware, library, or driver dependence. We've bundled several `tfjs` examples as an Electron app in our [brangerbriz/tf-electron](https://github.com/brangerbriz/tf-electron) repository. Here is an [introductory Electron tutorial](https://github.com/electron/electron/blob/master/docs/tutorial/first-app.md) as well.
-
-

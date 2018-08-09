@@ -1,32 +1,85 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset='utf-8'>
-  <title>markdown/neural-networks-and-deep-learning.md</title>
-  <link rel="stylesheet" href="css/github-markdown.css">
-</head>
-<body class='markdown-body'>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
 <h1 id="neural-networks-and-deep-learning">Neural Networks and Deep Learning</h1>
 <p>Neural networks have been all the rage for the last few years, and their popularity has initiated a machine learning renaissance of sorts. That said, their history dates back to the late 1950s, and they&#39;ve been known by many names over the years, including Multi-Layer Perceptrons (MLPs), Cybernetics, and Connectionist Networks. Neural networks in their current form have regained popularity starting around 2012, and their prevalence and use has exploded exponentially since then, but the fundamental principles are the same as they always have been. Unlike linear regression, neural networks can learn complex non-linear functions. It is this property that makes neural networks so popular. </p>
 <h2 id="perceptron">Perceptron</h2>
-<p>The perceptron is the atomic unit of a neural network. It represents one &quot;neuron&quot;, whose output is calculated as a simple function of its inputs, weights, and a bias, which is then passed through an <a href="https://machinelearningonline.blog/2017/06/21/activation-functions/">activation function</a>. The output <code>O</code>, is calculated as <code>O = A(WX + b)</code>, where <code>X</code> is a vector containing features for each input sample, <code>W</code> is a vector containing the corresponding weight parameters to scale each input feature by, <code>b</code> is a scaler <code>bias</code> parameter, and <code>A</code> is the non-linear activation function. You can view an interactive multi-layer example of this process <a href="https://ml4a.github.io/demos/simple_forward_pass/">here</a>.</p>
+<p>The perceptron is the atomic unit of a neural network. It represents one &quot;neuron&quot;, whose output is calculated as a simple function of its inputs, weights, and a bias, which is then passed through an <a href="https://machinelearningonline.blog/2017/06/21/activation-functions/" target="_blank">activation function</a>. The output <code>O</code>, is calculated as <code>O = A(WX + b)</code>, where <code>X</code> is a vector containing features for each input sample, <code>W</code> is a vector containing the corresponding weight parameters to scale each input feature by, <code>b</code> is a scaler <code>bias</code> parameter, and <code>A</code> is the non-linear activation function. You can view an interactive multi-layer example of this process <a href="https://ml4a.github.io/demos/simple_forward_pass/">here</a>.</p>
+<section class="media">
+    <img src="images/sigmoid.gif" alt="The sigmoid activation function">
+</section>
+
 <p>You should notice that <code>WX + b</code> is the exact expression used to calculate linear regression. It is the activation function alone that causes neural networks to be be non-linear. Non-linear activation functions are very simple functions that &quot;bend&quot; their linear input. There are only a handful of activations functions that are generally used in practice, including <code>sigmoid</code>, <code>tanh</code>, and the recently popular, <code>relu</code>. Below is an example of one of the most famous activation functions, the sigmoid. </p>
-<p><img src="images/sigmoid.gif" alt="Sigmoid Activation Function"></p>
 <h2 id="multiple-layers-and-semantic-hierarchy">Multiple Layers and Semantic Hierarchy</h2>
 <p>The true power of neural networks comes from the ability to chain hundreds, thousands, and even millions of these small perceptron units together to create a complex function. Each unit learns to play a specific (though hard to explicitly identify) role in the network that eventually produces the output. </p>
-<p><img src="images/nn.png" alt="Neural Network"></p>
-<p>Units are organized into layers, with the output value of each unit in one layer acting as an input value to another neuron in one or more of the next layers. The first layer takes the inputs from a sample in the training data itself, while each layer that follows takes the output of the neurons at a previous layer as its inputs. When each unit in a layer is connected to every unit in the next layer, we call the layer &quot;fully connected&quot;, and this is perhaps the most common layer topology. Layers that do not take the training data as input, that is, every layer after the first, are called &quot;hidden layers&quot;, as the role of each unit is hidden from us, derived as a combination of inputs processed from earlier layers. Finally, we have an output layer with as many neurons as we have output values. For a simple scalar regression problem that&#39;s just one neuron. We take the output from that neuron to be the prediction of our model. But for a mult-class classification problem we may have tens or hundreds of neurons, each representing a confidence score that the input belongs to that class.</p>
-<p><img src="images/layer-heirarchy.png" alt="Layer Heirarchy"></p>
-<p>With each layer comes an added level of semantic abstraction. Later layers learn functions that are more complex and &quot;higher-level&quot; than the layers below them. As an example, take a four layer neural network that takes a monochromatic 256x256 image as input and classifies it as belonging to one of three categories: animal, person, or car. In this network, each pixel is treated as an input, so the first layer has <code>256x256=65,536</code> units (note, an RGB image would have <code>3x256x256=196,608</code> inputs). The second layer receives the outputs of the first layer as input, so it has the potential to learn from the features that are derived from the original features once they have been processed through a layer of perceptrons. This layer may learn neurons that fire for simple patterns like edges or lines. The third layer takes the second layer output as its input, so it&#39;s able to learn from the edges and lines learned by the second layer. It may be able to learn higher-level features like corners and contours. The fourth layer receives corners, lines, etc. as input, so its units may learn to represent object parts like tires, ears, or fur. </p>
+<p><img src="images/nn.png" alt="Neural Network"> Units are organized into layers, with the output value of each unit in one layer acting as an input value to another neuron in one or more of the next layers. The first layer takes the inputs from a sample in the training data itself, while each layer that follows takes the output of the neurons at a previous layer as its inputs. When each unit in a layer is connected to every unit in the next layer, we call the layer &quot;fully connected&quot;, and this is perhaps the most common layer topology. Layers that do not take the training data as input, that is, every layer after the first, are called &quot;hidden layers&quot;, as the role of each unit is hidden from us, derived as a combination of inputs processed from earlier layers. Finally, we have an output layer with as many neurons as we have output values. For a simple scalar regression problem that&#39;s just one neuron. We take the output from that neuron to be the prediction of our model. But for a mult-class classification problem we may have tens or hundreds of neurons, each representing a confidence score that the input belongs to that class.</p>
+<p><img src="images/layer-heirarchy.png" alt="Layer Heirarchy"> With each layer comes an added level of semantic abstraction. Later layers learn functions that are more complex and &quot;higher-level&quot; than the layers below them. As an example, take a four layer neural network that takes a monochromatic 256x256 image as input and classifies it as belonging to one of three categories: animal, person, or car. In this network, each pixel is treated as an input, so the first layer has <code>256x256=65,536</code> units (note, an RGB image would have <code>3x256x256=196,608</code> inputs). The second layer receives the outputs of the first layer as input, so it has the potential to learn from the features that are derived from the original features once they have been processed through a layer of perceptrons. This layer may learn neurons that fire for simple patterns like edges or lines. The third layer takes the second layer output as its input, so it&#39;s able to learn from the edges and lines learned by the second layer. It may be able to learn higher-level features like corners and contours. The fourth layer receives corners, lines, etc. as input, so its units may learn to represent object parts like tires, ears, or fur. </p>
 <p>When we say that a unit is able to &quot;learn&quot; a concept, we mean that it outputs a high value when it receives an input that resembles the data that it has learned to preference. Neurons &quot;learn&quot; to recognize tires once they output high values when they are shown tires or things that look like tires, and low values for anything else. We as programmers do not explicitly tell a neuron what to learn, it learns to respond to patterns that are beneficial to the performance of the overall network itself during training.</p>
-<blockquote>
-<p>Marginal notes: &quot;increased model capacity&quot;: info from model-capacity.html<br>Marginal notes: &quot;leads to overfitting&quot;: info from overfitting-and-underfitting.html</p>
-</blockquote>
-<p>The more neurons in a network, the more model parameters must be learned, giving the model a larger capacity to represent more complex functions. Be careful though, because increased model capacity leads to overfitting, where the network simply memorizes the training data instead of learning to extract patterns from it. This leads to poor generalization, causing the network to perform poorly on the unseen test data and when deployed in the real-world.</p>
+<p>The more neurons in a network, the more model parameters must be learned, giving the model a larger capacity to represent more complex functions. Be careful though, because increased model capacity
+<span class="marginal-note" data-info="Model capacity is the number of functions that a model can technically approximate. The more weights/parameters a model has the higher it's capacity will be, and therefore the more unique functions it can learn to approximate. The problem is that as the ability to learn more functions increases, so does the likelyhood that the function learned during training will not be the true function that represents the underlying data trying to be learned. Therefore a model with too many parameters can lead to overfitting."></span> 
+leads to overfitting, where the network simply memorizes the training data instead of learning to extract patterns from it. <span class="marginal-note" data-info='Overfitting means that your model capacity is too large and that it is memorizing your training data rather than learning to generalize, a quality needed to perform well on unseen data. The solution to overfitting is to use [regularization](regularization.html). The opposite of overfitting is underfitting. Underfitting occurs when model capacity is too small and the model is unable to learn patterns from the training data. The solution to underfitting is to increase model capacity, use more training data, and/or change your training data representation (see [Features and Design Matrices](features-and-design-matrices.html)).'></span> This leads to poor generalization, causing the network to perform poorly on the unseen test data and when deployed in the real-world.</p>
 <p>In general, wide but shallow networks, that is networks that have many neurons per layer but only one or two layers, are easiest to train. Deep networks, with many layers (sometimes 20+) are very difficult to train, but generalize better if you can figure out how to train them. As a rule of thumb, the more model parameters you have, the more data and regularization techniques you will be needed to keep from overfitting (see <a href="regularization.html">Regularization</a>).</p>
 <p>The term Deep Learning comes from the notion of stacking many layers on top of one another to form a deep <a href="model-architecture.html">model architecture</a>. You can actually think of each layer as its own self-contained neural network, each using increasingly abstract features as inputs as you move deeper into the model.</p>
 <h2 id="example">Example</h2>
-<p>Here we will use <a href="https://keras.io">Keras</a> to predict housing prices from the 1978 Boston housing dataset just like in the <a href="linear-regression.html">linear regression</a> example.</p>
-<pre><code># &quot;pip install keras scikit-learn&quot; if you have not already done so
+<p>Here we will use <a href="https://keras.io" target="_blank">Keras</a> to predict housing prices from the 1978 Boston housing dataset just like in the <a href="linear-regression.html">linear regression</a> example.</p>
+<pre class="code">
+    <code class="python" data-wrap="false">
+# "pip install keras scikit-learn" if you have not already done so
 from keras.models import Sequential
 from keras.layers import Dense, Activation
 from keras.datasets import boston_housing
@@ -41,31 +94,36 @@ from sklearn.metrics import mean_absolute_error
 model = Sequential()
 # add a fully-connected layer with 64 units
 model.add(Dense(64, input_shape=(13,)))
-# apply a relu activation function to &quot;bend&quot; the linear output of
+# apply a relu activation function to "bend" the linear output of
 # the fully connected layer
-model.add(Activation(&#39;relu&#39;))
+model.add(Activation('relu'))
 # repeat...
 model.add(Dense(64, input_shape=(13,)))
-model.add(Activation(&#39;relu&#39;))
+model.add(Activation('relu'))
 model.add(Dense(1))
 
 # use RMSProp for optimization and Mean Squared Error (MSE) as loss function.
-model.compile(optimizer=&#39;rmsprop&#39;, loss=&#39;mse&#39;)
+model.compile(optimizer='rmsprop', loss='mse')
 model.summary()
 
-print(&#39;[*] training model...&#39;)
+print('[*] training model...')
 model.fit(x_train, y_train, epochs=150, verbose=2)
 
-print(&#39;[*] predicting from test set...&#39;)
+print('[*] predicting from test set...')
 y_hat = model.predict(x_test)
 
 for i in range(len(y_hat)):
-    print (&#39;[+] predicted: {:.1f}    real: {}     error: {:.1f}&#39;\
+    print ('[+] predicted: {:.1f}    real: {}     error: {:.1f}'\
            .format(y_hat[i][0], y_test[i], abs(y_hat[i][0] - y_test[i])))
 
-print(&#39;[+] the mean absolute error is {:.1f}&#39;.format(mean_absolute_error(y_hat, y_test)))
-</code></pre><p>This script takes a bit longer to run than the linear regression example as the training process is much more computationally intensive. Instead of training 13 parameters like with the linear regression example (13 weights, 1 bias), we are training 5,121 parameters. </p>
-<pre><code>Layer (type)                 Output Shape              Param #   
+print('[+] the mean absolute error is {:.1f}'.format(mean_absolute_error(y_hat, y_test)))
+    </code>
+</pre>
+
+<p>This script takes a bit longer to run than the linear regression example as the training process is much more computationally intensive. Instead of training 13 parameters like with the linear regression example (13 weights, 1 bias), we are training 5,121 parameters. </p>
+<pre class="code">
+    <code class="bash" data-wrap="false">
+Layer (type)                 Output Shape              Param #   
 =================================================================
 dense_1 (Dense)              (None, 64)                896       
 _________________________________________________________________
@@ -81,8 +139,13 @@ Total params: 5,121
 Trainable params: 5,121
 Non-trainable params: 0
 _________________________________________________________________
-</code></pre><p>The script will begin training on your GPU if you have with Nvidia CUDA installed on your machine, or default to your CPU if not. You will see the current training loss output after each epoch (full pass of all training data) like so:</p>
-<pre><code>Epoch 2/150
+    </code>
+</pre>
+
+<p>The script will begin training on your GPU if you have with Nvidia CUDA installed on your machine, or default to your CPU if not. You will see the current training loss output after each epoch (full pass of all training data) like so:</p>
+<pre class="code">
+    <code class="bash" data-wrap="false">
+Epoch 2/150
 0s - loss: 459.0608
 Epoch 2/150
 0s - loss: 142.8037
@@ -102,8 +165,13 @@ Epoch 9/150
 0s - loss: 139.0648
 Epoch 10/150
 0s - loss: 136.8655
-</code></pre><p>You will notice that the loss tends to decrease with each epoch, especially at the beginning. Once training is done, the script will use our trained models to predict the housing prices using our test data.</p>
-<pre><code>[*] predicting from test set...
+    </code>
+</pre>
+
+<p>You will notice that the loss tends to decrease with each epoch, especially at the beginning. Once training is done, the script will use our trained models to predict the housing prices using our test data.</p>
+<pre class="code">
+    <code class="bash" data-wrap="false">
+[*] predicting from test set...
 [+] predicted: 3.6    real: 7.2     error: 3.6
 [+] predicted: 18.6    real: 18.8     error: 0.2
 [+] predicted: 22.0    real: 19.0     error: 3.0
@@ -117,7 +185,16 @@ Epoch 10/150
 ...
 [+] predicted: 18.9    real: 25.0     error: 6.1
 [+] the mean absolute error is 3.7
-</code></pre><p>Well look at that! Our neural network model performed better than our linear regressors, with a mean error of only $3,700 instead of $4,700. Note that your result may be different, as the initialization of model parameters is random, and so therefor the &quot;path&quot; taken during the optimization path is non-deterministic.</p>
+    </code>
+</pre>
+
+<p>Well look at that! Our neural network model performed better than our linear regressors, with a mean error of only $3,700 instead of $4,700. Note that your result may be different, as the initialization of model parameters is random, and so therefor the &quot;path&quot; taken during the optimization path is non-deterministic.</p>
 <p>Keep in mind that neural networks don&#39;t always outperform other ML algorithms and it is usually a good idea to try a range of different algorithms and choose the one that works the best. It is also common practice to begin a problem using a common baseline model, like we did here with linear regression, before trying more complex methods. That way you have something to compare your other models to. And hey, if you&#39;re baseline performs well enough on its own, you&#39;re done!</p>
-</body>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
 </html>

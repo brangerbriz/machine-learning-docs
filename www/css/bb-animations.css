@@ -1,0 +1,50 @@
+@keyframes logo_in {
+    0% { opacity:0; transform:translateX(-30px); }
+    50% { transform:translateX(0px); }
+    100% { opacity:1; }
+}
+
+@keyframes h1_in {
+    0% { opacity:0; transform:translateX(30px); }
+    25% { opacity:0; transform:translateX(30px); }
+    75% { transform:translateX(0px); }
+    100% { opacity:1; }
+}
+
+@keyframes h2_in {
+    0% { opacity:0; transform:translateX(-30px); }
+    25% { opacity:0; transform:translateX(-30px); }
+    70% { transform:translateY(0px); }
+    100% { opacity:1; }
+}
+
+@keyframes h3_in {
+    0% { opacity:0; transform:translateY(30px); }
+    25% { opacity:0; transform:translateY(30px); }
+    70% { transform:translateY(0px); }
+    100% { opacity:1; }
+}
+
+@keyframes quote_in {
+    0% { opacity:0; transform:translateX(-30px); }
+    50% { transform:translateX(0px); }
+    100% { opacity:1; }
+}
+
+@keyframes fade_in {
+    0% { opacity:0; }
+    25% { opacity:0; }
+    100% { opacity:1; }
+}
+
+section#logo { animation: logo_in 2s; }
+h1 { animation: h1_in 2s; }
+h2 { animation: h2_in 2s; }
+h3, div.date { animation: h3_in 2s; }
+p, ol, ul, section.media, pre.code { animation: fade_in 2s; }
+span.quote { animation: quote_in 2s; }
+
+
+section.media img { transform:scale(0.9); opacity:0; }
+section.media img.show { transform:scale(1); opacity:1; }
+section.media img { transition:transform 0.5s, opacity 0.5s; }

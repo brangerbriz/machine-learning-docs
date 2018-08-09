@@ -1,0 +1,91 @@
+/*
+      +++++++++++++
+    +++++++++++++++++
+  +++++++++++++++++++++
+ +++++++ ---------- ++++       ____                                         ____       _
+++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
++++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
++++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+ ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+  +++++++++++++++++++++                              __ | |       |_______|
+    +++++++++++++++++                                \___/
+      +++++++++++++
+*/
+
+/* default styles 					*/
+/* for anything greater than 1280px */
+
+#logo { margin-top:32px; }
+h1, h2, h3, p, div, ul, ol, section.media, span.quote, span.tags, pre.code > code {
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    max-width:580px
+}
+pre.code > code { display: block; }
+h1 { max-width:700px; padding-left:120px; }
+section.media { left:-76px; max-width:754px; }
+.caption { max-width:580px; }
+.caption[data-fullwidth="true"] { max-width:700px; left:0px;}
+p img { margin-right:-298px; }
+p span.quote { margin-left:-150px; }
+span.quote { position:relative; left:-15px; }
+
+/* if less than 1280px ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+/* ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+@media (max-width: 1280px) {
+    h1, h2, span.tags, section.media { max-width:710px; }
+    h3, p, div, ul, ol, pre.code > code { max-width:470px;  }
+    .caption { left:24px; }
+    p img { max-width:350px; margin-right:-234px; }
+    p span.quote { margin-left:-257px; padding-right:51px; }
+    section.media { left:0px; }
+    span.quote { max-width:720px; left:-8px; }
+    aside.note {
+        float:right; width:222px;
+        margin-right:-236px; margin-top:0px; padding:0px 0px 20px 20px;
+    }
+}
+
+/* if less than 1023px ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+/* ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+@media (max-width: 1023px) {
+    h1 { padding-left:0px; }
+    h1, h2, h3, span.tags, span.quote,
+    div, p, ul, ol, pre.code > code { max-width:530px; }
+    .caption { margin:0 auto; padding:0; }
+    .caption[data-fullwidth="true"] { max-width:580px; margin:0 auto; }
+    section.media { max-width:710px; }
+    span.quote { left:-15px; }
+    p img { max-width:350px; margin-right:-86px; }
+    p span.quote { margin-left:-110px; padding-right:6px; width:256px; }
+    aside.note { width:174px; margin-right:-99px; }
+}
+
+/* if less than  787px ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+/* ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+@media (max-width: 767px) {
+    h1, h2, h3, span.tags, div, p, pre.code > code { max-width:90%;  }
+    ul, ol { width: calc(100% - 80px); padding-left: 25px; }
+    h1 { font-size:42px; line-height:48px; margin-top:27px; }
+    h2 { font-size:32px; }
+    div.quote-credit { max-width:100%; }
+    .caption { max-width:90%; left:0px; margin-left:auto; margin-right:auto; }
+    .caption[data-fullwidth="true"] { max-width:90%; left:0px; }
+    p img {
+        display:block; float:none; width:90%; max-width:90%;
+        padding:0px 0px 23px 0px;
+    }
+    p span.quote {
+        font-size:26px; line-height:31px;
+        display:block; float:none; margin:0px;
+        width:90%; max-width:90%;
+    }
+    span.quote {
+        font-size:26px; line-height:31px;
+        width:90%; max-width:90%; left:4px;
+    }
+    aside.note { display:none; }
+    aside.note.bottom { display:block; }
+}

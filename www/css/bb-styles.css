@@ -1,0 +1,133 @@
+/*
+      +++++++++++++
+    +++++++++++++++++
+  +++++++++++++++++++++
+ +++++++ ---------- ++++       ____                                         ____       _
+++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
++++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
++++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+ ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+  +++++++++++++++++++++                              __ | |       |_______|
+    +++++++++++++++++                                \___/
+      +++++++++++++
+*/
+
+html { line-height: 1.15; -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+
+#logo a { text-decoration: none; }
+
+/* headers  ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+h1, h2, h3 { font-family:'BB_title', sans-serif; color:#000; font-weight:100; }
+h1, h2 { letter-spacing: 0.3px; }
+h2, h3 { margin: 47px 0px; }
+h1 { font-size: 60px; line-height: 60px; margin: 100px 0px 47px 0px; }
+h2 { font-size: 36px; line-height: 41px; }
+h3 { font-size: 20px; color:#e40477; text-transform: uppercase; }
+
+/* divs, paragraphs, and lists  ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+div, p, ul, ol {
+    font-family: 'BB_copy', sans-serif; font-size: 16px; color:#5f5f5f;
+    line-height:24px; letter-spacing:1px; padding: 28px 0px; margin:0;
+}
+
+div::-moz-selection, p::-moz-selection,
+p a::-moz-selection, p i::-moz-selection,
+div a::-moz-selection, div i::-moz-selection, 
+ul a::-moz-selection, ul a::-moz-selection { background:#e40477; color:#fff; }
+div::selection, p::selection, p a::selection, p i::selection,
+div a::selection, div i::selection, 
+ul a::selection, ol a::selection { background:#e40477; color:#fff; }
+
+div a, p a, ul a, ol a { color:#e40477; text-decoration:none; padding-bottom:2px; }
+div a:hover, p a:hover, ul a:hover, ol a:hover { color:#e40477; border-bottom:2px solid #e40477; }
+
+div code, p code {
+    font-family:'BB_code'; color:#731ac2;
+    background-color:#f7f7f7; padding:5px;
+}
+
+div img, p img { max-width:450px; float:right; padding:0px 0px 24px 24px; }
+
+div.date { margin-top:-75px; color:#828282; }
+
+ul, ol { padding-left: 50px; }
+
+/* quotes * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+div span.quote, p span.quote {
+    color:#000; width:300px; float:left; display:inline-block;
+    border:none; padding-top:20px; padding-bottom:20px;
+}
+
+span.quote {
+    font-family:'BB_title', sans-serif; font-size:36px; color:#000;
+    font-weight:100; letter-spacing:0.3px; line-height:41px;
+    display:block; border-left:8px solid #000; padding-left:21px;
+}
+
+.quote-credit {
+    display:block; line-height:11px;
+    font-family:'BB_copy', sans-serif; font-size:16px; color:#828282;
+    width:100%; padding-top:19px; padding-bottom: 0px;
+}
+
+/* marginal notes * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+.marginal-note {
+    font-family: 'BB_copy', sans-serif;
+    color:#e40477;
+    vertical-align: super;
+    font-size: 75%;
+}
+aside.note  {
+    display:block; width:250px; float:right;
+    font-family:'BB_copy', sans-serif; font-size:12px; color:#828282;
+    line-height:24px; margin-right:-282px;
+}
+aside.note.bottom {
+    display:none; width:90%; float:none;
+    margin-right:0px; margin-top:10px; padding:0px;
+}
+
+/* media container element  ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+section.media {
+    display:block; position:relative;
+    width:100%; max-width:754px; margin:0 auto;
+}
+section.media[data-fullwidth="true"]{ width:100%; max-width:none; left:0px; }
+section.media img { width:100%; } /* TODO */
+section.media video { width:100%; } /* TODO */
+section.media audio { } /* TODO */
+section.media iframe { width:100%; } /* TODO */
+
+.caption {
+    display:block; line-height:22px;
+    font-family:'BB_copy', sans-serif; font-size:16px; color:#A7A8A7;
+    width:100%; margin:0 auto;
+    position:relative;
+    top:3px; left:76px;
+}
+.caption[data-fullwidth="true"] { max-width:700px; left:0px; }
+
+/* tags ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+span.tags {
+    display:block; margin:50px 0px;
+    font-family:'BB_copy', sans-serif; font-size:16px; font-weight: bold;
+}
+span.tags a {
+    color:#000; background-color:#ebfcff; text-decoration:none;
+    padding:9px 10px; margin:0px 6px 10px 0px; display:inline-block;
+}
+span.tags a:hover { color:#fff; background-color:#e40477; }
+
+/* code ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ * ~ */
+
+pre.code {
+    display: block;
+    width:100%;
+    margin: 0 auto;
+    position: relative;
+    background-color: #F7F7F7;
+    font-family: "BB_code";
+    overflow-x: auto;
+}

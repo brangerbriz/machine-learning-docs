@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset='utf-8'>
-  <title>markdown/what-is-machine-learning.md</title>
-  <link rel="stylesheet" href="css/github-markdown.css">
-</head>
-<body class='markdown-body'>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
 <h2 id="what-is-machine-learning-">What is Machine Learning?</h2>
 <p>Machine learning (ML) is a technique whereby computer programs <strong>learn</strong> to perform a task <strong>by example</strong>. This is in contrast to traditional programming, where a computer executes heuristic instructions that are explicitly &quot;handwritten&quot; by a programmer. In many areas, ML-based approaches have far surpassed previous state-of-the-art algorithms that have taken decades of domain-specific knowledge and research to develop. Modern machine learning techniques like Deep Learning (see <a href="neural-networks-and-deep-learning.html">Neural Networks &amp; Deep Learning</a>) have already been embedded in much of the software that we use everyday, and this rate of integration is increasing faster than ever. Machine learning is currently poised to dominate the coming decade of computing, and beyond. </p>
 <h3 id="when-should-i-use-it-">When Should I Use It?</h3>
@@ -17,18 +68,23 @@
 </ul>
 <p>For hard problems, don&#39;t write heuristic rules. Instead learn from data. So long as you have enough data, a machine learning solution will often be easier to write and perform better than a rule-based approach.</p>
 <h3 id="what-skills-does-machine-learning-require-">What Skills Does Machine Learning Require?</h3>
-<blockquote>
-<p>Marginal note &quot;While bleeding-edge ML research&quot;. Most new ML research appears on arxiv.org: <a href="https://arxiv.org/list/stat.ML/pastweek">https://arxiv.org/list/stat.ML/pastweek</a> blah blah blah</p>
-</blockquote>
-<p>While bleeding-edge ML research may have a bit of a barrier-to-entry, most applications of ML require only a general comfortability with programming. The language of choice for most machine learning libraries and tools is <a href="https://learnxinyminutes.com/docs/python/">Python</a>. This is likely a result of the language&#39;s history in scientific computing, and its reasonable to assume that Python will remain dominant in the field for the foreseeable future. That said, the popularity of machine learning has spiked dramatically since ~2015-2016 and ML libraries are poping up in just about every language and platform imaginable (including embedded devices). The code examples in this resource will be written in Python as well as JavaScript using the new <a href="https://js.tensorflow.org/">Tensorflow.js library</a>.</p>
+<p>While bleeding-edge ML research
+<span class="marginal-note" data-info='Most new ML research papers appear on [arxiv.org](https://arxiv.org/list/stat.ML/pastweek) before they are even presented at conferences and included in academic journals. Today, it has become standard to release open source software on sites like GitHub along with the papers on ArXiv.'></span>
+may have a bit of a barrier-to-entry, most applications of ML require only a general comfortability with programming. The language of choice for most machine learning libraries and tools is <a href="https://learnxinyminutes.com/docs/python/" target="_blank">Python</a>. This is likely a result of the language&#39;s history in scientific computing, and its reasonable to assume that Python will remain dominant in the field for the foreseeable future. That said, the popularity of machine learning has spiked dramatically since ~2015-2016 and ML libraries are popping up in just about every language and platform imaginable (including embedded devices). The code examples in this resource will be written in Python as well as JavaScript using the new <a href="https://js.tensorflow.org/">Tensorflow.js library</a>.</p>
 <p>Besides standard programming skills, ML specifically borrows from the following fields:</p>
 <ul>
 <li>Linear Algebra</li>
 <li>Statistics</li>
 <li>Probability</li>
 </ul>
-<p>While experience in any of these topics will certainly be helpful as you learn and employ ML, I want to stress that prior knowledge of these fields are in no way necessary. They should be thought of more as areas of <a href="https://www.youtube.com/watch?v=kjBOesZCoqc&amp;list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab">further study</a> if you want to improve your ML skills and understanding.</p>
+<p>While experience in any of these topics will certainly be helpful as you learn and employ ML, I want to stress that prior knowledge of these fields are in no way necessary. They should be thought of more as areas of <a href="https://www.youtube.com/watch?v=kjBOesZCoqc&amp;list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" target="_blank">further study</a> if you want to improve your ML skills and understanding.</p>
 <p>Lastly, the OS of choice for ML projects is certainty Ubuntu/Debian Linux. While many of the most popular frameworks have cross-platform options, Linux is hands-down the most supportive OS for all things machine learning. If you are not yet comfortable with basic linux/unix commands, I recommend learning. While it is not required, you will find your productivity running ML experiments and iteratively improving ML algorithms will benefit greatly from this knowledge.</p>
 <p>Next: <a href="general-purpose-algorithms.html">General Purpose Algorithms</a></p>
-</body>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
 </html>

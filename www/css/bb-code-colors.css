@@ -1,0 +1,85 @@
+/*
+      +++++++++++++
+    +++++++++++++++++
+  +++++++++++++++++++++
+ +++++++ ---------- ++++       ____                                         ____       _
+++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
++++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
++++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+ ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+  +++++++++++++++++++++                              __ | |       |_______|
+    +++++++++++++++++                                \___/
+      +++++++++++++
+*/
+
+/*
+Original highlight.js style (c) Ivan Sagalaev <maniac@softwaremaniacs.org>
+*/
+
+.hljs {
+    display: block;
+    overflow-x: auto;
+    /*white-space: pre-wrap;*/
+    padding: 0.5em;
+    /*background: #F0F0F0;*/
+}
+
+/* Base color: saturation 0; */
+
+.hljs, .hljs-subst { color: #7C7C7C; }
+
+.hljs-comment { color: #A7A8A7; }
+
+.hljs-keyword,
+.hljs-attribute,
+.hljs-selector-tag,
+.hljs-meta-keyword,
+.hljs-doctag,
+.hljs-name {}
+
+/* User color: hue: 0 */
+
+.hljs-type,
+.hljs-string,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-quote,
+.hljs-template-tag,
+.hljs-deletion { color: #CE6209; }
+
+.hljs-number { color:#731AC1; }
+
+.hljs-function > .hljs-keyword,
+.hljs-name { color: #E20177; }
+.hljs-keyword { color: #1D81A0; }
+
+.hljs-title,
+.hljs-attr,
+.hljs-section { color: #209951; }
+
+.hljs-regexp,
+.hljs-symbol,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-link,
+.hljs-selector-attr,
+.hljs-selector-pseudo { color: #BC6060; }
+
+/* Language color: hue: 90; */
+
+.hljs-literal { color: #78A960; }
+
+.hljs-built_in { color: #E20177; }
+
+.hljs-bullet,
+.hljs-code,
+.hljs-addition { color: #397300; }
+
+/* Meta color: hue: 200 */
+.hljs-meta { color: #1f7199; }
+.hljs-meta-string { color: #4d99bf; }
+
+/* Misc effects */
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }

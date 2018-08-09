@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset='utf-8'>
-  <title>markdown/tfjs.md</title>
-  <link rel="stylesheet" href="css/github-markdown.css">
-</head>
-<body class='markdown-body'>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
 <h1 id="tensorflow-js">Tensorflow.js</h1>
 <p>Tensorflow.js (<code>tfjs</code>) is a WebGL accelerated library for performing ML/Deep Learning tasks in-browser. It evolved out of the deeplearn.js library, which is now called Tensorflow.js Core.</p>
 <p>With <code>tfjs</code>, you can run the same code using multiple backends:</p>
@@ -14,10 +65,10 @@
 <li>Native Tensorflow w/ C Bindings (Node.js only)</li>
 </ul>
 <p>The WebGL backend can be expected to run at 1.5-2x slower than Python Tensorflow. With larger models it has been found to run 10-15x slower. That said, it is amazing that Tensorflow.js brings graphics accelerated machine learning to the web! What you may lose in speed, you gain in potential reach and deployability. Users of a product written in Tensorflow.js need only a modern web browser, while native ML libraries that leverage CUDA require special NVIDIA graphics hardware and drivers. There is little-to-no barrier to entry with Tensorflow.js.</p>
-<p>Tensorflow.js tries to provide an API that is as close to Python Tensorflow as possible, but does not include all of the functions present in Python. The Layers API (<code>tf.layers</code>) is a high-level API for creating neural networks inspired by <a href="https://keras.io/">Keras</a>.</p>
+<p>Tensorflow.js tries to provide an API that is as close to Python Tensorflow as possible, but does not include all of the functions present in Python. The Layers API (<code>tf.layers</code>) is a high-level API for creating neural networks inspired by <a href="https://keras.io/" target="_blank">Keras</a>.</p>
 <ul>
-<li><a href="https://medium.com/tensorflow/introducing-tensorflow-js-machine-learning-in-javascript-bf3eab376db">Tensorflow.js Introductory Post</a></li>
-<li><a href="https://js.tensorflow.org/tutorials/core-concepts.html">Tensorflow.js Core Concepts</a><ul>
+<li><a href="https://medium.com/tensorflow/introducing-tensorflow-js-machine-learning-in-javascript-bf3eab376db" target="_blank">Tensorflow.js Introductory Post</a></li>
+<li><a href="https://js.tensorflow.org/tutorials/core-concepts.html" target="_blank">Tensorflow.js Core Concepts</a><ul>
 <li>Tensors are Immutable (except when using their <code>.buffer()</code> method)</li>
 <li>Variables are not</li>
 <li>Ops return Tensors</li>
@@ -25,11 +76,17 @@
 <li><code>tf.layers</code> provides a high-level Keras-like API for building neural networks and models</li>
 </ul>
 </li>
-<li><a href="https://github.com/tensorflow/tfjs-examples">Tensorflow.js Examples</a></li>
-<li><a href="https://js.tensorflow.org/api/latest/index.html">Tensorflow.js API Reference</a></li>
-<li><a href="https://js.tensorflow.org/faq">FAQ</a></li>
+<li><a href="https://github.com/tensorflow/tfjs-examples" target="_blank">Tensorflow.js Examples</a></li>
+<li><a href="https://js.tensorflow.org/api/latest/index.html" target="_blank">Tensorflow.js API Reference</a></li>
+<li><a href="https://js.tensorflow.org/faq" target="_blank">FAQ</a></li>
 </ul>
 <h2 id="electron">Electron</h2>
-<p>With Electron, you can also build desktop applications using Tensorflow.js that also benefit from zero hardware, library, or driver dependence. We&#39;ve bundled several <code>tfjs</code> examples as an Electron app in our <a href="https://github.com/brangerbriz/tf-electron">brangerbriz/tf-electron</a> repository. Here is an <a href="https://github.com/electron/electron/blob/master/docs/tutorial/first-app.md">introductory Electron tutorial</a> as well.</p>
-</body>
+<p>With Electron, you can also build desktop applications using Tensorflow.js that also benefit from zero hardware, library, or driver dependence. We&#39;ve bundled several <code>tfjs</code> examples as an Electron app in our <a href="https://github.com/brangerbriz/tf-electron" target="_blank">brangerbriz/tf-electron</a> repository. Here is an <a href="https://github.com/electron/electron/blob/master/docs/tutorial/first-app.md">introductory Electron tutorial</a> as well.</p>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
 </html>

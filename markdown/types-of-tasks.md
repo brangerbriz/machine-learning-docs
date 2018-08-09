@@ -2,12 +2,13 @@
 
 Before we continue, I want to hammer in the difference between two of the most common ML tasks [we mentioned before](general-purpose-algorithms.html#classification); classification and regression.
 
-![Classification vs Regression](images/classification-vs-regression.png)
-> source https://ipython-books.github.io/featured-04/
+<section class="media"><img src="images/classification-vs-regression.png"></section>
+<!-- ![Classification vs Regression](images/classification-vs-regression.png)
+> source https://ipython-books.github.io/featured-04/ -->
 
 ## Classification
 
-> In machine learning and statistics, classification is the problem of identifying to which of a set of categories a new observation belongs, on the basis of a training set of data containing observations whose category membership is known. - Wikipedia
+"In machine learning and statistics, classification is the problem of identifying to which of a set of categories a new observation belongs, on the basis of a training set of data containing observations whose category membership is known." - Wikipedia
 
 Classification problems output a probability distribution called a [probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function) over a set of categories (e.g. 22% probability an email is spam, 88% probability an email is legitimate). The probability distribution produced by a classification problem sums to `1.0`, e.g. `0.22 + 0.88 = 1.0` (see [Probability Distributions](probability-distributions.html)).
 

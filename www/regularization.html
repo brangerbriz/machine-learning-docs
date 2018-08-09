@@ -1,21 +1,78 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset='utf-8'>
-  <title>markdown/regularization.md</title>
-  <link rel="stylesheet" href="css/github-markdown.css">
-</head>
-<body class='markdown-body'>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
 <h1 id="regularization">Regularization</h1>
 <p>Regularization is used to reducing model capacity, and therefore mitigate against overfitting. The idea behind regularization is to impose constraints on the model that make it more difficult for it to learn easy solutions that apply to the training set only and that don&#39;t generalize well to unseen data. There are several common techniques used to regularize a model. Try them if you find that your model is performing well on your training data, but not on your test or real-world data.</p>
 <h2 id="early-stopping">Early Stopping</h2>
-<p><a href="https://en.wikipedia.org/wiki/Early_stopping">Early stopping</a> the most common form of regularization, although it may not even seem like regularization at all.You will use this technique in nearly all model training experiments that you create. Early stopping designates when you quit training your model, choosing to freeze the trained weights for model inference. In practice, you usually choose to stop training once the validation loss has stopped decreasing. The training loss will likely continue to decrease through training data memorization, but once you notice the validation loss is no longer decreasing you should stop training. Failing to do so can actually cause your validation loss to increase over time as the model begins to memorize the training data. Early stopping is considered regularization because you are reducing model capacity (in this case by limiting compute time).</p>
+<p><a href="https://en.wikipedia.org/wiki/Early_stopping" target="_blank">Early stopping</a> the most common form of regularization, although it may not even seem like regularization at all.You will use this technique in nearly all model training experiments that you create. Early stopping designates when you quit training your model, choosing to freeze the trained weights for model inference. In practice, you usually choose to stop training once the validation loss has stopped decreasing. The training loss will likely continue to decrease through training data memorization, but once you notice the validation loss is no longer decreasing you should stop training. Failing to do so can actually cause your validation loss to increase over time as the model begins to memorize the training data. Early stopping is considered regularization because you are reducing model capacity (in this case by limiting compute time).</p>
 <h2 id="dropout">Dropout</h2>
-<p><a href="https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">Dropout</a> is one of the most popular regularization techniques. It involves randomly disabling, or turning off, a subset of neurons at a layer during training. This causes each neuron to have to learn more to make up for its disabled neighbors. Once the model is trained, dropout is not used and all neurons remain on during inference and prediction.</p>
+<p><a href="https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf" target="_blank">Dropout</a> is one of the most popular regularization techniques. It involves randomly disabling, or turning off, a subset of neurons at a layer during training. This causes each neuron to have to learn more to make up for its disabled neighbors. Once the model is trained, dropout is not used and all neurons remain on during inference and prediction.</p>
 <h2 id="batch-normalization">Batch Normalization</h2>
-<p><a href="https://towardsdatascience.com/batch-normalization-in-neural-networks-1ac91516821c">Batch Normalization</a> subtracts the mean and divides by the std dev for each mini-batch of input data.</p>
+<p><a href="https://towardsdatascience.com/batch-normalization-in-neural-networks-1ac91516821c" target="_blank">Batch Normalization</a> subtracts the mean and divides by the std dev for each mini-batch of input data.</p>
 <h2 id="gradient-clipping">Gradient Clipping</h2>
-<p><a href="https://hackernoon.com/gradient-clipping-57f04f0adae">Gradient clipping</a> is a method to combat the <em>exploding gradients problem</em> where large gradient values multiply throughout the network in a destructive fashion. If you notice that the parameter gradients that are being back-propagated through the network during optimization have large magnitudes, this method may help to fix that. </p>
+<p><a href="https://hackernoon.com/gradient-clipping-57f04f0adae" target="_blank">Gradient clipping</a> is a method to combat the <em>exploding gradients problem</em> where large gradient values multiply throughout the network in a destructive fashion. If you notice that the parameter gradients that are being back-propagated through the network during optimization have large magnitudes, this method may help to fix that. </p>
 <h2 id="multiple-objectives">Multiple Objectives</h2>
 <p>One particularly interesting method that I&#39;ve heard of to regularize a model is to make your loss value the sum of two independent objective functions. If you are trying to build a classification system that identifies cat images, you could try and regularize it by adding a separate objective of trying to classify indoor/outdoor images, using a loss function that is the combination of the two objectives: <code>L = 0.8 * CAT_LOSS + 0.2 * INDOOR_LOSS</code>. This is just an example, and I have no idea if this particular use case would actually be helpful, but the idea is that by optimizing for multiple objectives simultaneously the model capacity becomes restricted and encouraged to learn patterns that are useful to both objectives.</p>
-</body>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
 </html>
