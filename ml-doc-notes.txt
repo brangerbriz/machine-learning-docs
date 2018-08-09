@@ -1,9 +1,9 @@
 add "Previous:" link at bottom of primary pages
-link to home page on primary pages
+x link to home page on primary pages
 
-most links need to be contextualized a bit more (see notes below)
-marginal notes??
-target _blank external links
+x most links need to be contextualized a bit more (see notes below)
+x marginal notes??
+x target _blank external links
 
 ...BB styling
 where in the sections below can we link to our code examples? maybe in the "General Purpose Algorithms" section?
