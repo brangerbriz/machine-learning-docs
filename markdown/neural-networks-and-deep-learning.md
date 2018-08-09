@@ -152,3 +152,6 @@ You will notice that the loss tends to decrease with each epoch, especially at t
 Well look at that! Our neural network model performed better than our linear regressors, with a mean error of only $3,700 instead of $4,700. Note that your result may be different, as the initialization of model parameters is random, and so therefor the "path" taken during the optimization path is non-deterministic.
 
 Keep in mind that neural networks don't always outperform other ML algorithms and it is usually a good idea to try a range of different algorithms and choose the one that works the best. It is also common practice to begin a problem using a common baseline model, like we did here with linear regression, before trying more complex methods. That way you have something to compare your other models to. And hey, if you're baseline performs well enough on its own, you're done!
+
+Next: [Setup an ML GPU development environment](ml-development-environment.html) <br>
+Previous: [Linear Regression](linear-regression.html)

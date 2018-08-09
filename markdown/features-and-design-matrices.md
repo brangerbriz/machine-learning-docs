@@ -57,4 +57,5 @@ let X = [x1, x2, x3]
 
 Most machine learning algorithms operate on batches of data, instead of single data points, at a time. Design matrices are used to group data samples and feed them into models for training or inference.
 
-Next: [Linear Regression](linear-regression.html)
+Next: [Linear Regression](linear-regression.html)<br>
+Previous: [Performance Measure](performance-measures.html)

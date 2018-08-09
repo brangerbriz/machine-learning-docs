@@ -18,4 +18,5 @@ Regression problems produce real-valued floats, or rather, a distribution called
 
 In short, classification problems output [discrete data](https://stats.stackexchange.com/questions/206/what-is-the-difference-between-discrete-data-and-continuous-data) while regression problems output continuous data.
 
-Next: [Performance Measures](performance-measures.html)
+Next: [Performance Measures](performance-measures.html)<br>
+Previous: [Types of Learning](types-of-learning.html)

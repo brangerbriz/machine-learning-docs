@@ -26,4 +26,5 @@ The training of every supervised machine learning model requires that you split 
 
 Finally, [Kaggle](https://kaggle.com) is an amazing data science community that hosts paid data science competitions and publishes publicly available datasets and code examples. Perusing the site should give you a good overview of the types of data representations that are often used in machine learning.
 
-Next: [Machine Learning Models](machine-learning-models.html)
+Next: [Machine Learning Models](machine-learning-models.html)<br>
+Previous: [General Purpose Algorithms](general-purpose-algorithms.html)

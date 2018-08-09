@@ -20,3 +20,5 @@ Regularization is used to reducing model capacity, and therefore mitigate agains
 ## Multiple Objectives
 
 One particularly interesting method that I've heard of to regularize a model is to make your loss value the sum of two independent objective functions. If you are trying to build a classification system that identifies cat images, you could try and regularize it by adding a separate objective of trying to classify indoor/outdoor images, using a loss function that is the combination of the two objectives: `L = 0.8 * CAT_LOSS + 0.2 * INDOOR_LOSS`. This is just an example, and I have no idea if this particular use case would actually be helpful, but the idea is that by optimizing for multiple objectives simultaneously the model capacity becomes restricted and encouraged to learn patterns that are useful to both objectives.
+
+Previous: [Normalization and Preprocessing](normalization-and-preprocessing.html)

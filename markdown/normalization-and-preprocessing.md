@@ -82,3 +82,6 @@ print(scaled.std(axis=0))
 </pre>
 
 For further information about data preprocessing at large, the scikit-learn website has a fantastic [tutorial page](http://scikit-learn.org/stable/modules/preprocessing.html) on the subject that expounds on much of this information.
+
+Next: [Regularization](regularization.html)<br>
+Previous: [Setup an ML GPU development environment](ml-development-environment.html)

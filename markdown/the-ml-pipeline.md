@@ -43,4 +43,5 @@ Once you've got a trained model that performs adequately it's time to deploy it 
 <span class="marginal-note" data-info="Model inference is usually just like model training, but you don't update the weights in the process. Instead the best trained model is &quot;frozen&quot;, test/production data is fed in, and you use the output as the model prediction. How choose to sample from the output prediction can change from model training though. In some cases you sample from the output probability distribution and in others you may choose the output unit with the highest value (e.g. greedy argmax sampling)."></span>
 , looks different for every application, but can include things like integrating it into a server-side process that handles web API requests, bundling it in a mobile application, or using [Tensorflow.js](https://js.tensorflow.org) to deploy it to the web. Most models are trained to learn model weights that are then frozen during production. However, some models incorporate live unseen data into the training process. These models are said to operate, "online", and their is little distinction between training and deployment; the model is always learning.
 
-Next: [Types of Learning](types-of-learning.html)
+Next: [Types of Learning](types-of-learning.html)<br>
+Previous: [Machine Learning Models](machine-learning-models.html)

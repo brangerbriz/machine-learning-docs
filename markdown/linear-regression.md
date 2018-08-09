@@ -100,4 +100,5 @@ Linear regression models are very simple so the model should take no time to tra
 
 You can see that our model did alright, making an estimation that is $4,700 off from the real price on average. That said, we could likely improve greatly much over this baseline. 
 
-Next: [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)
+Next: [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)<br>
+Previous: [Features & Design Matrices](features-and-design-matrices.html)

@@ -63,4 +63,5 @@ De-noising problems involve removing artifacts and noise from data in order to p
 
 Note that the above list of common machine learning problem domains is far from extensive. Rather, it is a small collection of a few of the tasks that ML-based approaches are dependably good at solving. Many tasks also fall into a few of these categories at once.
 
-Next: [Data is Key](data-is-key.html)
+Next: [Data is Key](data-is-key.html)<br>
+Previous: [What is Machine Learning](what-is-machine-learning.html)

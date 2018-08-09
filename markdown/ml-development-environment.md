@@ -199,3 +199,6 @@ CUDA_VISIBLE_DEVICES=0,2 python train.py
 </pre>
 
 You can use `nvidia-smi` to see the IDs of your GPUs.
+
+Next: [Normalization and Preprocessing](normalization-and-preprocessing.html)<br>
+Previous: [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)

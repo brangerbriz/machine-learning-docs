@@ -23,7 +23,7 @@ INTRO PAGE
 WHAT IS MACHINE LEARNING
     x "modern machine learning" (see...section)
     x "You have a lot of data" (see...section)
-    - "bleeding-edge ML research" context? marginal note?
+    x "bleeding-edge ML research" context? marginal note?
 
 
 GENERAL PURPOSE ALGORITHMS
@@ -40,11 +40,11 @@ DATA IS KEY
     x replace key-emoji with "key" (cause the guys)
     x "ML Pipeline" (see...section)
     x "pre-processing" broken-link
-    - "model-capacity" (marginal note?)
-    - "empirically tested" (marginal note?)
+    x "model-capacity" (marginal note?)
+    x "empirically tested" (marginal note?)
     x "features" (too big for marginal note? new section?)
     x "performance of that model" (see ...section)
-    - "overfitting" (marginal note?)
+    x "overfitting" (marginal note?)
     x CHOSE TO UNLINK "supervised" (see...section)
     x "data split Wikipedia page]()" << markdown code showing in text
     - maybe add section on generating ur own data ( style transfer, pix2pix )
@@ -95,14 +95,14 @@ LINEAR REGRESSION
     x "local minima" broken-link
     x "test data" (see...section)
     x "design matrix" (features, mentioned before, new section?)
-    - ...what's the reasoning for this section?
+    x (removed) ...what's the reasoning for this section?
     - example, is that's what's going on here: http://www.r2d3.us/visual-intro-to-machine-learning-part-1/
 
 NEURAL NETWORKS AND DEEP LEARNING
     - "model capacity" links to page rather than marginal note here?
-    - "overfitting" (marginal note?)
+    x "overfitting" (marginal note?)
     x "regularization" (too big for marginal note? new section?)
-    - should the example be part of "code examples" section?
+    x should the example be part of "code examples" section?
     x "baseline model" broken-link
     x "Branger_Briz machine learning projects" broken-link
 
