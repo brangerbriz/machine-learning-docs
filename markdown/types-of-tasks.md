@@ -1,10 +1,8 @@
 # Types of Tasks
 
-Before we continue, I want to hammer in the difference between two of the most common ML tasks [we mentioned before](general-purpose-algorithms.html#classification); classification and regression.
+Before we continue, I want to hammer in the difference between two of the most common ML tasks we mentioned before: classification and regression (see [General Purpose Algorithms](general-purpose-algorithms.html#classification)).
 
 <section class="media"><img src="images/classification-vs-regression.png"></section>
-<!-- ![Classification vs Regression](images/classification-vs-regression.png)
-> source https://ipython-books.github.io/featured-04/ -->
 
 ## Classification
 
