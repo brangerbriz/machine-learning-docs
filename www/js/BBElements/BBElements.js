@@ -148,6 +148,24 @@ function BBElements(){
     }
 
     let notes = document.querySelectorAll('span.marginal-note')
+
+    // if calling BBElements() again, first remove existing notes...
+    for (let i = 0; i < notes.length; i++) {
+        let p = notes[i].parentNode
+        let aTop = p.querySelector('aside.note')
+        let aBottom = p.querySelector('aside.note.bottom')
+        if( aTop || aBottom){
+            if(aTop.firstChild){
+                while (aTop.firstChild)
+                    aTop.removeChild(aTop.firstChild)
+            }
+            if(aBottom.firstChild){
+                while (aBottom.firstChild)
+                    aBottom.removeChild(aBottom.firstChild)
+            }
+        }
+    }
+    // ...then create notes
     for (let i = 0; i < notes.length; i++) {
         // add note numbers in <p> tags
         notes[i].textContent = i+1
@@ -162,17 +180,6 @@ function BBElements(){
             aBottom = document.createElement('aside')
             aBottom.className = 'note bottom'
             p.appendChild(aBottom)
-        } else if(aTop.firstChild || aBottom.firstChild){
-            // if they already have notes in them, remove them
-            if(aTop.firstChild){
-                while (aTop.firstChild) {
-                    aTop.removeChild(aTop.firstChild)
-                }
-            } else if(aBottom.firstChild){
-                while (aBottom.firstChild) {
-                    aBottom.removeChild(aBottom.firstChild)
-                }
-            }
         }
         // append individual note
         let nfo = notes[i].getAttribute('data-info')
