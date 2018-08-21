@@ -1,11 +1,22 @@
-Uses [markdown-to-html](https://github.com/cwjohan/markdown-to-html) to generate an HTML version of the `markdown/` folder in `www/`. To install `markdown-to-html` run:
+## Install
 
 ```bash
-npm install -g markdown-to-html
+# clone
+git clone git@brangerbriz.com:bdorsey/machine-learning-docs
+cd machine-learning-docs
+
+# Download the BBElements submodule
+git submodule init && git submodule update
+
+# Install dependencies
+npm install
 ```
 
-To build the `www/` folder using the contents of `markdown/`, run:
+## Build
+
+To build the `www/*.html` website files from the `markdown/*.md` source files, run `build.sh`.
 
 ```bash
+# rebuild the site after edits to files in markdown/
 ./build.sh
 ```
