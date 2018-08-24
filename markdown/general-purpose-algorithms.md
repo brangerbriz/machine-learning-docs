@@ -32,6 +32,7 @@ Machine translation applications have seen a huge boost in performance correlate
 - [Translation from English to German](https://www.tensorflow.org/tutorials/seq2seq)
 - Translation from Tweets to Facebook posts
 - Translation from LaTeX math formulas to plotted 2D functions
+- [Translations from a video of one person to another](https://twitter.com/brannondorsey/status/808461108881268736)<span class="marginal-note" data-info="This was actually our first machine learning experiment. Researchers at UC Berkeley recently published a much more convincing version of a similar task [here](https://www.youtube.com/watch?v=PCBTZh41Ris)."></span>
 - Translation from sentences to Emoji
 - [Transcription from audio recording to text](https://medium.com/@ageitgey/machine-learning-is-fun-part-6-how-to-do-speech-recognition-with-deep-learning-28293c162f7a) (speech-to-text)
 
