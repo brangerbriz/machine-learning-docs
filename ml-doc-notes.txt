@@ -5,7 +5,7 @@ x most links need to be contextualized a bit more (see notes below)
 x marginal notes??
 x target _blank external links
 
-...BB styling
+x ...BB styling
 where in the sections below can we link to our code examples? maybe in the "General Purpose Algorithms" section?
 
 ---------------------------
@@ -54,7 +54,7 @@ MACHINE LEARNING MODELS
     x models are: ...The algorithm << disambiguate from way u use algorithm in 1st section. maybe combine with first buttlet: The "trained/learned" algorithm, or maybe keep but change to "algorithms" instead of "The..."
     x "Function approximators" (see...section)
     x "model architecture" (marginal note?)
-    - NEED TO FIND A NEW PLACE FOR IT what's the reasoning behind last paragraph?... a bit confusing, maybe put in general purpose algorithms section
+    x (removed) NEED TO FIND A NEW PLACE FOR IT what's the reasoning behind last paragraph?... a bit confusing, maybe put in general purpose algorithms section
     - should the rest of this be explained earlier in docs, along side it's relationship to "architectures"?
 
 MACHINE LEARNING PIPELINE
@@ -79,7 +79,7 @@ TYPES OF LEARNING
 
 TYPES OF TASKS
     - consider making this a part of the re-working of General Purpose Algorithms section
-    - "we mentioned before" (see...section)
+    x "we mentioned before" (see...section)
     x "a a probability distribution" grammar edit
     x "probability distribution" (too big for marginal note? new section?)
 
@@ -91,7 +91,7 @@ PERFORMANCE MEASURES
 
 LINEAR REGRESSION
     x CHOSE TO UNLINK "regression problem" (see...section)
-    - LEAVE AS IS "an optimization algorithm", also keras, same note as before
+    x LEAVE AS IS "an optimization algorithm", also keras, same note as before
     x "local minima" broken-link
     x "test data" (see...section)
     x "design matrix" (features, mentioned before, new section?)
