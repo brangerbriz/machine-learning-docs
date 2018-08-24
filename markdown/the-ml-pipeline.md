@@ -9,11 +9,11 @@
 The first step in any machine learning pipeline is data acquisition. There are generally four methods of obtaining data:
 
 - Use a [publicly available dataset](https://github.com/caesar0301/awesome-public-datasets)
-- Scrape data from a publicly accessible API or service
+- Scrape data from an API or service
 - Use a private dataset you or your company has collected
-- Design and deploy a method for collecting new data
+- Design and deploy a method for collecting or creating new data
 
-The first three are fairly similar. The last provides the power to design custom features with the trade-off of money and time.
+The first three are fairly similar. The last provides the power to design custom features with the trade-off of money and time. That said, creating your own dataset is definitely something that should be encouraged in the right circumstance. Sometimes it is tempting to limit the scope of the problems that can be solved by the types of data that you have readily available. If you are using ML to solve a problem for which no *perfect* dataset exists, instead think of ways that you may be able to leverage combinations of existing data, or maybe better yet, create a system by which you can create new data that you can then use to train a model.<span class="marginal-note" data-info="Our [person-to-person translation experiment](https://twitter.com/brannondorsey/status/808461108881268736) using pix2pix necessitated the creation of our own dataset. We ended up creating [a tool](https://github.com/brangerbriz/pix2pix_genData) by which we could take still images that mimicked those of a source video. Once the tool was created, we spent several hours creating a dataset of 1,000 unique images using it."></span>
 
 ## Clean and Pre-process Data
 
