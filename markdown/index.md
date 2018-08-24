@@ -1,6 +1,6 @@
 # Machine Learning
 
-This document is a reference for all things Machine Learning at [Branger_Briz](http://brangerbriz.com). Since November 2016, our research team has been exploring the current state-of-the art in machine learning and this document serves as the product of much of that research. The goal of this resource is to provide a central repository for BB developers to learn about machine learning so that it can be used in current and future projects.
+This document is a reference for all things Machine Learning at [Branger_Briz](http://brangerbriz.com). Since November 2016<span class="marginal-note" data-info="We began with a [generative person-to-person video translation experiment](https://twitter.com/brannondorsey/status/808461108881268736) as well as an [introductory blog post](https://brangerbriz.com/blog/machine-learning-a-journey-towards-general-purpose-algorithms) on the subject of ML at large."></span>, our research team has been exploring the current state-of-the art in machine learning and this document serves as the product of much of that research. The goal of this resource is to provide a central repository for BB developers to learn about machine learning so that it can be used in current and future projects.
 
 - [What is Machine Learning](what-is-machine-learning.html) (start here)
 - [General Purpose Algorithms](general-purpose-algorithms.html)
@@ -20,10 +20,11 @@ This document is a reference for all things Machine Learning at [Branger_Briz](h
 - [Normalization and Preprocessing](normalization-and-preprocessing.html) 
 - [Regularization](regularization.html)
 
-## Commercial ML Projects
+## Projects
 
 - [Muse Music Videos](https://brangerbriz.com/portfolio/muse-ai-supercut)
 - Miami Children's Museum [*Masterpiece Me*](https://brangerbriz.com/portfolio/masterpiece-me-miami-childrens-museum) and [*Interactive Mural*](https://brangerbriz.com/portfolio/interactive-mural-miami-childrens-museum) installations
+- [Midi-rnn](https://brangerbriz.com/blog/using-machine-learning-to-create-new-melodies): Using machine learning to create new melodies
 
 ## Other Resources
 
