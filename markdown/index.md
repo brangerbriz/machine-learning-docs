@@ -16,9 +16,10 @@ This document is a reference for all things Machine Learning at [Branger_Briz](h
 
 - [Linear Regression](linear-regression.html)
 - [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)
-- [Setup an ML GPU development environment](ml-development-environment.html)
 - [Normalization and Preprocessing](normalization-and-preprocessing.html) 
 - [Regularization](regularization.html)
+- [Setup an ML GPU development environment](ml-development-environment.html)
+- [Tensorflow.js](tfjs.html)
 
 ## Projects
 
