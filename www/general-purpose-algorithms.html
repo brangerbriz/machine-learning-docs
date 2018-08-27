@@ -59,8 +59,10 @@
 <h1 id="general-purpose-algorithms">General Purpose Algorithms</h1>
 <p>Machine learning can be thought of as a collection of general purpose algorithms. This is arguably its most powerful trait; one machine learning algorithm can be trained to perform ten different tasks, compared to ten different algorithms each handwritten to solve one of those same ten tasks with traditional programming. This has groundbreaking implications for both speed and productivity of development. It means that small meta-improvements to a machine learning algorithm itself can have a rippling effect, improving the performance of thousands of tasks that it can be trained to solve. This idea of a general purpose algorithm that machine learning provides has the potential to be one of the most radical technologies since the advent of the general purpose computer.</p>
 <p>Artificial Neural Networks (ANNs, or simply NNs), one of the most popular family of machine learning algorithms, are perhaps the best example of this. Neural networks act as universal function approximators; Given an infinite number of neurons (units of computation), they can represent any mathematical function or model any real-world occurrence. Let that sink in... Though practically unfeasible, this one fairly straightforward algorithm, can solve any computable problem in the universe.</p>
-<p>Before we dig into exactly how this works in the <a href="neural-networks-and-deep-learning.html">Neural Networks &amp; Deep Learning</a> section, I want to introduce some of the common problem domains that machine learning algorithms function particularly well for. At their core, todays machine learning algorithms excel at various forms of pattern recognition. Given enough data, machine learning algorithms are able to learn the inherent patterns in the data. This is a particularly useful trait, especially for the following types of problems.</p>
-<h2 id="classification">Classification</h2>
+<p>Before we dig into exactly how this works in the <a href="neural-networks-and-deep-learning.html">Neural Networks &amp; Deep Learning</a> section, I want to introduce some of the common problem domains that machine learning algorithms function particularly well for. At their core, today&#39;s machine learning algorithms excel at various forms of pattern recognition. Given enough data, machine learning algorithms are able to learn the inherent patterns in the data. This is a particularly useful trait, especially for the following types of problems.</p>
+<h2 id="the-basics">The Basics</h2>
+<p>Supervised learning<span class="marginal-note" data-info="We'll talk more about supervised learning in the [Types of Learning section](types-of-learning.html)."></span>, the most developed and popular form of machine learning today, uses two differing but related approaches to solving tasks: classification and regression.</p>
+<h3 id="classification">Classification</h3>
 <p>Classification tasks are perhaps the most traditional application of machine learning. A model that predicts which <a href="https://stats.stackexchange.com/questions/206/what-is-the-difference-between-discrete-data-and-continuous-data" target="_blank">discrete</a> category, or class, a piece of input data belongs to solves a classification task.<span class="marginal-note" data-info="Classification problems output a probability distribution called a [probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function) over a set of categories (e.g. 22% probability an email is spam, 88% probability an email is legitimate). The probability distribution produced by a classification problem sums to 1.0 (e.g. 0.22 + 0.88 = 1.0) (see [Probability Distributions](probability-distributions.html))."></span> The number of classes varies per problem, but is always greater than one. Examples of classification problems include:</p>
 <ul>
 <li><a href="https://www.microsoft.com/developerblog/2017/12/04/predicting-stock-performance-deep-learning/" target="_blank">Predicting how a company&#39;s stock will perform</a> (3 classes: high, medium, and low performance)</li>
@@ -70,14 +72,16 @@
 <li>Predicting the next sample in a raw audio buffer (2048 classes)</li>
 <li>Predicting the next move in a game of chess (10,000+ classes)</li>
 </ul>
-<h2 id="regression">Regression</h2>
-<p>Rather than outputting a discrete class, regression problems output continuous floating-point numbers.<span class="marginal-note" data-info="Regression problems produce real-valued floats, or rather, a distribution called a [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) over real-valued continuous floats that integrate to 1.0."></span> Examples of regression problems include:</p>
+<h3 id="regression">Regression</h3>
+<p>Rather than outputting a discrete class, models solving regression tasks output continuous floating-point numbers.<span class="marginal-note" data-info="Regression problems produce real-valued floats, or rather, a distribution called a [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) over real-valued continuous floats that integrate to 1.0."></span> Examples of regression problems include:</p>
 <ul>
 <li>Predicting the exact price of a stock at the end of the month</li>
 <li>Predicting the change in earth&#39;s temperature each year</li>
 <li>Predicting the amount of money an insured person will claim each year</li>
 </ul>
-<h2 id="translation-and-transcription">Translation and Transcription</h2>
+<h2 id="going-further">Going Further</h2>
+<p>Supervised machine learning can also be used for tasks that are more difficult and nuanced than predicting simple values or class labels for new data. Below are a few common tasks that machine learning is well suited to solve.<span class="marginal-note" data-info="Note that this list is far from complete."></span> Solutions for these tasks often use more specialized algorithms for pattern recognition, sometimes utilizing both classification and regression techniques at once. We&#39;ve organized this list into several groups for convenience and demonstration, however, in the real world unique problems often blur the lines between these categories. Finding a good machine learning solution to a problem sometimes involves picking and choosing a combination techniques from several different fields of ML study.</p>
+<h3 id="translation-and-transcription">Translation and Transcription</h3>
 <p>Machine translation applications have seen a huge boost in performance correlated with development of ML algorithms. This task necessitates the translation of arbitrary data from one form to another:</p>
 <ul>
 <li><a href="https://www.tensorflow.org/tutorials/seq2seq" target="_blank">Translation from English to German</a></li>
@@ -87,7 +91,7 @@
 <li>Translation from sentences to Emoji</li>
 <li><a href="https://medium.com/@ageitgey/machine-learning-is-fun-part-6-how-to-do-speech-recognition-with-deep-learning-28293c162f7a" target="_blank">Transcription from audio recording to text</a> (speech-to-text)</li>
 </ul>
-<h2 id="anomaly-detection">Anomaly Detection</h2>
+<h3 id="anomaly-detection">Anomaly Detection</h3>
 <p>ML models are exceptionally good at detecting irregularities in patterns. In these situations the number of positive examples (irregularity) is far fewer than negative examples (common data). They are often used to:</p>
 <ul>
 <li><a href="https://github.com/ellisvalentiner/credit-card-fraud" target="_blank">Detect credit card fraud</a></li>
@@ -95,7 +99,7 @@
 <li>Detect irregular behavior on the ground using aerial photography</li>
 <li><a href="http://file.scirp.org/pdf/JILSA_2017012413273284.pdf" target="_blank">Diagnose rare diseases</a></li>
 </ul>
-<h2 id="synthesis-and-sampling">Synthesis and Sampling</h2>
+<h3 id="synthesis-and-sampling">Synthesis and Sampling</h3>
 <p>ML models that synthesize new data based on example data are called <a href="https://towardsdatascience.com/deep-generative-models-25ab2821afd3" target="_blank">generative models</a>. They can be used to:</p>
 <ul>
 <li>Create 3D assets for a procedurally generated video game</li>
@@ -103,7 +107,7 @@
 <li><a href="https://www.theverge.com/2016/9/12/12886698/machine-learning-video-image-prediction-mit" target="_blank">Hallucinate a video from still images</a></li>
 <li>Apply the style from one image to the content of another (<a href="https://towardsdatascience.com/artistic-style-transfer-b7566a216431" target="_blank">style transfer</a>)</li>
 </ul>
-<h2 id="de-noising">De-noising</h2>
+<h3 id="de-noising">De-noising</h3>
 <p>De-noising problems involve removing artifacts and noise from data in order to produce a clean sample. De-noising models are often trained by artificially introducing noise to otherwise clean samples in order to learn de-noising patterns. A trained model can then apply what its learned from the synthesized data to noisy data found in the real-world. Examples include:</p>
 <ul>
 <li>Removing noise from a weak audio or video signal</li>

@@ -4,9 +4,13 @@ Machine learning can be thought of as a collection of general purpose algorithms
 
 Artificial Neural Networks (ANNs, or simply NNs), one of the most popular family of machine learning algorithms, are perhaps the best example of this. Neural networks act as universal function approximators; Given an infinite number of neurons (units of computation), they can represent any mathematical function or model any real-world occurrence. Let that sink in... Though practically unfeasible, this one fairly straightforward algorithm, can solve any computable problem in the universe.
 
-Before we dig into exactly how this works in the [Neural Networks & Deep Learning](neural-networks-and-deep-learning.html) section, I want to introduce some of the common problem domains that machine learning algorithms function particularly well for. At their core, todays machine learning algorithms excel at various forms of pattern recognition. Given enough data, machine learning algorithms are able to learn the inherent patterns in the data. This is a particularly useful trait, especially for the following types of problems.
+Before we dig into exactly how this works in the [Neural Networks & Deep Learning](neural-networks-and-deep-learning.html) section, I want to introduce some of the common problem domains that machine learning algorithms function particularly well for. At their core, today's machine learning algorithms excel at various forms of pattern recognition. Given enough data, machine learning algorithms are able to learn the inherent patterns in the data. This is a particularly useful trait, especially for the following types of problems.
 
-## Classification
+## The Basics
+
+Supervised learning<span class="marginal-note" data-info="We'll talk more about supervised learning in the [Types of Learning section](types-of-learning.html)."></span>, the most developed and popular form of machine learning today, uses two differing but related approaches to solving tasks: classification and regression.
+
+### Classification
 
 Classification tasks are perhaps the most traditional application of machine learning. A model that predicts which [discrete](https://stats.stackexchange.com/questions/206/what-is-the-difference-between-discrete-data-and-continuous-data) category, or class, a piece of input data belongs to solves a classification task.<span class="marginal-note" data-info="Classification problems output a probability distribution called a [probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function) over a set of categories (e.g. 22% probability an email is spam, 88% probability an email is legitimate). The probability distribution produced by a classification problem sums to 1.0 (e.g. 0.22 + 0.88 = 1.0) (see [Probability Distributions](probability-distributions.html))."></span> The number of classes varies per problem, but is always greater than one. Examples of classification problems include:
 
@@ -17,15 +21,19 @@ Classification tasks are perhaps the most traditional application of machine lea
 - Predicting the next sample in a raw audio buffer (2048 classes)
 - Predicting the next move in a game of chess (10,000+ classes)
 
-## Regression
+### Regression
 
-Rather than outputting a discrete class, regression problems output continuous floating-point numbers.<span class="marginal-note" data-info="Regression problems produce real-valued floats, or rather, a distribution called a [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) over real-valued continuous floats that integrate to 1.0."></span> Examples of regression problems include:
+Rather than outputting a discrete class, models solving regression tasks output continuous floating-point numbers.<span class="marginal-note" data-info="Regression problems produce real-valued floats, or rather, a distribution called a [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) over real-valued continuous floats that integrate to 1.0."></span> Examples of regression problems include:
 
 - Predicting the exact price of a stock at the end of the month
 - Predicting the change in earth's temperature each year
 - Predicting the amount of money an insured person will claim each year
 
-## Translation and Transcription
+## Going Further
+
+Supervised machine learning can also be used for tasks that are more difficult and nuanced than predicting simple values or class labels for new data. Below are a few common tasks that machine learning is well suited to solve.<span class="marginal-note" data-info="Note that this list is far from complete."></span> Solutions for these tasks often use more specialized algorithms for pattern recognition, sometimes utilizing both classification and regression techniques at once. We've organized this list into several groups for convenience and demonstration, however, in the real world unique problems often blur the lines between these categories. Finding a good machine learning solution to a problem sometimes involves picking and choosing a combination techniques from several different fields of ML study.
+
+### Translation and Transcription
 
 Machine translation applications have seen a huge boost in performance correlated with development of ML algorithms. This task necessitates the translation of arbitrary data from one form to another:
 
@@ -36,7 +44,7 @@ Machine translation applications have seen a huge boost in performance correlate
 - Translation from sentences to Emoji
 - [Transcription from audio recording to text](https://medium.com/@ageitgey/machine-learning-is-fun-part-6-how-to-do-speech-recognition-with-deep-learning-28293c162f7a) (speech-to-text)
 
-## Anomaly Detection
+### Anomaly Detection
 
 ML models are exceptionally good at detecting irregularities in patterns. In these situations the number of positive examples (irregularity) is far fewer than negative examples (common data). They are often used to:
 
@@ -45,7 +53,7 @@ ML models are exceptionally good at detecting irregularities in patterns. In the
 - Detect irregular behavior on the ground using aerial photography
 - [Diagnose rare diseases](http://file.scirp.org/pdf/JILSA_2017012413273284.pdf)
 
-## Synthesis and Sampling
+### Synthesis and Sampling
 
 ML models that synthesize new data based on example data are called [generative models](https://towardsdatascience.com/deep-generative-models-25ab2821afd3). They can be used to:
 
@@ -54,7 +62,7 @@ ML models that synthesize new data based on example data are called [generative 
 - [Hallucinate a video from still images](https://www.theverge.com/2016/9/12/12886698/machine-learning-video-image-prediction-mit)
 - Apply the style from one image to the content of another ([style transfer](https://towardsdatascience.com/artistic-style-transfer-b7566a216431))
 
-## De-noising
+### De-noising
 
 De-noising problems involve removing artifacts and noise from data in order to produce a clean sample. De-noising models are often trained by artificially introducing noise to otherwise clean samples in order to learn de-noising patterns. A trained model can then apply what its learned from the synthesized data to noisy data found in the real-world. Examples include:
 
