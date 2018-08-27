@@ -18,5 +18,5 @@ In situations where data is not self-labeling, labeling it can be expensive. It 
 
 Both of K-means and t-SNE are also useful to learn about your data. One common practice is to use one of these methods to reduce the dimensionality of your data's features to 2 or 3 dimensions so that it can be graphed. Doing so may lead you to discover important patterns in your data.
 
-Next: [Types of Tasks](types-of-tasks.html)<br>
+Next: [Performance Measures](performance-measures.html)<br>
 Previous: [The Machine Learning Pipeline](the-ml-pipeline.html)

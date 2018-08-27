@@ -8,7 +8,6 @@ This document is a reference for all things Machine Learning at [Branger_Briz](h
 - [Machine Learning Models](machine-learning-models.html)
 - [The Machine Learning Pipeline](the-ml-pipeline.html)
 - [Types of Learning](types-of-learning.html)
-- [Types of Tasks](types-of-tasks.html)
 - [Performance Measures](performance-measures.html)
 - [Features & Design Matrices](features-and-design-matrices.html)
 

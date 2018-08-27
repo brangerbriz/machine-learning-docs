@@ -35,4 +35,4 @@ If your eyes just glazed over, don't worry. For most practical purposes the [los
 `L` is often the sum of a few different heuristically weighted functions customized for the task at hand. For most practical purposes the words, "loss", "cost", and "error" can be used interchangeably.  
 
 Next: [Features & Design Matrices](features-and-design-matrices.html)<br>
-Previous: [Types of Tasks](types-of-tasks.html)
+Previous: [The Machine Learning Pipeline](the-ml-pipeline.html)

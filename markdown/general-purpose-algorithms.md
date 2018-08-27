@@ -8,7 +8,7 @@ Before we dig into exactly how this works in the [Neural Networks & Deep Learnin
 
 ## Classification
 
-Classification tasks are perhaps the most traditional application of machine learning. A model that predicts which [discrete](https://stats.stackexchange.com/questions/206/what-is-the-difference-between-discrete-data-and-continuous-data) category a piece of input data belongs to solves a classification task. The number of classes varies per problem, but is always greater than one. Examples of classification problems include:
+Classification tasks are perhaps the most traditional application of machine learning. A model that predicts which [discrete](https://stats.stackexchange.com/questions/206/what-is-the-difference-between-discrete-data-and-continuous-data) category, or class, a piece of input data belongs to solves a classification task.<span class="marginal-note" data-info="Classification problems output a probability distribution called a [probability mass function](https://en.wikipedia.org/wiki/Probability_mass_function) over a set of categories (e.g. 22% probability an email is spam, 88% probability an email is legitimate). The probability distribution produced by a classification problem sums to 1.0 (e.g. 0.22 + 0.88 = 1.0) (see [Probability Distributions](probability-distributions.html))."></span> The number of classes varies per problem, but is always greater than one. Examples of classification problems include:
 
 - [Predicting how a company's stock will perform](https://www.microsoft.com/developerblog/2017/12/04/predicting-stock-performance-deep-learning/) (3 classes: high, medium, and low performance)
 - [Choosing whether or not an email should be flagged as spam](https://www.codeproject.com/Articles/1232040/Spam-classification-using-Python-and-Keras) (2 classes)
@@ -19,7 +19,7 @@ Classification tasks are perhaps the most traditional application of machine lea
 
 ## Regression
 
-Rather than outputting a specific class, regression problems output continuous floating-point numbers. Examples of regression problems include:
+Rather than outputting a discrete class, regression problems output continuous floating-point numbers.<span class="marginal-note" data-info="Regression problems produce real-valued floats, or rather, a distribution called a [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) over real-valued continuous floats that integrate to 1.0."></span> Examples of regression problems include:
 
 - Predicting the exact price of a stock at the end of the month
 - Predicting the change in earth's temperature each year
