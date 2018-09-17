@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
+<h1 id="twitter-transfer-learning-guide">Twitter Transfer Learning Guide</h1>
+<h2 id="0-architecture">0. Architecture</h2>
+<ul>
+<li>NNs, RNNs, and CNNs</li>
+<li>Recurrent Neural Networks</li>
+<li>Stateful RNNs</li>
+<li>Time Distributed Dense</li>
+</ul>
+<h2 id="1-prep-data-for-training">1. Prep data for training</h2>
+<ul>
+<li><p>Introduction and overview.</p>
+</li>
+<li><p>Twitter CIKM 2010 (9,000,000+ million tweets)</p>
+</li>
+<li>Training, Validation, Testing split</li>
+<li>Python printable characters only (&quot;&quot; everything else)</li>
+<li>Character Embeddings (vs one hot)</li>
+<li>Generators and batch loading</li>
+</ul>
+<h2 id="2-use-data-to-iteratively-train-models">2. Use data to Iteratively train models</h2>
+<ul>
+<li>Saving models</li>
+<li>Hyperparameter search and Tensorboard</li>
+<li>Loss vs resource tradeoffs</li>
+<li>Lowered learning rate</li>
+</ul>
+<h2 id="3-deploy-pre-trained-model-and-using-it-sampling-">3. Deploy pre-trained model and using it (sampling)</h2>
+<ul>
+<li>Sampling (Greedy argmax,two sampling from a distribution, top-n sampling)</li>
+<li>Generation<ul>
+<li>Adjusted batch and sequence sizes</li>
+<li>Freeze model weights and set trainable = false</li>
+<li>generate.py</li>
+</ul>
+</li>
+<li>Model conversion<ul>
+<li>Using the command-line tool</li>
+</ul>
+</li>
+<li>Deploying model in tfjs</li>
+<li>Saving/loading models to indexddb:// </li>
+</ul>
+<h2 id="4-fine-tuning-and-user-personalization">4. Fine tuning and user personalization</h2>
+<ul>
+<li>Introduction to transfer learning and model fine-tuning</li>
+<li>Downloading twitter data per-user using tweet-server</li>
+<li>Model fine-tuning and hyperparameter search</li>
+</ul>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
+</html>

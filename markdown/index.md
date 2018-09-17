@@ -13,12 +13,24 @@ This document is a reference for all things Machine Learning at [Branger_Briz](h
 
 ## Guides & Examples
 
+A miscellaneous collection of guides, code snippets, and examples on a range of practical ML topics. 
+
 - [Linear Regression](linear-regression.html)
 - [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)
 - [Normalization and Preprocessing](normalization-and-preprocessing.html) 
 - [Regularization](regularization.html)
 - [Setup an ML GPU development environment](ml-development-environment.html)
 - [Tensorflow.js](tfjs.html)
+
+### Twitterbot Guide
+
+An in-depth tutorial where we build an ML pipeline for generating your own twitter bots that sound like real twitter users. We'll show you how to use character embeddings, recurrent neural networks, hyperparameter search, and transfer learning, using Keras and Tensorflow.js. We recommend starting at [Part 1](twitterbot-part-1-twitter-data-preparation.html).
+
+- Part 0: [Model Architecture](#)<span class="marginal-note" data-info="Part 0 gives a detailed breakdown of our model architecture. You can skip this section for now."></span>
+- Part 1: [Twitter Data Preparation](twitterbot-part-1-twitter-data-preparation.html)
+- Part 2: [Iteratively Model Training](#)
+- Part 3: [Model Inference and Deployment](#)
+- Part 4: [Transfer Learning, Finetuning, and Twitter user personalization](#)
 
 ## Projects
 

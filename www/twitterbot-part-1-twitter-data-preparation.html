@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
+<h1 id="twitterbot-part-1-twitter-data-preparation">Twitterbot Part 1: Twitter Data Preparation</h1>
+<h2 id="introduction">Introduction</h2>
+<p>In this technical four-part tutorial series we will create a character-level<span class="marginal-note" data-info="We'll create a model inspired by [Andrej Karpathy's Infamous Char-RNN](https://karpathy.github.io/2015/05/21/rnn-effectiveness/), with a few tweaks and additions introduced by [YuXuan Tay](https://github.com/yxtay/char-rnn-text-generation)."></span> text-generation model that can be trained to output synthetic tweets in the style of a particular twitter user. We&#39;ll walk through the entire machine learning pipeline (see <a href="the-ml-pipeline.html">The ML Pipeline</a>): from gathering data and training models in python, to automating the hyperparameter search process and deploying client-side models in the browser using JavaScript and Tensorflow.js. By the time we&#39;re done you should have an understanding of what it takes to develop an ML solution to a real-world problem, as well as some working code that you can use to train your own twitter bots. </p>
+<p>To make this project a bit more interesting, let&#39;s add some constraints. <strong>Given only a user&#39;s public twitter handle, let&#39;s create an ML model that can generate new tweets in the style of that user, using relatively-short model training times and consumer-grade hardware like laptops or even smart phones.</strong></p>
+<p>These constraints will allow us to explore some creative and practical solutions to our problem that may be helpful in future ML tasks as well. Relying on &quot;consumer-grade&quot; hardware also frees us 💸 from the leash of GPU/TPU accelerated cloud computing, and encourages us to develop a resource-limited solution to an otherwise unbounded problem. In other words, we aren&#39;t looking to find the ultimate state-of-the-art RNN text-generation solution for the tasks of automated tweet generation, but rather, we are looking for a practical &quot;good enough&quot; solution with limited twitter user data and compute resources. Let&#39;s get started!</p>
+<h2 id="data-challenges">Data Challenges</h2>
+<p>Deep learning models like RNNs usually require lots of data before they begin to perform well. Anywhere from tens or hundreds of megabytes to many gigabytes of data depending on the network architecture, data representation, and task. The problem is that most twitter users probably haven&#39;t even generated a single megabyte worth of tweets (one million characters), a dataset size that Andrej Karpathy himself claims is &quot;very small&quot;, and even if they have, Twitter&#39;s API restricts tweet downloads to a mere <a href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html" target="_blank">3,200 per user</a>.</p>
+<p>This poses a difficult problem. We have a data-hungry RNN algorithm but only very limited access to training data for a specific twitter user. With too little data, our model will likely underfit and not be able to produce text that looks like a tweet, or even intelligible english. On the other hand, if we are able to train a model using only a few thousand tweets without underfitting, we&#39;d likely have to train it for tens or hundreds of epochs which could lead to dramatic overfitting, or memorization of the training data; It may start to output specific lines from the training data but it wouldn&#39;t be able to generalize twitter-like patterns, memes, or idioms like @mentions and RTs.</p>
+<p>Wouldn&#39;t it be nice if we could somehow leverage the combined data from millions of different twitter users instead of only the few tweets that we are afforded from a specific user that we are attempting to model? Fortunately for us, we can use a technique called transfer learning to do just that! We&#39;ll train a base model that learns to produce generic tweets in the ethos of thousands of combined tweeters. We&#39;ll then fine-tune this pre-trained base model using the sparse twitter data we have access to for the specific twitter user we intend to model.</p>
+<h2 id="data-download-preparation">Data Download &amp; Preparation</h2>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
+</html>
