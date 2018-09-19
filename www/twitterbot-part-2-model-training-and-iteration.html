@@ -56,65 +56,8 @@
     <body>
         <section id="logo"></section>
 <!-- The content below this line is injected using `marked` in `build.sh` -->
-<h1 id="twitter-transfer-learning-guide">Twitter Transfer Learning Guide</h1>
-<h2 id="0-architecture">0. Architecture</h2>
-<ul>
-<li>NNs, RNNs, and CNNs</li>
-<li>Recurrent Neural Networks</li>
-<li>Stateful RNNs</li>
-<li>Time Distributed Dense</li>
-</ul>
-<h2 id="1-prep-data-for-training">1. Prep data for training</h2>
-<ul>
-<li><p>Introduction and overview.</p>
-</li>
-<li><p>Twitter CIKM 2010 (9,000,000+ million tweets)</p>
-</li>
-<li>Training, Validation, Testing split</li>
-<li>Python printable characters only (&quot;&quot; everything else)</li>
-<li>Character Embeddings (vs one hot)</li>
-<li>Generators and batch loading</li>
-</ul>
-<h2 id="2-use-data-to-iteratively-train-models">2. Use data to Iteratively train models</h2>
-<ul>
-<li>Introduction to Model training<ul>
-<li>Batches and Epochs</li>
-<li>Training Data &amp; Validation Data</li>
-<li>Loss and Optimizers</li>
-<li>Saving model checkpoints</li>
-</ul>
-</li>
-<li><code>train.py</code> common training interface</li>
-<li>Hyperparameter search and Tensorboard<ul>
-<li>hyperparameter-search.py</li>
-<li>trials.csv</li>
-</ul>
-</li>
-<li>Loss vs resource and time tradeoffs</li>
-<li>Lowered learning rate</li>
-</ul>
-<h2 id="3-deploy-pre-trained-model-and-using-it-sampling-">3. Deploy pre-trained model and using it (sampling)</h2>
-<ul>
-<li>Sampling (Greedy argmax,two sampling from a distribution, top-n sampling)</li>
-<li>Generation<ul>
-<li>Adjusted batch and sequence sizes</li>
-<li>Freeze model weights and set trainable = false</li>
-<li>generate.py</li>
-</ul>
-</li>
-<li>Model conversion<ul>
-<li>Using the command-line tool</li>
-</ul>
-</li>
-<li>Deploying model in tfjs</li>
-<li>Saving/loading models to indexddb:// </li>
-</ul>
-<h2 id="4-fine-tuning-and-user-personalization">4. Fine tuning and user personalization</h2>
-<ul>
-<li>Introduction to transfer learning and model fine-tuning</li>
-<li>Downloading twitter data per-user using tweet-server</li>
-<li>Model fine-tuning and hyperparameter search</li>
-</ul>
+<h1 id="twitterbot-part-2-model-training-and-iteration">Twitterbot Part 2: Model Training and Iteration</h1>
+<p>In <a href="twitterbot-part-1-twitter-data-preperation.html">Part 1</a> of this tutorial, we learned how to prepare twitter data for training. In this section, we&#39;ll learn how to use that data to train models. We&#39;ll begin with a basic introduction to model training as well as common training idioms, jargon, and practices. Then we&#39;ll learn how we can automate part of the training process using a technique called hyperparameter search to find a good model configuration, given our compute resources.</p>
 
 <!-- The content above this line is injected using `marked` in `build.sh` -->    
         <p>Return to the <a href="index.html">main page</a>.</p>

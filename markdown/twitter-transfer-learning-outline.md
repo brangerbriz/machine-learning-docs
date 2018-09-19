@@ -19,9 +19,16 @@
 
 ## 2. Use data to Iteratively train models
 
-- Saving models
+- Introduction to Model training
+    - Batches and Epochs
+    - Training Data & Validation Data
+    - Loss and Optimizers
+    - Saving model checkpoints
+- `train.py` common training interface
 - Hyperparameter search and Tensorboard
-- Loss vs resource tradeoffs
+    - hyperparameter-search.py
+    - trials.csv
+- Loss vs resource and time tradeoffs
 - Lowered learning rate
 
 ## 3. Deploy pre-trained model and using it (sampling)

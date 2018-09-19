@@ -4,6 +4,7 @@
   "description": "Static website for BB machine learning resources",
   "main": " ",
   "scripts": {
+    "build": "./build.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
