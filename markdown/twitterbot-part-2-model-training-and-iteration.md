@@ -299,4 +299,184 @@ We begin by creating our model and "compiling" it, whereby we define our optimiz
 
 Once we've defined our loss function as a performance measure for a model, we can automagically optimize our model weights with respect to the this loss function in an attempt to minimize it. This optimization method attempts to find a suitable set of model weights `W` such that the scalar loss value `L` produced by our loss `categorical_crossentropy` loss function decreases. 
 
-There are several popular optimization algorithms used in deep learning today and most of them derive from stochastic gradient descent (SGD). RMSProp is a commonly used to optimize RNNs, so we'll try that first, but feel free to experiment with the other optimization functions that Keras supports. You'll find some of them may arrive at lower losses while others converge to a "good enough" loss more quickly.
+There are several popular optimization algorithms used in deep learning today and most of them derive from stochastic gradient descent (SGD). RMSProp is commonly used to optimize RNNs, so we'll try that first, but feel free to experiment with the other optimization functions that Keras supports. You'll find some of them may arrive at lower losses while others converge to a "good enough" loss more quickly.
+
+<section class="media" data-fullwidth="false">
+    <img src="images/noisy_quadratic_surf.png" alt="An example perameter space, mapping model weights on the X and Z axis to a loss value on the Y axis. An optimization algorithm searches this space for X and Y values that have low values for Y. source: https://www.mcs.anl.gov/~more/dfo/">
+</section>
+
+Once we've compiled our model using a loss and an optimizer, we define a few [Keras callbacks](https://keras.io/callbacks/). These callbacks are hooks that get called automatically Keras during model training. Here we are using one to save our model weights to disk as a checkpoint after each epoch if `val_loss` improves, one to save our losses to Tensorboard logs for graphical analysis, one to automatically quit training if `val_loss` doesn't improve for more than 3 epochs, and finally, one "lambda" function where we specify custom code to run after each epoch has finished; which we are using here to reset the model's RNN states.
+
+Next we create our training and validation data generators using `utils.io_batch_generator()`, which we wrote in [Part 1](twitterbot-part-1-twitter-data-preparation.html). This code may look a little strange as it appears that we are creating our generators, passing them to `get_num_steps_per_epoch()`, and then recreating them. This is a hack of sorts, for the purpose of calculating how many calls to our `next(train_generator)` make up one epoch. Keras' `model.fit_generator()` expects this count as a parameter: `steps_per_epoch`. The lazy way<span class="marginal-note" data-info="Here's a challenge: Take a look at utils.io_batch_generator() and see if you can write another utility function that calculates the number of steps per epoch without loading the data."></span> to find this value is to just run the generator, which is exactly what we do in `get_num_steps_per_epoch()`. Once that's done, technically the generator is in it's second pass (epoch) through the data, so we re-create it before passing it to `model.fit_generator()`, resetting its state before training.
+
+There is one more unconventional step in the training script. `model.fit_generator()` expects the generators its fed to output `(X, y)` training pairs, but our batch loading generators output `(X, y, epoch)`. If we pass the unmodified output of `utils.io_batch_generator()` directly into keras' training function we'll get a weird, hard to debug, error<span class="marginal-note" data-info="Trust me on that 🙃, it was not fun to track down that bug."></span> deep inside of Keras. To fix this, we throw together a quick hack with `generator_wrapper()`, which takes a generator that yields `(X, y, epoch)` and manages it's iteration such that the `epoch` return value is thrown away each time its called, yielding `(X, y)` only.
+
+Finally, we're ready to actually train our model! We'll do so by passing both our training and validation generators to `model.fit_generator()`. If you're new to ML, "fit" might sound like a strange word to use in place of "train." This is actually a quite common name for training<span class="marginal-note" data-info="I believe the name .fit() as a function call was popularized by the scikit-learn python framework."></span>, the idea being that during training you fit your model to your training data.
+
+We should now have all of the pieces in place to train our first model.
+
+<pre class="code">
+    <code class="python" data-wrap="false">
+python3 train.py
+    </code>
+</pre>
+
+With any luck, your model should begin training!
+
+<pre class="code">
+    <code class="plain" data-wrap="false">
+Using TensorFlow backend.
+debug: now in epoch 1
+debug: new io_batch of 1000000 bytes
+debug: new io_batch of 1000000 bytes
+debug: new io_batch of 1000000 bytes
+...
+ 234/1708 [===>..........................] - ETA: 3:35 - loss: 3.3310
+    </code>
+</pre>
+
+Once one epoch has completed, the model weights will be saved to `checkpoints/checkpoint.hdf5`. We'll use this checkpoint in the next chapter when we use our trained model to generate text.
+
+9,000,000 tweets is a lot of text, so depending on your computer's hardware it could take a few hours to complete one epoch. If you are are on a machine with limited resources you could limit your training data. This will cut down on training time at the expense of model performance. You will, however, be able to train and iterate on new models more quickly, which is important in finding a good configuration of hyperparameters. If you'd like, you can limit your training data by copying a subset of `train.txt` and `validate.txt` to new files.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+head -n 80000 data/tweets-split/train.txt > data/tweets-split/train-80k.txt
+head -n 20000 data/tweets-split/train.txt > data/tweets-split/validate-20k.txt
+    </code>
+</pre>
+
+If you choose do to so, remember to change the values of `TRAIN_TEXT_PATH` and `VAL_TEXT_PATH` in `train.py` to point to those files instead.
+
+### train.py Conventions
+
+In this tutorial, we've created a simple `train.py` script which we'll use to train one model at a time, saving its model checkpoints to disk as it trains. This is a very common convention. There is a good chance that if you are browsing GitHub machine learning projects, many of them will have a `train.py` file.
+
+We've defined our hyperparameters, training data text paths, and model checkpoint directories using `CONSTANTS` located in the `train.py` file itself. While this is fine for learning, it isn't the most conducive to general purpose use. Many of the `train.py` files you'll find in the wild use command-line arguments to configure these variables. I've created a [nearly-identical version of our `train.py` script](https://github.com/brangerbriz/char-rnn-text-generation/blob/master/train.py) that adds these command-line arguments. The ability to run experiments and train models entirely from the command-line is great, especially as it allows you to build model training into an automated pipeline.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+wget -O train_cli.py https://raw.githubusercontent.com/brangerbriz/char-rnn-text-generation/master/train.py
+    </code>
+</pre>
+
+Running `python3 train_cli.py --help` will print the help screen for this general-purpose model training script. I've tried to model the command-line arguments off of the `train.py` scripts that I've seen in wild.
+
+<pre class="code">
+    <code class="plain" data-wrap="false">
+usage: train_cli.py [-h] --checkpoint-dir CHECKPOINT_DIR [--data-dir DATA_DIR]
+                    [--restore] [--num-layers NUM_LAYERS]
+                    [--rnn-size RNN_SIZE] [--embedding-size EMBEDDING_SIZE]
+                    [--batch-size BATCH_SIZE] [--seq-len SEQ_LEN]
+                    [--drop-rate DROP_RATE] [--learning-rate LEARNING_RATE]
+                    [--clip-norm CLIP_NORM]
+                    [--optimizer {sgd,rmsprop,adagrad,adadelta,adam}]
+                    [--num-epochs NUM_EPOCHS]
+
+train an LSTM text generation model
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --checkpoint-dir CHECKPOINT_DIR
+                        path to save or load model checkpoints (required)
+  --data-dir DATA_DIR   path to a directory containing a train.txt and
+                        validate.txt file (default: data/tweets-split)
+  --restore             restore training from a checkpoint.hdf5 file in
+                        --checkpoint-dir.
+  --num-layers NUM_LAYERS
+                        number of rnn layers (default: 1)
+  --rnn-size RNN_SIZE   size of rnn cell (default: 512)
+  --embedding-size EMBEDDING_SIZE
+                        character embedding size (default: 64)
+  --batch-size BATCH_SIZE
+                        training batch size (default: 128)
+  --seq-len SEQ_LEN     sequence length of inputs and outputs (default: 32)
+  --drop-rate DROP_RATE
+                        dropout rate for rnn layers (default: 0.05)
+  --learning-rate LEARNING_RATE
+                        learning rate (default: the default keras learning
+                        rate for the chosen optimizer)
+  --clip-norm CLIP_NORM
+                        max norm to clip gradient (default: 5.0)
+  --optimizer {sgd,rmsprop,adagrad,adadelta,adam}
+                        optimizer name (default: rmsprop)
+  --num-epochs NUM_EPOCHS
+                        number of epochs for training (default: 10)
+    </code>
+</pre>
+
+## Training Iteration
+
+Once you've trained your first model, it's time to train your second... third... and ∞... models. We trained our first using a seemingly random selection of model hyperparameters, but how do we know if those choices are a good fit for our data? We don't! We must compare our `val_loss` results from multiple experiments, each with a different configuration of hyperparameters, in order to find a model configuration that works well. 
+
+Before we get too deep into the weeds here, I want to stress that model training is **hard**. Deep learning models are notoriously hard to train. Model hyperparameters often have a non-linear relationship to each other, which can make a systematic trial-and-error search more tedious than you'd expect. There are two ways to approach iterative model training. 
+
+The first is *manual search*, where a human chooses a configuration of hyperparameters, trains a model, records and compares the results with past models, makes an informed guess about which hyperparameters to change for the next experiment, and then repeats. This technique requires a skilled ML practitioner with enough knowledge and experience to make informed decisions about which hyperparameters to change, and why. It can also be tedious and time-consuming.
+
+The second method is *automated hyperparameter search*, where you let a machine fill the role a human plays in manual search. This method takes longer when measured in hours and days, but has the added benefit that it doesn't require the precious time of an ML expert, and the machine can work day and night, without being paid.
+
+### Automated Hyperparameter Search
+
+Automated hyperparameter search is becoming an increasingly popular technique in ML. Here's the basic approach:
+
+1. A human defines a hyperparameter search space, or range of hyperparameter values to be tested. This search space may include 1-3 layers, 128-512 RNN units, a batch size between 16-256, or even booleans like use/don't use dropout.
+1. A number of models are trained, each using a sample of the hyperparameters from the search space.<span class="marginal-note" data-info="There are several methods for sampling from the hyperparameter space, including random search, grid search (don't use this), Bayesian search, and Tree of Parzen Estimators (TPE) search."></span> The results of each trial are recorded.
+1. After all models are trained, their results are manually compared using factors like `val_loss` and training time.
+1. Either the "best" model is selected and used as the final model, or a human uses the information they've gained from the trials to define a new hyperparameter search space and repeats steps 1-4. 
+
+We'll conduct hyperparameter search in this tutorial. Create a new file called `hyperparameter-search.py` inside the `char-rnn-text-generation` directory we've been using so far, then fill it with this code snippet.
+
+<pre class="code">
+    <code class="python" data-wrap="false">
+import os
+import sys
+import time
+import pprint
+import csv
+import utils
+# we're going to use the train_cli.py as our train module, so make sure you
+# have that downloaded or else this won't work.
+import train_cli as train
+import numpy as np
+from hyperopt import fmin, tpe, rand, hp, STATUS_OK, STATUS_FAIL
+
+# the number of individual models to train using different hyperparameters
+NUM_TRIALS = 40
+# the maximum number of epochs per trial
+MAX_EPOCHS_PER_TRIAL = 10
+
+# we'll use a small subset of the training data for the search, otherwise
+# training might take a week+.
+TRAIN_TEXT_PATH = os.path.join('data', 'tweets-split', 'train-80k.txt')
+VAL_TEXT_PATH = os.path.join('data', 'tweets-split', 'validate-20k.txt')
+# trials will be saved in this directory in separate folders specified by their
+# trial number (e.g. 1/, 2/, 3/, 4/, etc.)
+EXPERIMENT_PATH = os.path.join('checkpoints', '40-trials-10-epochs')
+
+# each trial will sample values from this search space to train a new model.
+# see hyperopt's documentation if you would like to add different types of 
+# sampling configurations.
+SEARCH_SPACE = {
+    'batch_size': hp.choice('batch_size', [16, 32, 64, 128, 256, 512]),
+    'drop_rate': 0.0,
+    'embedding_size': hp.choice('embedding_size', [16, 32, 64, 128, 256]),
+    'num_layers': 1, # you can replace these constants with hp.choice() or hp.uniform(), etc.
+    'rnn_size': 512,
+    'seq_len': hp.choice('seq_len', [16, 32, 64, 128, 256]),
+    'optimizer': hp.choice('optimizer', ['rmsprop',
+                                         'adagrad',
+                                         'adadelta',
+                                         'adam']),
+    'clip_norm': hp.choice('clip_norm', [0.0, 5.0])
+}
+
+# Use "Tree of Parzen Estimators" as the search algorithm by default. 
+# You can switch to "Random Search" instead with:
+#     SEARCH_ALGORITHM=rand.suggest
+SEARCH_ALGORITHM=tpe.suggest
+
+def main():
+    pass
+    </code>
+</pre>
+
