@@ -458,10 +458,10 @@ EXPERIMENT_PATH = os.path.join('checkpoints', '40-trials-10-epochs')
 # sampling configurations.
 SEARCH_SPACE = {
     'batch_size': hp.choice('batch_size', [16, 32, 64, 128, 256, 512]),
-    'drop_rate': 0.0,
+    'drop_rate': 0.0, # constants are ok too
     'embedding_size': hp.choice('embedding_size', [16, 32, 64, 128, 256]),
-    'num_layers': 1, # you can replace these constants with hp.choice() or hp.uniform(), etc.
-    'rnn_size': 512,
+    'num_layers': hp.choice('num_layers', [1, 2])
+    'rnn_size': hp.choice('rnn_size', [64, 128, 256, 512])
     'seq_len': hp.choice('seq_len', [16, 32, 64, 128, 256]),
     'optimizer': hp.choice('optimizer', ['rmsprop',
                                          'adagrad',
@@ -475,8 +475,231 @@ SEARCH_SPACE = {
 #     SEARCH_ALGORITHM=rand.suggest
 SEARCH_ALGORITHM=tpe.suggest
 
+# we'll fill this in soon
 def main():
     pass
     </code>
 </pre>
+
+We start off by importing several python modules, most importantly [`hyperopt`](https://hyperopt.github.io/hyperopt/), which is a popular python library for Hyperparameter optimization. We follow those imports with several constants definitions, including the number of trials (individual models) we will train as well as the maximum number of epochs to train each of them for.
+
+The highlight of this snippet is the creation of the `SEARCH_SPACE` object. Here we use several `hyperopt` functions to define a range of values for each hyperparameter. At runtime, we'll sample from this search space for each trial, dependent on the hyperparameter search algorithm we are using. `SEARCH_ALGORITHM=tpe.suggest` will use the **tree of parzen estimators** (TPE) algorithm, which is a sequential model-based approach. TPE builds it's own "meta-model" during search, using the performance of past searches to select each subsequent sample from the hyperparameter search space. It attempts to adequately explore the search space quickly, while also sampling configurations near samples that have already perform well. In ML, this tradeoff is called exploration vs exploitation.
+
+Perhaps surprisingly, random search has also been proven to perform well. Random search samples hyperparameters using random distributions<span class="marginal-note" data-info="The type of random distribution can be uniform, normal, multinomial, etc."></span>, without relying on information from past trials. While this may seem like a naive approach, it actually performs well in practice. It's been proven to work better than manual search given enough trials, in fact, it's estimated that random search has a 95% chance or finding a hyperparameter configuration within 5% of the optimimum in only 60 trials ([source](https://stats.stackexchange.com/questions/160479/practical-hyperparameter-optimization-random-vs-grid-search#209409)). Random search can also be run entirely in parallel, even on separate machines that aren't connected over a network, as samples for new trials aren't dependent on past trials.
+
+Let's build out our `main()` function next.
+
+<pre class="code">
+    <code class="python" data-wrap="false">
+def main():
+
+    # the code for one trial. It's given one sample configuration of
+    # hyperparameters and trains one model, returning a results object.
+    # this function is called by hyperopt's fmin() function.
+    def trial(params):
+        global TRAIN_TEXT_PATH, VAL_TEXT_PATH, MAX_EPOCHS_PER_TRIAL
+        nonlocal trial_num, trials
+        params['num_epochs'] = MAX_EPOCHS_PER_TRIAL
+        params['checkpoint_dir'] = os.path.join(EXPERIMENT_PATH, str(trial_num))
+        os.makedirs(params['checkpoint_dir'])
+
+        # let's time the model training and print the hyperparameter sample to
+        # the console.
+        then = time.time()
+        pprint.pprint(params)
+
+        status = STATUS_OK
+        error = None
+        train_time = 0
+        num_epochs = 0
+
+        # These are the default values that are returned if an error is  raised
+        # during the trial. We set these default "fake", values to be large
+        # so that we can compare them against the true loss using min() below.
+        val_loss = 100
+        loss = 100
+
+        # train the model, catching any errors as a failed experiment
+        try:
+            model, loss, val_loss, num_epochs = train.train(params, 
+                                                            TRAIN_TEXT_PATH, 
+                                                            VAL_TEXT_PATH)
+        except Exception as err:
+            status = STATUS_FAIL
+            error = err
+            print(err)
+
+        results = {
+            # use val_loss as the metric hyperopt will attempt to minimize
+            'loss': val_loss, 
+            'status': status,
+            'train_loss': loss,
+            'num_epochs': num_epochs,
+            'train_time': time.time() - then,
+            'trial_num': trial_num,
+            'error': error
+        }
+
+        # save this trial in a list with the others
+        trials.append([params, results])
+        # save the trial results to csv after each trial
+        save_hp_checkpoint(EXPERIMENT_PATH, trials)
+        trial_num += 1
+        return results
+
+    print("corpus length: {}".format(os.path.getsize(TRAIN_TEXT_PATH)))
+    print('vocabsize: ', utils.VOCAB_SIZE)
+
+    trial_num = 1
+    trials = []
+
+    # we don't want to accidentally overwrite a past search, so we'll exit
+    # if the EXPERIMENT_PATH already exists. Otherwise, we'll create it and
+    # keep going.
+    if os.path.isdir(EXPERIMENT_PATH):
+        print('EXPERIMENT_PATH {} already exists, exiting.'
+              .format(EXPERIMENT_PATH))
+        exit(1)
+    else:
+        os.makedirs(EXPERIMENT_PATH)
+
+    # use hyperopt's fmin() to sample from the hyperparameter space and run our
+    # trials. It will search for a hyperparameter configuration that minimizes
+    # our val_loss.
+    fmin(fn=trial,
+         space=SEARCH_SPACE,
+         algo=SEARCH_ALGORITHM,
+         max_evals=NUM_TRIALS)
+    </code>
+</pre>
+
+We use `hyperopt`'s `fmin()` function as a framework to run our trials, nesting the `trial(params)` function definition inside `main()` so that it can have closure around the list of `trials` as well as the `num_trials` variables. `fmin()` is given a function to run each trial, a hyperparameter search space to sample from, a search algorithm, and a number of trials to run. It then manages the sampling and running of the trial function for you, passing a hyperparameter sample chosen by the `SEARCH_ALGORITHM` as the parameter of the trials function: `trials(params)`.
+
+For each trial, we train a model for `MAX_EPOCHS_PER_TRIAL` and then create a `results` object that we append to to a list of all previous `trials`. This `results` object records useful information about each trial, like the `val_loss`, `train_loss`, and `train_time` as well as status or error information if the trial failed. Once we've added the new trail's results to the list of past trials, we rank the list by `val_loss` and save all trails to csv using `save_hp_checkpoint()`.
+
+<pre class="code">
+    <code class="python" data-wrap="false">
+# save trials to csv, ranked by loss ascending
+def save_hp_checkpoint(experiment_path, trials):
+    ranked = rank_trials(trials)
+    save_trials_as_csv(os.path.join(experiment_path, 'trials.csv'), ranked)
+
+# rank trials by loss, ascending
+def rank_trials(trials):
+    sorted_indices = np.argsort([result['loss'] for params, result in trials])
+    ranked = []
+    for index in sorted_indices:
+        ranked.append(trials[index])
+    return ranked
+
+def save_trials_as_csv(filename, ranked_trials):
+    with open(filename, 'w') as f:
+        fieldnames = ['rank', 'trial_num', 'val_loss', 'train_loss',
+                      'num_epochs', 'avg_epoch_seconds', 'batch_size', 
+                      'drop_rate', 'embedding_size', 'num_layers', 'rnn_size', 
+                      'seq_len', 'optimizer', 'clip_norm', 'status']
+
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        rank = 1
+        for trial, results in ranked_trials:
+            writer.writerow({
+                'rank': rank,
+                'trial_num': results['trial_num'],
+                'val_loss': results['loss'],
+                'train_loss': results['train_loss'],
+                'num_epochs': results['num_epochs'],
+                'avg_epoch_seconds': int(results['train_time'] / max(results['num_epochs'], sys.float_info.epsilon)),
+                'batch_size': trial['batch_size'],
+                'drop_rate': trial['drop_rate'],
+                'embedding_size': trial['embedding_size'],
+                'num_layers': trial['num_layers'],
+                'rnn_size': trial['rnn_size'],
+                'seq_len': trial['seq_len'],
+                'optimizer': trial['optimizer'],
+                'clip_norm': trial['clip_norm'],
+                'status': results['status']
+            })
+            rank += 1
+
+# finally, let's run the program!
+main()
+    </code>
+</pre>
+
+Now it's time to run our search! Depending on your hardware, actually running this may be a challenge. We'll show you how to run it here, and then go over some example results in case you don't have the time or resources to run the search yourself. 
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# start the search and then take a short vacation 🏖🍹...
+python3 hyperparameter-search.py
+    </code>
+</pre>
+
+We can monitor the losses from our trials while the search is in progress using tensorboard.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+tensorboard --logdir checkpoints/40-trials-10-epochs/
+    </code>
+</pre>
+
+Here's a tensorboard screenshot from one of the first hyperparameter searches I ran for this project.<span class="marginal-note" data-info="You'll notice that some of the trials appear to have run for fewer epochs than others. That's because I used early stopping to cancel training once val_loss wasn't improving much as a means of speeding up the entire hyperparameter search."></span>
+
+<section class="media" data-fullwidth="false">
+    <img src="images/tensorboard-screenshot.png" alt="">
+</section>
+
+
+Once each trial has completed, you'll also see a new line added to the `trials.csv` file located in `checkpoints/40-trials-10-epochs/`. Here's a screenshot from the `trails.csv` from the same hyperparameter search as the tensorboard image.
+
+<section class="media" data-fullwidth="true">
+    <img src="images/trials-csv.png" alt="">
+</section>
+
+I've highlighted the trial that I chose as the best above. This choice may come as a surprise considering it's the ninth ranked trial when it comes to validation loss, but remember that our ultimate goal with training this base model is to deploy it in a low resource browser environment. What stuck out to me about trial #41 was that it acheived a passably low loss while spending only 58 seconds per epoch. That's more than five times the speed of the highest ranking trial. It's also the highest ranking trial that uses only one layer, which means that it will be far more computationally efficient the higher ranked trials.
+
+Experimenting with hyperparameter search and model iteration has taught me to widen my success criteria when it comes to selecting hyperparameters. In the past, I've blindly optimized for `val_loss` without thinking of resource management. While that's fine if you've got the keys to a supercomputer and no limit to the time spent training and running your model, it's not very practical in the real world. It's true that `val_loss` is the standard method for evaluating ML models, but don't forget to factor in the resource constraints specific to your project's goal. Sure we could increase our model capacity by adding layers and RNN units and better fit a model to our nine million tweets, but then we would fail in our goal of building a twitterbot training pipeline that can run in a web browser on today's consumer hardware. By using hyperparameter search, we're able to survey the hyperparameter landscape and select a model configuration that performs well given our resource budget.
+
+### Training our base model
+
+It's not uncommon to run several different automated hyperparameter searches, adjusting the search space as you learn what works well by looking at the results from a set of trials. For instance, I ran two separate searches while creating this project: The first showed me that an architecture using one layer of 512 RNN units performed well with relatively-low resource consumption, while a second search revealed good batch size, sequence length, optimizer, and embedding size values once I had limited my architecture search space.
+
+Once you've conducted your hyperparameter searches, it's time to actually train your model. We cut a few corners during our hyperparameter search to dramatically speed up the search process. 
+
+1. We used a small subset of our training data (i.e. `train-80k.txt` instead of `train.txt`).
+1. We limited our model training to only several epochs using `train-80k.txt`.
+1. We didn't expriment with the learning rate, especially once `val_loss` plateaued.<span class="marginal-note" data-info="We haven't talked about this one yet, but we will soon."></span>
+
+It's now time to uncut those corners and train our final "base model" which we'll use to generate text and finetune in subsequent chapters.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# here is the best hyperparameter configuration I found during search, we'll
+# use it now to train our base model using our entire dataset. This can also
+# take a while...
+python3 train_cli.py \
+    --checkpoint-dir checkpoints/base-model-two \
+    --data-dir data/tweets-split \
+    --num-layers 1 \
+    --rnn-size 512 \
+    --embedding-size 64 \
+    --batch-size 128 \
+    --seq-len 32 \
+    --drop-rate 0.05 \
+    --clip-norm 5.0 \
+    --optimizer rmsprop \
+    --learning-rate 0.001 \
+    --num-epochs 25
+    </code>
+</pre>
+
+### Learning Rate
+
+<p>
+  <img src="images/learningrates.jpeg"> 
+While that's training, we'll take a moment to talk about learning rate. Learning rate is a hyperparameter that defines the magnitude of the weight parameter updates during each training batch. A higher learning rate will cause the model to move it's parameters more quickly in the direction each training batch suggests and may lead to faster convergence of training/validation loss at the coast of "jumping over" optimal weights. A lower learning rate will converge more slowly, but may find a more optimal set of model weights as its step size is smaller, and can find smaller "cracks" and "slopes" in the loss surface. We haven't talked about learning rate much yet because it's a fairly difficult hyperparameter to get right (though arguably the most important). It's not uncommon to do a small hyperparameter search dedicated just to finding the right learning rate. Because the learning rate is so sensitive, the Keras documentation suggests leaving some of the learning rates at their default values depending on the optimizer that is being used. That's what I've done in this tutorial up until now but there are a few tricks to learning rate that I want to consider now that we're training our final base model.
+</p>
+
+It's a common practice to begin training with a large learning rate and decrease it over time, either at a fixed schedule or once loss values start to plateua. This allows the optimization algorithm to quickly explore a large parameter space at first before settling down to make slower, more precise updates over a smaller area near the end of training. Keras has support for decreasing the learning rate during training via scheduling and on plateau using [callbacks](https://keras.io/callbacks/). I haven't added these features to our training script, but we could acheive the same behavior the "lazy" way: Train a model using the `train_cli.py` script until the `val_loss` stops improving and then manually retrain using the script's `--restore` flag and a lower learning rate. It's common to reduce learning rates by half or even an order of magnitude (e.g. `0.001` -> `0.0001`), training until the loss plateaus again, and then repeating the process. If successful, it's common to see a sharp drop in loss after the learning rate is decreased followed by an eventual plateau. When this technique is repeated you'll find it to have diminishing returns each time the learning rate is decreased, but I've been found it to produce lower loss values than were possible without it.
 
