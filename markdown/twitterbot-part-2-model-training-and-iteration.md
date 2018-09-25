@@ -679,7 +679,7 @@ It's now time to uncut those corners and train our final "base model" which we'l
 # use it now to train our base model using our entire dataset. This can also
 # take a while...
 python3 train_cli.py \
-    --checkpoint-dir checkpoints/base-model-two \
+    --checkpoint-dir checkpoints/base-model \
     --data-dir data/tweets-split \
     --num-layers 1 \
     --rnn-size 512 \
@@ -701,5 +701,16 @@ python3 train_cli.py \
 While that's training, we'll take a moment to talk about learning rate. Learning rate is a hyperparameter that defines the magnitude of the weight parameter updates during each training batch. A higher learning rate will cause the model to move it's parameters more quickly in the direction each training batch suggests and may lead to faster convergence of training/validation loss at the coast of "jumping over" optimal weights. A lower learning rate will converge more slowly, but may find a more optimal set of model weights as its step size is smaller, and can find smaller "cracks" and "slopes" in the loss surface. We haven't talked about learning rate much yet because it's a fairly difficult hyperparameter to get right (though arguably the most important). It's not uncommon to do a small hyperparameter search dedicated just to finding the right learning rate. Because the learning rate is so sensitive, the Keras documentation suggests leaving some of the learning rates at their default values depending on the optimizer that is being used. That's what I've done in this tutorial up until now but there are a few tricks to learning rate that I want to consider now that we're training our final base model.
 </p>
 
+<p>
+  <a href="https://www.tensorflow.org/images/cifar_loss.png"><img src="images/reduced-learning-rate.png"></a>
 It's a common practice to begin training with a large learning rate and decrease it over time, either at a fixed schedule or once loss values start to plateua. This allows the optimization algorithm to quickly explore a large parameter space at first before settling down to make slower, more precise updates over a smaller area near the end of training. Keras has support for decreasing the learning rate during training via scheduling and on plateau using [callbacks](https://keras.io/callbacks/). I haven't added these features to our training script, but we could acheive the same behavior the "lazy" way: Train a model using the `train_cli.py` script until the `val_loss` stops improving and then manually retrain using the script's `--restore` flag and a lower learning rate. It's common to reduce learning rates by half or even an order of magnitude (e.g. `0.001` -> `0.0001`), training until the loss plateaus again, and then repeating the process. If successful, it's common to see a sharp drop in loss after the learning rate is decreased followed by an eventual plateau. When this technique is repeated you'll find it to have diminishing returns each time the learning rate is decreased, but I've been found it to produce lower loss values than were possible without it.
+</p>
 
+<p>
+  <a href="https://stats.stackexchange.com/questions/282544/why-does-reducing-the-learning-rate-quickly-reduce-the-error"><img src="images/reduced-learning-rate-bad.png"></a>
+You do have to take care not to reduce your learning rate too quickly. Doing so may offer large rewards at first, but ultimately cause your model to converge much slower than it would have at the previous learning rate, or not at all. Finding a good learning rate decay is tricky business so I've chosen to exclude a formalized method for so from this tutorial. You are encouraged to experiment with it yourself though! I trained my base model for dozens of epochs using the full training data and casually lowered the learning rate at my discretion. Doing so left me with a final validation loss of `1.50`, which I consider to be pretty successful given that we artificially constrained our model capacity to prioritize runtime performance. 
+</p>
+
+### Going Forward
+
+That's it! Pretty soon, you should have a trained model in `checkpoints/base-model`. I've got a pre-trained model you can [download here](https://github.com/brangerbriz/twitter-transfer-learning/raw/master/checkpoints/base-model/checkpoint.hdf5) (9.5 MB) if you want to jump ahead.<span class="marginal-note" data-info="This model exhibited a loss of 1.50 on data/tweets-split/validate.txt."></span> In the next section, we'll use our trained base model to generate tweets and deploy it in a browser-like environment using Tensorflow.js and electron: [Part 3: Model Inference and Deployment](twitterbot-part-3-model-inference-and-deployment.html).

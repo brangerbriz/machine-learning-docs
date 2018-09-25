@@ -399,4 +399,4 @@ def data_generator(text_path, batch_size=64, seq_len=64):
     </code>
 </pre>
 
-That's it for data preparation! By now you should have an idea of the type of data we are using and the ways we plan on transforming it when we actually train some models in the next section: [Part II, Model training and Iteration](twitterbot-part-2-model-training-and-iteration.html).
+That's it for data preparation! By now you should have an idea of the type of data we are using and the ways we plan on transforming it when we actually train some models in the next section: [Part 2, Model training and Iteration](twitterbot-part-2-model-training-and-iteration.html).
