@@ -19,6 +19,7 @@ A miscellaneous collection of guides, code snippets, and examples on a range of 
 - [Neural Networks and Deep Learning](neural-networks-and-deep-learning.html)
 - [Normalization and Preprocessing](normalization-and-preprocessing.html) 
 - [Regularization](regularization.html)
+- [Probability Distributions](probability-distributions.html)
 - [Setup an ML GPU development environment](ml-development-environment.html)
 - [Tensorflow.js](tfjs.html)
 
@@ -29,7 +30,7 @@ An in-depth tutorial where we build an ML pipeline for generating your own twitt
 - Part 0: [Model Architecture](#)<span class="marginal-note" data-info="Part 0 gives a detailed breakdown of our model architecture. You can skip this section for now."></span>
 - Part 1: [Twitter Data Preparation](twitterbot-part-1-twitter-data-preparation.html)
 - Part 2: [Model Training and Iteration](twitterbot-part-2-model-training-and-iteration.html)
-- Part 3: [Model Inference and Deployment](#)
+- Part 3: [Model Inference and Deployment](twitterbot-part-3-model-inference-and-deployment.html)
 - Part 4: [Transfer Learning, Finetuning, and Twitter user personalization](#)
 
 ## Projects
