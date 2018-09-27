@@ -330,4 +330,270 @@ Well, that last one's not real. But it is what we'll be doing next!
 
 ## Converting our Model to Tensorflow.js
 
-## Deploying in the Browser
+Tensorflow.js, or "tfjs", has made an effort to support the [loading](https://js.tensorflow.org/tutorials/import-keras.html) and saving of Keras models. This allows us to train a model with Keras and then load it into a browser for inference and sampling. Before we can do so, however, we need to use the `tensorflowjs` python package to convert our `checkpoint.hdf5` file to the tfjs model format.
+
+If you've already completed [Part 1](twitterbot-part-1-twitter-data-preparation.html) of this tutorial you should already have `tensorflowjs` installed. If not, install it like so.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+pip3 install tensorflowjs
+    </code>
+</pre>
+
+So far we've been working in a directory named `twitterbot-tutorial/char-rnn-text-generation`. This directory has held our python code so far, but as we migrate our model to JavaScript, we'll move out of this directory and create a new folder inside `twitterbot-tutorial/`. We'll then convert our Keras model to JavaScript.
+
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# leave char-rnn-text-generation/ and create tfjs-tweet-generation/
+cd ..
+mkdir -p tfjs-tweet-generation/checkpoints/base-model
+
+# convert the keras model to a tensorflowjs model
+tensorflowjs_converter \
+    --input_format keras \
+    ../char-rnn-text-generation/checkpoints/base-model/checkpoint.hdf5 \
+    checkpoints/base-model/tfjs
+    </code>
+</pre>
+
+You should now find several files inside `checkpoints/base-model/tfjs`. The contents and number of files may differ dependent on your model architecture and library versions.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+checkpoints/base-model/tfjs/
+├── group1-shard1of2
+├── group1-shard2of2
+└── model.json
+    </code>
+</pre>
+
+## Deploying in a Browser Environment
+
+We'll be using [Electron](https://electronjs.org/) as our browser environment. At the time of this writing, there appears to be [a bug in tfjs' WebGL backend](https://github.com/tensorflow/tfjs/issues/664) that prevents the efficient use of a stateful RNN in a traditional web browser. Electron provides a WebKit browser environment that can load and run Node.js code. Well create a `package.json` file which will help us download and manage our dependencies.
+
+<pre class="code">
+    <code class="json" data-wrap="false">
+{
+  "name": "tfjs-tweet-generation",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "electron generate.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brannon Dorsey <bdorsey@brangerbriz.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@tensorflow/tfjs": "^0.12.7",
+    "@tensorflow/tfjs-node": "^0.1.15",
+    "electron": "^2.0.8"
+  }
+}
+    </code>
+</pre>
+
+The Node Package Manager will use this file to download electron, tfjs, and tfjs-node into a folder called `node_modules`.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# download the project dependencies into node_modules/
+npm install
+    </code>
+</pre>
+
+Next, we'll create an HTML file, `generate.html`, to contain our tfjs code.
+
+<pre class="code">
+    <code class="html" data-wrap="false">
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;TF.js Tweet Generator&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Tensorflow.js Tweet Generator&lt;/h1&gt;
+    &lt;pre id="text"&gt;&lt;/pre&gt;
+    &lt;!-- This is a utility library for sampling from probability distributions --&gt;
+    &lt;script src="https://raw.githubusercontent.com/brangerbriz/sampling/master/discrete.js"&gt;&lt;/script&gt;
+    &lt;script src="generate.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+    </code>
+</pre>
+
+In this file, we define a `<pre id="text"></pre>` element which we'll use to render status updates and generated text to the page. We also load a library called `discrete.js` that's useful for sampling from probability distributions. We include a `generate.js` script, which we'll author next. In this script, we load our converted Keras model and use it to generate text, which we render to the inside the `<pre>` tag. We'll build this script in stages, starting with the main function. 
+
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+// Electron allows us to load Node.js modules using the require() syntax.
+// tfjs must be at least v0.12.6 to include support for stateful RNNs
+const tf = require('@tensorflow/tfjs')
+
+// tfjs-node is adds experimental support for native bindings of the 
+// Tensorflow C library. Using tfjs-node gives us a significant performance
+// boost in relation to the default tfjs cpu and webgl backends.
+require('@tensorflow/tfjs-node')
+
+// This is a JavaScript version of our utils.create_dictionary()
+// python function. We use it here to define the CHAR2ID and ID2CHAR constants
+const [ CHAR2ID, ID2CHAR, VOCABSIZE ] = createDictionary()
+// run the main function, logging any errors to the console
+main().catch(console.error)
+
+async function main() {
+
+    writeText('Loading model...')
+    const model = await tf.loadModel('checkpoints/base-model/tfjs/model.json')
+
+    writeText('Building inference model...')
+    const inferenceModel = buildInferenceModel(model)
+    inferenceModel.setWeights(model.getWeights())
+    inferenceModel.trainable = false
+
+    writeText('Generating text...')
+    const seed = "This is a seed sentence."
+    const topN = 5
+    const length = 1024
+    const generated = await generateText(inferenceModel, seed, length, topN)
+    writeText(generated)
+}
+
+function writeText(text) {
+    document.getElementById('text').innerText = text
+}
+    </code>
+</pre>
+
+In this file we:
+
+1. Load our converted Keras model
+1. Use it to create a modified inference model
+1. Generate text using the inference model
+1. Write the generated text to the page via the DOM
+
+This process should look familiar, as it's basically just a JavaScript version of our `generate.py` script that interfaces with a webpage instead of a terminal. Tensorflow.js' model converter allows us to easily reuse our Keras model in JavaScript, but it doesn't provide functionality to load and manage our data. For this, we need to author similar utility functions as we did in Python, but this time in JavaScript. Fortunately, Python and JavaScript are very similar languages, so one-to-one translations of this functionality are quite simple. We'll add these functions in JavaScript now.
+
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+// the JavaScript equivalent of build_inference_model() in generate.py
+// its purpose is to change the batch size and sequence length for inference
+function buildInferenceModel(model) {
+
+    const batchSize = 1
+    const seqLen = 1
+
+    const config = model.getConfig()
+    config[0].config.batchInputShape = [ batchSize, seqLen ]
+  
+    const updatedModel = tf.Sequential.fromConfig(tf.Sequential, config)
+    return updatedModel
+}
+
+// the JavaScript equivalent of generate_text() in generate.py
+async function generateText(model, seed, length, topN) {
+    topN = topN || 10
+    length = length || 512
+    console.info(`generating ${length} characters from top ${topN} choices.`)
+    console.info(`generating with seed: ${seed}`)
+    let generated = seed
+    let encoded = encodeText(seed)
+    model.resetStates()
+
+    encoded.slice(0, encoded.length - 1).forEach(idx => {
+        // tf.tidy() offers memory management for temporary tensor values.
+        // This functionality is handled automatically in python via garbage
+        // collection, but must be done manually in tfjs
+        tf.tidy(() => {
+            // input shape (1, 1)
+            const x = tf.tensor([[idx]])
+            // set internal states
+            model.predict(x, { verbose: true })
+        })
+    })
+
+    let nextIndex = encoded.length - 1
+    for (let i = 0; i < length; i++) {
+        const x = tf.tensor([[nextIndex]])
+        // input shape (1, 1)
+        const probsTensor = model.predict(x)
+        // output shape: (1, 1, VOCABSIZE)
+         x.dispose()
+        const probs = await probsTensor.data()
+        const sample = sampleFromProbs(probs, topN)
+        generated += ID2CHAR.get(sample)
+        nextIndex = sample
+        await tf.nextFrame()
+    }
+
+    return generated
+}
+
+// the JavaScript equivalent of encode_text in utils.py
+// encodes text characters as integers
+function encodeText(text, char2id) {
+    const dict = char2id || CHAR2ID
+    return text.split('').map(char => {
+        const number = dict.get(char)
+        return typeof number === 'undefined' ? 0 : number
+    })
+}
+
+// the JavaScript equivalent of sample_from_probs in utils.py
+// truncated probability distribution sampling
+function sampleFromProbs(probs, topN) {
+    
+    topN = topN || 10
+    // probs is a Float32Array, so we will copy it manually
+    const copy = []
+    probs.forEach(prob => copy.push(prob))
+
+    // now that it is a regular array we can use the JSON hack to copy it again
+    const sorted = JSON.parse(JSON.stringify(copy))
+    sorted.sort((a, b) => b - a)
+
+    const truncated = sorted.slice(0, topN)
+    
+    // zero out all probability values that didn't make the topN
+    copy.forEach((prob, i) => {
+        if (!truncated.includes(prob)) copy[i] = 0
+    })
+
+    const sum = copy.reduce((a, b) => a + b, 0)
+    const rescaled = copy.map(prob => prob /= sum)
+
+    return SJS.Discrete(rescaled).draw()
+}
+
+// the JavaScript equivalent of create_dictionary() in utils.py
+// create dictionaries between char <-> int using the same modified list of 
+// python printable characters we used during training
+function createDictionary() {
+
+    const printable = ('\t\n !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOP'
+                     + 'QRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~')
+                      .split('')
+
+    // prepend the null character
+    printable.unshift('')
+
+    const char2id = new Map()
+    const id2char = new Map()
+    const vocabSize = printable.length
+
+    printable.forEach((char, i) => {
+        char2id.set(char, i)
+        id2char.set(i, char)
+    })
+
+    return [char2id, id2char, vocabSize]
+}
+    </code>
+</pre>
+
+This code should look familiar, so we'll highlight some of the major differences between these Python and JavaScript implementations:
+
+- `tf.tensor()` vs `np.array()`
+- `tf.tiny()` and `tf.dispose()`
+- `tf.nextFrame()`
+
+The Numpy Python library that Keras uses as an interchange format for tensor objects isn't available in JavaScript, so tfjs implements its own `tf.tensor()` interface in its place.
