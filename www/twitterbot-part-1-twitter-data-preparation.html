@@ -58,15 +58,15 @@
 <!-- The content below this line is injected using `marked` in `build.sh` -->
 <h1 id="twitterbot-part-1-twitter-data-preparation">Twitterbot Part 1: Twitter Data Preparation</h1>
 <h2 id="introduction">Introduction</h2>
-<p>In this technical four-part tutorial series we will create a character-level<span class="marginal-note" data-info="We'll create a model inspired by [Andrej Karpathy's Infamous Char-RNN](https://karpathy.github.io/2015/05/21/rnn-effectiveness/), with a few tweaks and additions introduced by [YuXuan Tay](https://github.com/yxtay/char-rnn-text-generation)."></span> text-generation model that can be trained to output synthetic tweets in the style of a particular twitter user. We&#39;ll walk through the entire machine learning pipeline (see <a href="the-ml-pipeline.html">The ML Pipeline</a>): from gathering data and training models in python, to automating the hyperparameter search process and deploying client-side models in the browser using JavaScript and Tensorflow.js. By the time we&#39;re done you should have an understanding of what it takes to develop an ML solution to a real-world problem, as well as some working code that you can use to train your own twitter bots. </p>
+<p>In this four-part technical tutorial series we will create a character-level<span class="marginal-note" data-info="We'll create a model inspired by [Andrej Karpathy's now famous Char-RNN](https://karpathy.github.io/2015/05/21/rnn-effectiveness/), with a few tweaks and additions introduced by [YuXuan Tay](https://github.com/yxtay/char-rnn-text-generation)."></span> text-generation model that can be trained to output synthetic tweets in the style of a particular twitter user. We&#39;ll walk through the entire machine learning pipeline (see <a href="the-ml-pipeline.html">The ML Pipeline</a>): from gathering data and training models in python, to automating the hyperparameter search process and deploying client-side models in the browser using JavaScript and Tensorflow.js. By the time we&#39;re done you should have an understanding of what it takes to develop an ML solution to a real-world problem, as well as some working code that you can use to train your own twitter bots. </p>
 <p>To make this project a bit more interesting, let&#39;s add some constraints. <strong>Given only a user&#39;s public twitter handle, let&#39;s create an ML model that can generate new tweets in the style of that user, using relatively-short model training times and consumer-grade hardware like laptops or even smart phones.</strong></p>
-<p>These constraints will allow us to explore some creative and practical solutions to our problem that may be helpful in future ML tasks as well. Relying on &quot;consumer-grade&quot; hardware also frees us 💸 from the leash of GPU/TPU accelerated cloud computing, and encourages us to develop a resource-limited solution to an otherwise unbounded problem. In other words, we aren&#39;t looking to find the ultimate state-of-the-art RNN text-generation solution for the tasks of automated tweet generation, but rather, we are looking for a practical &quot;good enough&quot; solution with limited twitter user data and compute resources. Let&#39;s get started!</p>
+<p>These constraints will allow us to explore some creative and practical solutions to our problem that may be helpful in future ML tasks as well. Relying on &quot;consumer-grade&quot; hardware frees us 💸 from the leash of GPU/TPU accelerated cloud computing, and encourages us to develop a resource-limited solution to an otherwise unbounded problem. In other words, we aren&#39;t looking to find the ultimate state-of-the-art RNN text-generation solution for the tasks of automated tweet generation, but rather, we are looking for a practical &quot;good enough&quot; solution with limited twitter user data and compute resources. Let&#39;s get started!</p>
 <h2 id="data-challenges">Data Challenges</h2>
-<p>Deep learning models like RNNs usually require lots of data before they begin to perform well. Anywhere from tens or hundreds of megabytes to many gigabytes of data depending on the network architecture, data representation, and task. The problem is that most twitter users probably haven&#39;t even generated a single megabyte worth of tweets (one million characters), a dataset size that Andrej Karpathy himself claims is &quot;very small&quot;, and even if they have, Twitter&#39;s API restricts tweet downloads to a mere <a href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html" target="_blank">3,200 per user</a>.</p>
+<p>Deep learning models like RNNs usually require lots of data before they begin to perform well. Anywhere from tens or hundreds of megabytes to many gigabytes of data depending on the network architecture, data representation, and task. The problem is that most twitter users probably haven&#39;t even generated a single megabyte worth of tweets (one million characters), a dataset size that Andrej Karpathy himself claims is &quot;very small.&quot; Even if they have, Twitter&#39;s API restricts tweet downloads to a mere <a href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html" target="_blank">3,200 per user</a>.</p>
 <p>This poses a difficult problem. We have a data-hungry RNN algorithm but only very limited access to training data for a specific twitter user. With too little data, our model will likely underfit and not be able to produce text that looks like a tweet, or even intelligible english. On the other hand, if we are able to train a model using only a few thousand tweets without underfitting, we&#39;d likely have to train it for tens or hundreds of epochs which could lead to dramatic overfitting, or memorization of the training data; It may start to output specific lines from the training data but it wouldn&#39;t be able to generalize twitter-like patterns, memes, or idioms like @mentions and RTs.</p>
 <p>Wouldn&#39;t it be nice if we could somehow leverage the combined data from millions of different twitter users instead of only the few tweets that we are afforded from a specific user that we are attempting to model? Fortunately for us, we can use a technique called transfer learning to do just that! We&#39;ll train a base model that learns to produce generic tweets in the ethos of thousands of combined tweeters. We&#39;ll then fine-tune this pre-trained base model using the sparse twitter data we have access to for the specific twitter user we intend to model.</p>
 <h2 id="data-download-preparation">Data Download &amp; Preparation</h2>
-<p>In 2010, researchers at the Texas A&amp;M University released a dataset of 9,000,000 tweets they created in an effort to train a model that predicts a tweeter&#39;s location given only the content&#39;s of their tweet. <span class="marginal-note" data-info="Z.  Cheng,  J.  Caverlee,  and  K.  Lee.   You  Are  Where  You  Tweet:   AContent-Based Approach to Geo-locating Twitter Users. In Proceeding of the 19th ACM Conference on Information and Knowledge Management (CIKM), Tonronto, Oct 2010. "></span> We&#39;ll re-purpose <a href="http://infolab.tamu.edu/data/twitter_cikm_2010.pdf" target="_blank">this data</a> to train our base model. Here, we aren&#39;t interested in a creating a model that sounds like a specific tweeter, but rather a model that learns to sound like twitter users in general.</p>
+<p>In 2010, researchers at the Texas A&amp;M University released a dataset of 9,000,000 tweets which they compiled in an effort to train a model that predicts a tweeter&#39;s location given only the contents of their tweet. <span class="marginal-note" data-info="Z.  Cheng,  J.  Caverlee,  and  K.  Lee.   You  Are  Where  You  Tweet:   AContent-Based Approach to Geo-locating Twitter Users. In Proceeding of the 19th ACM Conference on Information and Knowledge Management (CIKM), Tonronto, Oct 2010. "></span> We&#39;ll re-purpose <a href="http://infolab.tamu.edu/data/twitter_cikm_2010.pdf" target="_blank">this data</a> to train our <em>base model</em>. In training this model, we aren&#39;t interested in a creating a model that sounds like a specific tweeter, but rather a model that learns to sound like twitter users in general.</p>
 <p>Let&#39;s begin by creating a <code>twitterbot-tutorial/</code> directory for our project. Inside this directory we&#39;ll create another folder called <code>char-rnn-text-generation/</code> to house the code and data for our base model.</p>
 <pre class="code">
     <code class="bash" data-wrap="false">
@@ -161,13 +161,15 @@ So are we going to carowinds?
 </pre>
 
 <h2 id="data-representation">Data Representation</h2>
-<p>We&#39;ll be using the popular and user-friendly <a href="https://keras.io/" target="_blank">Keras</a> python library in the next section to train a model using our twitter training data, but before we do, I want to take a moment to discuss how we go from text data in a file to model training. If a machine learning model operates exclusively on numerical data, what data do we actually feed our model?</p>
-<p>Given some sequence of input characters we&#39;d like our model to guess a likely next character in the sequence. For instance, if our model is fed the input sequence <code>hello ther</code>, we&#39;d hope that it predicts that the next character in the sequence would be <code>e</code> with high probability. Framed in this way, a knowledgeable observer would identify that this is a classification task, with single characters defined as both input and output classes. A naive encoding solution would use 26 classes to represent each of the 26 english characters, however, this encoding would exclude frequently used punctuation like &quot;,&quot;, &quot;.&quot;, and even &quot; &quot;.On the other hand, if we attempted to use all <a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank">UTF-8 characters</a>, we&#39;d have 1,112,064 unique character classes, only a small fraction of which would actually appear in the training data. We must find some middle ground that includes enough characters to be able to accurately represent a good portion of the training data while not containing so many classes that it negatively effect&#39;s our model&#39;s performance. </p>
-<p>One common method that ML engineers use in practice is to create a class dictionary from the training data itself. If there exist 118 characters in the training data they will use that number of unique output classes. However, our training data is so large that it contains over 2,500 unique characters. <span class="marginal-note" data-info="sed 's/\(.\)/\1\n/g' data/tweets-split/train.txt | sort | uniq -c | sort -nr > [character-frequency.txt](https://pastebin.com/raw/rDqsDp9C)"></span> Instead, we choose to pick an arbitrary set of likely characters. For convenience, we&#39;ll choose to use a subset of printable characters according to the Python programming language.</p>
+<p>We&#39;ll be using the popular and user-friendly <a href="https://keras.io/" target="_blank">Keras</a> python library in the next section to train a model with this data, but before we do, I want to take a moment to discuss how we go from text data in a file to model training. If a machine learning model operates exclusively on numerical data, what data do we actually feed our model?</p>
+<p>Given some sequence of input characters we&#39;d like our model to guess a likely next character in the sequence. For instance, if our model is fed the input sequence <code>hello ther</code>, we&#39;d hope that it predicts that the next character in the sequence would be <code>e</code> with high probability. Framed in this way, a knowledgeable observer would identify that this is a classification task, with single characters defined as both input and output classes. A naive encoding solution would use 26 classes to represent each of the 26 english characters, however, this encoding would exclude frequently used punctuation like &quot;,&quot;, &quot;.&quot;, and even &quot; &quot;. On the other hand, if we attempted to use all <a href="https://en.wikipedia.org/wiki/Unicode" target="_blank">Unicode characters</a>, we&#39;d have 1,112,064 unique character classes, only a small fraction of which would actually appear in the training data. We must find some middle ground that includes enough characters to be able to accurately represent a good portion of the training data while not containing so many classes that it negatively effects our model&#39;s performance. </p>
+<p>One common method that ML engineers use in practice is to create a class dictionary from the training data itself. If there exist 118 characters in the training data they will use that number of unique output classes. However, our training data is so large that it contains over 2,500 unique characters. <span class="marginal-note" data-info="sed 's/\(.\)/\1\n/g' data/tweets-split/train.txt | sort | uniq -c | sort -nr > [character-frequency.txt](https://pastebin.com/raw/rDqsDp9C)"></span> Instead, we choose to pick an arbitrary set of likely characters. For convenience, we&#39;ll choose to use a subset of printable characters according to the Python programming language.<span class="marginal-note" data-info="That's also what YuXuan Tay did in his char-rnn implementation which are borrowing heavily from."></span></p>
 <pre class="code">
     <code class="python" data-wrap="false">
 import string
-print(''.join(sorted(ch for ch in string.printable if ch not in ("\x0b", "\x0c", "\r"))))
+print(''.join(sorted(ch for ch 
+                        in string.printable 
+                        if ch not in ("\x0b", "\x0c", "\r"))))
     </code>
 </pre>
 
@@ -187,8 +189,11 @@ def create_dictionary():
     create char2id, id2char and vocab_size
     from printable ascii characters.
     """
-    chars = sorted(ch for ch in string.printable if ch not in ("\x0b", "\x0c", "\r"))
+    chars = sorted(ch for ch in string.printable 
+                      if ch not in ("\x0b", "\x0c", "\r"))
     char2id = dict((ch, i + 1) for i, ch in enumerate(chars))
+    # add the null character which we'll use to represent any character not
+    # found in our printable vocabulary
     char2id.update({"": 0})
     id2char = dict((char2id[ch], ch) for ch in char2id)
     vocab_size = len(char2id)
@@ -220,14 +225,15 @@ ID2CHAR
     97: "~"
 }
 
+# 98 instead of 97 because we add the null character ""
 VOCABSIZE
 98
     </code>
 </pre>
 
-<p>These dictionaries are useful in the process of encoding data to feed into the model as well as decoding data that the model outputs back into text, but we actually don&#39;t want to use use these integers to represent character classes themselves. The reason for this is that integers represent scalar values of some magnitude. In this sense, the character &quot;~&quot; represents a value 97 times the magnitude of &quot;\t&quot;, which really doesn&#39;t make any sense from a categorical standpoint. Instead, we need a way to represent our categorical data such that it treats each category with the same level of importance. Or better yet, what if we could use an encoding that actually preserved or embeds information about the way the class itself is used in the training data that could be helpful to the learning algorithm. We&#39;ll discuss and use two different methods that achieve these goals.</p>
+<p>These dictionaries are useful in the process of encoding data to feed into a model, or decoding data a model outputs back into text, but we actually don&#39;t want to use use these integers to represent character classes themselves. The reason for this is that integers represent scalar values of some magnitude. In this sense, the character &quot;~&quot; represents a value 97 times the magnitude of &quot;\t&quot;, which really doesn&#39;t make any sense from a categorical standpoint. Instead, we need a way to represent our categorical data such that it treats each category with the same level of importance. Or better yet, what if we could use an encoding that actually preserves or embeds information about the way the class itself is used in the training data that could be helpful to the learning algorithm. We&#39;ll discuss and use two different methods that achieve these goals.</p>
 <h3 id="one-hot-encoding">One Hot Encoding</h3>
-<p>Perhaps the most common data representation for categorical data is a method called one-hot encoding, where each category is encoded as a single vector with length equal to the number of total categories. All values in this vector are zero except the index of the class the vector represents, which is one, or &quot;hot.&quot; Here is a toy example of one hot encoding for a DNA sequence, which has only four classes <code>C</code>, <code>G</code>, <code>A</code>, and <code>T</code>.<span class="marginal-note" data-info="For a visual example of one-hot encoding, check out [this gif](http://cms.brangerbriz.com/img/assetsFile/images/d7137f62cbeafcdc550298d39ed6c585) from our [Using Machine Learning to Create New Melodies](https://brangerbriz.com/blog/using-machine-learning-to-create-new-melodies#midi-rnn-algorithm-breakdown) blog post, which applies the encoding to MIDI data."></span></p>
+<p>Perhaps the most common data representation for categorical data is a method called one-hot encoding, where each category is encoded as a single vector with length equal to the number of total categories. All values in this vector are zero except the index of the class the vector represents, which is one, or &quot;hot.&quot; Here is a toy example of one hot encoding for a DNA sequence, which has only four classes: <code>C</code>, <code>G</code>, <code>A</code>, and <code>T</code>.<span class="marginal-note" data-info="For a visual example of one-hot encoding, check out [this gif](http://cms.brangerbriz.com/img/assetsFile/images/d7137f62cbeafcdc550298d39ed6c585) from our [Using Machine Learning to Create New Melodies](https://brangerbriz.com/blog/using-machine-learning-to-create-new-melodies#midi-rnn-algorithm-breakdown) blog post, which applies the encoding to MIDI data."></span></p>
 <pre class="code">
     <code class="python" data-wrap="false">
 CHAR2ID = {
@@ -266,15 +272,15 @@ one_hot_encode('ACAATGCAGATTAC')
     </code>
 </pre>
 
-<p>One-hot encodes each class as a unit value along a unique axis, or dimension, of a multidimensional space where the number of dimensions equal to the number of classes. All classes label values are orthogonal with a magnitude of one, which means that our model will be able to differentiate between them in a way that is far more effective than using integer valued labels.</p>
-<p>When we train a model using supervised learning, we do so using training data that consists of <code>X</code> and <code>y</code> pairs, where each input sample sample from <code>X</code> has a corresponding expected output label <code>y</code>. In a classification task, it is very common to express both the training inputs <code>X</code> and the labels <code>y</code> as one-hot encoded vectors. In our case, however, we will be using one-hot encoding for our labeled data and instead express our input data using word embeddings.</p>
+<p>One-hot encodes each class as a unit value along a unique axis, or dimension, of a multidimensional space where the number of dimensions equal the number of classes. All class label values are orthogonal with a magnitude of one, which means that our model will be able to differentiate between them in a way that is less bias than using integer valued labels.</p>
+<p>When we train a model using supervised learning, we do so using training data that consists of <code>X</code> and <code>y</code> pairs, where each input sample from <code>X</code> has a corresponding expected output label <code>y</code>. In a classification task, it is very common to express both the training inputs <code>X</code> and the labels <code>y</code> as one-hot encoded vectors. In our case, however, we will use one-hot encoding for our labeled data and express our input data using word embeddings.</p>
 <h3 id="word-embeddings">Word Embeddings</h3>
-<p>In the domain of natural language processing and generation, word embeddings are a popular encoding technique used to transform categorical data, like a word, into a continuous vector space such that information about the context and usage of that word is preserved. Once transformed, words that are similar to one another appear geometrically &quot;nearby&quot;.</p>
+<p>In the domain of natural language processing and generation, word embeddings are a popular encoding technique used to transform categorical data, like a word, into a continuous vector space such that information about the context and usage of that word is preserved. Once transformed, words that are similar to one another appear geometrically &quot;nearby&quot; in this embedding space.</p>
 <section class="media" data-fullwidth="false">
     <img src="images/tsne.png" alt="source: https://www.tensorflow.org/tutorials/representation/word2vec">
 </section>
 
-<p>One-hot vectors encode data in a way that destroys valuable information about the relationship between the labels and their usage. It is also redundant and inefficient (just look at all of those <code>0</code>s). Word embeddings, on the other hand, <em>learn</em> an encoding that aims to preserve semantic meaning, mapping it into a geometric space. The distance between any two words in this learned embedding space should represent some relationship between these two words. This idea can take a while to wrap your head around, but it&#39;s an incredibly powerful technique. This is a form of feature learning and there are several popular techniques<span class="marginal-note" data-info="[Word2Vec](https://en.wikipedia.org/wiki/Word2vec) and [GloVe](https://nlp.stanford.edu/projects/glove/) are some of the most popular embedding algorithms for natural language. We've actually spent some time playing with GloVe and created [a few experiments](https://github.com/brangerbriz/GloVe-experiments) in the process."></span> that can be used to learn the embeddings for your particular dataset. Once learned, word embeddings are usually used in combination with a look up table, as the input data <code>X</code> in model training. </p>
+<p>One-hot vectors encode data in a way that destroys valuable information about the relationship between the labels and their usage in our training data. It is also redundant and inefficient (just look at all of those <code>0</code>s). Word embeddings, on the other hand, <em>learn</em> an encoding that aims to preserve semantic meaning, mapping it into a geometric space. The distance and direction between any two words in this learned embedding space should represent some relationship between these two words. This idea can take a while to wrap your head around, but it&#39;s an incredibly powerful technique. This is a form of feature learning and there are several popular techniques<span class="marginal-note" data-info="[Word2Vec](https://en.wikipedia.org/wiki/Word2vec) and [GloVe](https://nlp.stanford.edu/projects/glove/) are some of the most popular embedding algorithms for natural language. We've actually spent some time playing with GloVe at Branger_Briz and created [a few experiments](https://github.com/brangerbriz/GloVe-experiments) in the process."></span> that can be used to learn the embeddings for your particular dataset. Once learned, word embeddings are usually used in combination with a look up table, as the input data <code>X</code> in model training. </p>
 <p>Here is another toy example encoding the four DNA classes, this time with word embeddings instead of one-hot encoding.</p>
 <pre class="code">
     <code class="python" data-wrap="false">
@@ -327,7 +333,9 @@ batch_size=64
 seq_len=64
 
 model = Sequential()
-model.add(Embedding(vocab_size, embedding_size, batch_input_shape=(batch_size, seq_len)))
+model.add(Embedding(vocab_size, 
+                    embedding_size, 
+                    batch_input_shape=(batch_size, seq_len)))
 # build the rest of our model down here...
     </code>
 </pre>
@@ -341,6 +349,7 @@ def my_generator():
     times = 0
     while True:
         times += 1
+        # in generators, "yield" is used in place of "return"
         yield "This generator function has been called {} times".format(times)
 
 # generators are instantiated before being "called" with the next() built-in
@@ -351,7 +360,7 @@ print(next(gen)) # This generator function has been called 3 times
     </code>
 </pre>
 
-<p>In Keras, we can use the model training method <code>model.fit_generator(data_generator)</code> to train a model using data that is prepared using a generator. This method requires <code>data_generator</code> to produce batches of <code>[X, y]</code> pairs and will internally manage calls to <code>next(data_generator)</code> whenever it requires new training data. Below is a code snippet that illustrates how our data will be loaded, encoded, and fed into the model in the next section. I&#39;ve included it here with hopes that you will take care to attempt to understand what  it is doing, at least from a high-level standpoint. We&#39;ll do something with this code in the next section.</p>
+<p>In Keras, we can use the model training method <code>model.fit_generator(data_generator)</code> to train a model using data that is prepared using a generator. This method requires <code>data_generator</code> to produce batches of <code>[X, y]</code> pairs and will internally manage calls to <code>next(data_generator)</code> whenever it requires new training data. Below is a code snippet that illustrates how our data will be loaded, encoded, and fed into the model in the next section. I&#39;ve included it here with hopes that you will take care to attempt to understand what  it is doing, at least from a high-level standpoint. We&#39;ll do something with this code in the next chapter.</p>
 <pre class="code">
     <code class="python" data-wrap="false">
 def data_generator(text_path, batch_size=64, seq_len=64):
@@ -360,8 +369,9 @@ def data_generator(text_path, batch_size=64, seq_len=64):
     max_bytes_in_ram=1e6
 
     # get the total size of the input file and make note of the location where
-    # our file last subdivides into chunks of max_bytes_in_ram. We don't want
-    # to load a 1MB chunk of text if there are only 420KB left in the file!
+    # our file last subdivides into chunks of max_bytes_in_ram. We'll never 
+    # load data past this point. We don't want to load a 1MB chunk of text if 
+    # there are only 420KB left in the file!
     total_bytes = os.path.getsize(text_path)
     effective_file_end = total_bytes - total_bytes % max_bytes_in_ram
 
@@ -423,7 +433,7 @@ def data_generator(text_path, batch_size=64, seq_len=64):
     </code>
 </pre>
 
-<p>That&#39;s it for data preparation! By now you should have an idea of the type of data we are using and the ways we plan on transforming it when we actually train some models in the next section: <a href="twitterbot-part-2-model-training-and-iteration.html">Part 2, Model training and Iteration</a>.</p>
+<p>That&#39;s it for data preparation! By now you should have an idea of the type of data we are using and the ways we plan on transforming it before feeding it to models in the next chapter: <a href="twitterbot-part-2-model-training-and-iteration.html">Part 2, Model training and Iteration</a>.</p>
 
 <!-- The content above this line is injected using `marked` in `build.sh` -->    
         <p>Return to the <a href="index.html">main page</a>.</p>
