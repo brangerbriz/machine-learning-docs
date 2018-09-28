@@ -408,8 +408,7 @@ checkpoints/base-model/tfjs/
   "author": "Brannon Dorsey <bdorsey@brangerbriz.com>",
   "license": "GPL-3.0",
   "dependencies": {
-    "@tensorflow/tfjs": "^0.12.7",
-    "@tensorflow/tfjs-node": "^0.1.15",
+    "@tensorflow/tfjs-node": "^0.1.17",
     "electron": "^2.0.8"
   }
 }
@@ -436,7 +435,7 @@ npm install
     &lt;h1&gt;Tensorflow.js Tweet Generator&lt;/h1&gt;
     &lt;pre id="text"&gt;&lt;/pre&gt;
     &lt;!-- This is a utility library for sampling from probability distributions --&gt;
-    &lt;script src="https://raw.githubusercontent.com/brangerbriz/sampling/master/discrete.js"&gt;&lt;/script&gt;
+    &lt;script src="https://gitcdn.link/repo/brangerbriz/sampling/master/discrete.js"&gt;&lt;/script&gt;
     &lt;script src="generate.js"&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
@@ -610,13 +609,29 @@ function createDictionary() {
     </code>
 </pre>
 
-<p>This code should look familiar, so we&#39;ll highlight some of the major differences between these Python and JavaScript implementations:</p>
+<p>This code should look familiar, so we&#39;ll highlight some of the major differences between these Python and JavaScript implementations:<span class="marginal-note" data-info="A more detailed description of each of these Tensorflow.js API components is covered in the tfjs [Core Concepts](https://js.tensorflow.org/tutorials/core-concepts.html) tutorial. I highly recommend reviewing that documentation. "></span></p>
 <ul>
 <li><code>tf.tensor()</code> vs <code>np.array()</code></li>
-<li><code>tf.tiny()</code> and <code>tf.dispose()</code></li>
+<li><code>tf.tidy()</code> and <code>tf.dispose()</code></li>
 <li><code>tf.nextFrame()</code></li>
 </ul>
-<p>The Numpy Python library that Keras uses as an interchange format for tensor objects isn&#39;t available in JavaScript, so tfjs implements its own <code>tf.tensor()</code> interface in its place.</p>
+<p>The Numpy Python library that Keras uses as an interchange format for tensor objects isn&#39;t available in JavaScript, so tfjs implements its own <a href="https://js.tensorflow.org/api/0.13.0/#tensor" target="_blank"><code>tf.tensor()</code> interface</a> in its place. This is an immutible n-dimensional data type that manages data differently depending on the tfjs backend being used. Raw data buffers can be accessed via the Promise <code>tf.tensor().data()</code>, or transfered from memory in a blocking way via <code>tf.tensor().dataSync()</code>.</p>
+<p>Both the &quot;WebGL&quot; and &quot;tensorflow&quot; backends store tensors in GPU memory so JavaScript&#39;s garbage collector can&#39;t release the memory they store. Tensor values in tfjs must be explicitly released when they are no longer needed with <code>tf.tensor().dispose()</code>. Failing to do so will cause a memory leak in your application and can result in memory exhaustion. <code>tf.tidy()</code> provides a convenient memory management wrapper function that automatically disposes any temporary tensors that are created inside its callback. Wrapping synchronous code inside <code>tf.tidy()</code> provides a formed of scoped garbage collection for tensor memory.</p>
+<p><code>tf.nextFrame()</code> returns a promise that resolves when a <code>requestAnimationFrame()</code> has completed. Awaiting this function artificially slows the performance of blocking tfjs code run in a tight loop, throttling tfjs performance in exchange for a slightly less laggy UI experience for the user. Unfortunately, blocking tfjs code runs on the main UI JavaScript thread, so any computationally expensive tfjs operation will freeze the web page until it completes.<span class="marginal-note" data-info="There is [talk](https://github.com/tensorflow/tfjs/issues/102) of providing WebGL acceleration in web worker contexts, but this is not yet supported at the time of this writing."></span></p>
+<p>We should now be ready to launch our <code>generate.html</code> page using Electron.</p>
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# uses package.json to run "electron generate.html"
+npm start
+    </code>
+</pre>
+
+<p>Doing so will cause an Electron window to be created. The contents of the window will first show &quot;Loading model...&quot;, followed by &quot;generating text...&quot;, and after a short while, should be replaced by the output text from our model.</p>
+<section class="media" data-fullwidth="false">
+    <img src="images/tfjs-tweet-generator.png" alt="Screenshot of the Electron window.">
+</section>
+
+<p>That&#39;s it! We should have now have a full version of our pre-trained Keras &quot;base model&quot; running in-browser. In the next chapter, we&#39;ll learn how to use Twitter data from individual users to finetune our base model via transfer learning, and create twitterbots intended to mimic specific twitter accounts.</p>
 
 <!-- The content above this line is injected using `marked` in `build.sh` -->    
         <p>Return to the <a href="index.html">main page</a>.</p>
