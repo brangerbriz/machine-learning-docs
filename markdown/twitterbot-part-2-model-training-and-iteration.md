@@ -66,7 +66,7 @@ def one_hot_encode(indices, num_classes):
     </code>
 </pre>
 
-As you can imagine, we'll use `util.py` to hold some of our general purpose utility functions like those used for data loading and managing. This is good practice because these functions will be used by several of our scripts. Next, let's create a new file called `train.py` and add the following code snippet.
+As you can imagine, we'll use `util.py` to hold some of our general purpose utility functions like those used for data loading and managing. This is good practice because these functions will be used by several of our scripts. Next, lets create a new file called `train.py` and add the following code snippet.
 
 <pre class="code">
     <code class="python" data-wrap="false">
@@ -90,7 +90,7 @@ DROP_RATE=0.2 # 20% dropout
 NUM_EPOCHS=1
 
 # we'll save our model to checkpoints/checkpoint.hdf5
-CHECKPOINT_DIR='checkpoints/'
+CHECKPOINT_DIR='checkpoints'
 CHECKPOINT_PATH=os.path.join(CHECKPOINT_DIR, 'checkpoint.hdf5')
 TRAIN_TEXT_PATH=os.path.join('data', 'tweets-split', 'train.txt')
 VAL_TEXT_PATH=os.path.join('data', 'tweets-split', 'test.txt')
@@ -109,7 +109,7 @@ train()
     </code>
 </pre>
 
-We'll use this template to build out our actual training algorithm. Before we do, let's dive into the meaning of some of these hyperparameter constants.
+We'll use this template to build out our actual training algorithm. Before we do, lets dive into the meaning of some of these hyperparameter constants.
 
 ### Hyperparameters
 
@@ -132,7 +132,7 @@ Further in the chapter we'll explore a technique called hyperparameter search th
 
 ### Training Code
 
-We'll start by using the Keras API, along with our hyperparameters, to build a model. Keras provides a high-level API for building basic neural network architectures using common building blocks like layers. It abstracts away the actual matrix multiplications and calculus needed to train a model. You'll be left with the task of designing your model architecture and figuring out how to wrangle data into and out from the model, Keras it handles the actual "learning". Go ahead and fill in the empty `build_model()` function with the contents below.<span class="marginal-note" data-info="Keras' use of the word 'Sequential()' doesn't mean the data has to be sequential, but rather the construction of the model's layers are sequential: one after another. It just so happens that we are using a Sequential() model to process sequential data using an RNN."></span>
+We'll start by using the Keras API, along with our hyperparameters, to build a model. Keras provides a high-level API for building basic neural network architectures using common building blocks like layers. It abstracts away the actual matrix multiplications and calculus needed to train a model. You'll be left with the task of designing your model architecture and figuring out how to wrangle data into and out of the model while Keras handles the actual "learning". Go ahead and fill in the empty `build_model()` function with the contents below.<span class="marginal-note" data-info="Keras' use of the word 'Sequential()' doesn't mean the data has to be sequential, but rather the construction of the model's layers are sequential: one after another. It just so happens that we are using a Sequential() model to process sequential data using an RNN."></span>
 
 <pre class="code">
     <code class="python" data-wrap="false">
@@ -151,14 +151,13 @@ def build_model():
 
     # Here is a breakdown of the layers as well as the shape of our model
     # at each level.
-    # add an embedding layer to map input indexes to word embeddings
-    # Embedding layer, maps class int labels to word vectors
+    # Embedding layer, maps class int labels to word embedding vectors
     #   input shape: (BATCH_SIZE, SEQ_LEN)
     #   output shape: (BATCH_LEN, SEQ_LEN, EMBEDDING_SIZE)
     # Dropout
     #   randomly "turns off" 20% of the input neurons each batch
-    # LSTM Layer 1 ... LSTM Layer N
-    #   input shape: (BATCH_SIZE, SEQ_LEN, EMBEDDING_SIZE)
+    # LSTM Layer 1 to N
+    #   input shape: (BATCH_SIZE, SEQ_LEN, EMBEDDING_SIZE (or RNN_SIZE))
     #   output shape: (BATCH_SIZE, SEQ_LEN, RNN_SIZE)
     #   followed by another layer of dropout
     # Time Distributed Dense
@@ -173,37 +172,37 @@ def build_model():
     </code>
 </pre>
 
-Let's break these layers down. First, we've got an embedding layer, which we define as having `utils.VOCAB_SIZE`<span class="marginal-note" data-info="Remember from Part 1 that VOCAB_SIZE is the equal to the number of Python printable characters, minus several characters we've removed. That leaves us with 98 unique character classes."></span> unique classes and an output size of `EMBEDDING_SIZE`. This is our look up table that transforms our integer valued class labels to word embeddings. Next we add a dropout layer which will randomly null out 20% of our input features before feeding them to the input layer. This effectively destroys input data and as a result adds variation to our input samples in a way that makes it more difficult for the model to memorize the training data. By doing so we encourage the model to work harder to extract more meaningful patterns from the data.
+Lets break these layers down. First, we've got an embedding layer, which we define as having `utils.VOCAB_SIZE`<span class="marginal-note" data-info="Remember from Part 1 that VOCAB_SIZE is the equal to the number of Python printable characters, minus several characters we've removed. That leaves us with 98 unique character classes."></span> unique classes and an output size of `EMBEDDING_SIZE`. This is our look up table that transforms our integer valued class labels to word embeddings. Next we add a dropout layer which will randomly null out 20% of our input features before feeding them to the input layer. This effectively destroys input data and as a result adds variation to our input samples in a way that makes it more difficult for the model to memorize the training data. By doing so we encourage the model to work harder to extract more meaningful patterns from the data.
 
-Dropout is followed by series of LSTM layers, starting with the input layer. LSTM stands for long short-term memory and it's a popular unit type to use with recurrent neural networks. Since it was introduced in the late 1990s it has been shown to perform better than "vanilla" RNN units at learning long-term dependence between input sequences, a task that all neural network models actually perform pretty poorly at.<span class="marginal-note" data-info="True long-term dependence is an unsolved problem. It's the reason that models can create seemingly realistic short utterances that start to lose meaning and structure as the length of the generated text grows. That's why we can model shakespeare's speech in a way that *sounds* like shakespeare, but doing so doesn't leave us with an infinite number of quality new shakespeare plays. Check out [this delightful short film](https://www.youtube.com/watchv=LY7x2Ihqjmc) where a team of actors actually perform a screenplay written by an LSTM model."></span> The LSTM layers are where the *learning* happens, though we won't go into the details just of how that works here. Each layer after the input layer is called a "hidden" layer as the relationship between the input values and the neurons becomes opaque and non-linear, or "hidden."
+Dropout is followed by a series of LSTM layers, starting with the input layer. LSTM stands for long short-term memory and it's a popular unit type to use with recurrent neural networks. Since it was introduced in the late 1990s it has been shown to perform better than "vanilla" RNN units at learning long-term dependence between input sequences, a task that all neural network models actually perform pretty poorly at.<span class="marginal-note" data-info="True long-term dependence is an unsolved problem. It's the reason that models can create seemingly realistic short utterances that start to lose meaning and structure as the length of the generated text grows. That's why we can model shakespeare's speech in a way that *sounds* like shakespeare, but doing so doesn't leave us with an infinite number of quality new shakespeare plays. Check out [this delightful short film](https://www.youtube.com/watch?v=LY7x2Ihqjmc) where a team of actors actually perform a screenplay written by an LSTM model."></span> The LSTM layers are where the *learning* happens, though we won't go into the details of just how that works here. Each layer after the input layer is called a "hidden" layer as the relationship between the input values and the neurons becomes opaque and non-linear, or "hidden."
 
-Finally we pass the output from our final hidden layer to a set of dense output layers. This is a common practice in classification tasks. A dense layer is a flat set of vanilla neural network units. If we use a dense layer as the final layer we set the number of output units equal to the number of class labels. The value at each index then represents the likelihood that a given input sample belongs to the one-hot class label at that same index. By using a `"softmax"` activation function, we normalize the output from the final dense layer, transforming it into a probability distribution where all elements in the vector sum to `1.0`, and thus each index represents the percent chance that an input belongs to its corresponding class label. We have one dense layer for each character in the output sequence, which is handled by the call to `TimeDistributed()`.
+Finally we pass the output from our final hidden layer to a set of dense output layers. This is a common practice in classification tasks. A dense layer is a flat set of vanilla neural network units. If we use a dense layer as the final layer we set the number of output units equal to the number of class labels. The value at each index then represents the likelihood that a given input sample belongs to the one-hot class label at that same index. By using a `"softmax"` activation function, we normalize the output from the final dense layer, transforming it into a probability distribution where all elements in the vector sum to `1.0`. Each index represents the percent chance that an input belongs to its corresponding class label. We have one dense layer for each character in the output sequence, which is handled by the call to `TimeDistributed()`.
 
-If you followed that it means that our model is expecting to be fed an input of integers<span class="marginal-note" data-info="Which it will internally map to word embeddings whose' values are learned during training."></span> and will output a sequence of vector values, each with a length equal to the number of characters we have in our vocab size. Each vector represents a predicted character in the output sequence. The values in each of these vectors corresponds to the probability the model has assigned to each possible output class.
+If you followed that it means that our model is expecting to be fed an input of integers<span class="marginal-note" data-info="Which it will internally map to word embeddings whose values are learned during training."></span> and will output a sequence of vector values, each with a length equal to the number of characters we have in our vocab size. Each vector represents a predicted character in the output sequence. The values in each of these vectors corresponds to the probability the model has assigned to each possible output class.
 
-Now that we've added code that creates our model, let's add the code train it. Apologies ahead of time for slamming you in the face with a wall full of `monospaced source code` but there isn't a lot of sugar coating for this bit of training code. I've done my best to annotate it with helpful comments and we'll cover the basics in more detail once you've powered through reading it.
+Now that we've added code that creates our model, lets add the code that trains it. Apologies ahead of time for slamming you in the face with a wall full of `monospaced source code`, but there isn't a lot of sugar coating for this bit of training code. I've done my best to annotate it with helpful comments and we'll cover the basics in more detail once you've powered through reading it.
 
 <pre class="code">
     <code class="python" data-wrap="false">
 def train():
 
-    # create our model using the function we just wrote ^
+    # create our model using the build_model() function we just wrote ^
     model = build_model()
 
-    # once we've loaded/built the model, we need to compile it using an 
+    # once we've loaded and built the model, we need to compile it using an 
     # optimizer and a loss. The loss must be categorical_crossentropy, because
     # our task is a multi-class classification problem.
     model.compile(loss="categorical_crossentropy", optimizer='rmsprop')
 
     # Callbacks are hooked functions that keras will call automagically
     # during model training. For more info, see https://keras.io/callbacks/
-    #     - EarlyStopping: Will stop model training once val_loss plateuas.
-    #     - TensorBoard: logs training metrics so that they may be viewed by 
+    #     - EarlyStopping: Will stop model training once val_loss plateuas 
+    #       or starts increasing.
+    #     - TensorBoard: logs training metrics so that they can be viewed in 
     #       tensorboard.
     #     - ModelCheckpoint: save model weights as checkpoints after
-    #       each epoch.
-    #       Only save a checkpoint if val_loss has improved.
-    #     - LabmdaCallback: Your own custom hooked function. Here we reset the
+    #       each epoch. Only save a checkpoint if val_loss has improved.
+    #     - LambdaCallback: Your own custom hooked function. Here we reset the
     #       model's RNN states between Epochs.
     callbacks = [
         # if val_loss doesn't improve more than 0.01 for three epochs in a row
@@ -258,13 +257,14 @@ def train():
     val_generator = generator_wrapper(val_generator)
     train_generator = generator_wrapper(train_generator)
 
+    # clear the model's internal RNN states before training.
     model.reset_states()
 
     # train the model using train_generator for training data and val_generator
     # for validation data. The results from model.fit_generator() is a history
-    # object holds information about model training and evaluation for each
-    # epoch. We won't use it, but it's worth mentioning that it exists here in
-    # case you do want to do something with that information in the future.
+    # object which holds information about model training and evaluation for 
+    # each epoch. We won't use it but it's worth mentioning that it exists 
+    # here in case you want to do something with it in the future.
     history = model.fit_generator(train_generator,
                                   epochs=NUM_EPOCHS,
                                   steps_per_epoch=train_steps_per_epoch,
@@ -282,8 +282,9 @@ def generator_wrapper(generator):
 
 # because we're using a generator to lazy load training data from disk, we 
 # don't know the full size of an epoch without actually iterating through the 
-# entire generator. Function iterates through it's generator argument for the 
-# entire first epoch of data, counting the number of steps it takes to do so.
+# entire generator. This function iterates through its generator argument for 
+# the entire first epoch of data, counting the number of steps it takes to do
+# so.
 def get_num_steps_per_epoch(generator):
     num_steps = 0
     while True:
@@ -297,19 +298,19 @@ def get_num_steps_per_epoch(generator):
 
 We begin by creating our model and "compiling" it, whereby we define our optimization algorithm and loss function. A loss function is a measurement of error<span class="marginal-note" data-info="See [Performance Measures](performance-measures.html)."></span> between what our model outputs and what our labeled data says it should output. There are several common loss functions used in machine learning and [Keras supports most of them](https://keras.io/losses/). Categorical cross entropy (i.e. `categorical_crossentropy`) should be used exclusively for multi-class classification problems. It measures the divergence between the predicted probability distribution and the true probability distribution of the labeled data.<span class="marginal-note" data-info="Or rather, a sample drawn from the underlying data distribution."></span> You don't have to remember what it does so long as you remember to use it whenever you are trying to solve a classification problem with more than two classes. 
 
-Once we've defined our loss function as a performance measure for a model, we can automagically optimize our model weights with respect to the this loss function in an attempt to minimize it. This optimization method attempts to find a suitable set of model weights `W` such that the scalar loss value `L` produced by our loss `categorical_crossentropy` loss function decreases. 
-
-There are several popular optimization algorithms used in deep learning today and most of them derive from stochastic gradient descent (SGD). RMSProp is commonly used to optimize RNNs, so we'll try that first, but feel free to experiment with the other optimization functions that Keras supports. You'll find some of them may arrive at lower losses while others converge to a "good enough" loss more quickly.
+Once we've defined our loss function as a performance measure for a model, we can automagically optimize our model weights with respect to this loss function in an attempt to minimize it. This optimization method attempts to find a suitable set of model weights `W` such that the scalar loss value `L` produced by our loss `categorical_crossentropy` loss function decreases. 
 
 <section class="media" data-fullwidth="false">
     <img src="images/noisy_quadratic_surf.png" alt="An example perameter space, mapping model weights on the X and Z axis to a loss value on the Y axis. An optimization algorithm searches this space for X and Y values that have low values for Y. source: https://www.mcs.anl.gov/~more/dfo/">
 </section>
 
-Once we've compiled our model using a loss and an optimizer, we define a few [Keras callbacks](https://keras.io/callbacks/). These callbacks are hooks that get called automatically Keras during model training. Here we are using one to save our model weights to disk as a checkpoint after each epoch if `val_loss` improves, one to save our losses to Tensorboard logs for graphical analysis, one to automatically quit training if `val_loss` doesn't improve for more than 3 epochs, and finally, one "lambda" function where we specify custom code to run after each epoch has finished; which we are using here to reset the model's RNN states.
+There are several popular optimization algorithms used in deep learning today and most of them derive from stochastic gradient descent (SGD). RMSProp is commonly used to optimize RNNs, so we'll try that first, but feel free to experiment with the other optimization functions that Keras supports. You'll find some of them may arrive at lower losses while others converge to a "good enough" loss more quickly.
+
+Once we've compiled our model using a loss and an optimizer, we define a few [Keras callbacks](https://keras.io/callbacks/). These callbacks are hooks that get called automatically by Keras during model training. Here we are using one to save our model weights to disk as a checkpoint after each epoch if `val_loss` improves, one to save our losses to Tensorboard logs for graphical analysis, one to automatically quit training if `val_loss` doesn't improve for more than 3 epochs, and finally, one "lambda" function where we specify custom code to run after each epoch has finished; which we are using here to reset the model's RNN states.
 
 Next we create our training and validation data generators using `utils.io_batch_generator()`, which we wrote in [Part 1](twitterbot-part-1-twitter-data-preparation.html). This code may look a little strange as it appears that we are creating our generators, passing them to `get_num_steps_per_epoch()`, and then recreating them. This is a hack of sorts, for the purpose of calculating how many calls to our `next(train_generator)` make up one epoch. Keras' `model.fit_generator()` expects this count as a parameter: `steps_per_epoch`. The lazy way<span class="marginal-note" data-info="Here's a challenge: Take a look at utils.io_batch_generator() and see if you can write another utility function that calculates the number of steps per epoch without loading the data."></span> to find this value is to just run the generator, which is exactly what we do in `get_num_steps_per_epoch()`. Once that's done, technically the generator is in it's second pass (epoch) through the data, so we re-create it before passing it to `model.fit_generator()`, resetting its state before training.
 
-There is one more unconventional step in the training script. `model.fit_generator()` expects the generators its fed to output `(X, y)` training pairs, but our batch loading generators output `(X, y, epoch)`. If we pass the unmodified output of `utils.io_batch_generator()` directly into keras' training function we'll get a weird, hard to debug, error<span class="marginal-note" data-info="Trust me on that 🙃, it was not fun to track down that bug."></span> deep inside of Keras. To fix this, we throw together a quick hack with `generator_wrapper()`, which takes a generator that yields `(X, y, epoch)` and manages it's iteration such that the `epoch` return value is thrown away each time its called, yielding `(X, y)` only.
+There is one more unconventional step in the training script. `model.fit_generator()` expects the generators its fed to output `(X, y)` training pairs, but our batch loading generators output `(X, y, epoch)`. If we pass the unmodified output of `utils.io_batch_generator()` directly into keras' training function we'll get a weird, hard to debug, error deep inside of Keras.<span class="marginal-note" data-info="Trust me on that 🙃, it was not fun to track down that bug."></span> To fix this, we throw together a quick hack with `generator_wrapper()`, which takes a generator that yields `(X, y, epoch)` and manages its iteration such that the `epoch` return value is thrown away each time its called, yielding `(X, y)` only.
 
 Finally, we're ready to actually train our model! We'll do so by passing both our training and validation generators to `model.fit_generator()`. If you're new to ML, "fit" might sound like a strange word to use in place of "train." This is actually a quite common name for training<span class="marginal-note" data-info="I believe the name .fit() as a function call was popularized by the scikit-learn python framework."></span>, the idea being that during training you fit your model to your training data.
 
@@ -337,7 +338,7 @@ debug: new io_batch of 1000000 bytes
 
 Once one epoch has completed, the model weights will be saved to `checkpoints/checkpoint.hdf5`. We'll use this checkpoint in the next chapter when we use our trained model to generate text.
 
-9,000,000 tweets is a lot of text, so depending on your computer's hardware it could take a few hours to complete one epoch. If you are are on a machine with limited resources you could limit your training data. This will cut down on training time at the expense of model performance. You will, however, be able to train and iterate on new models more quickly, which is important in finding a good configuration of hyperparameters. If you'd like, you can limit your training data by copying a subset of `train.txt` and `validate.txt` to new files.
+Seven million training tweets is a lot of text, so depending on your computer's hardware it could take a few hours to complete one epoch. If you are on a machine with limited resources you could limit your training data. This will cut down on training time at the expense of model performance. You will, however, be able to train and iterate on new models more quickly, which is important in finding a good configuration of hyperparameters. Once you've found good hyperparameters using the smaller training set, you can train a model using your entire dataset. If you'd like, you can limit your training data by copying a subset of `train.txt` and `validate.txt` to new files.
 
 <pre class="code">
     <code class="bash" data-wrap="false">
@@ -407,13 +408,13 @@ optional arguments:
 
 ## Training Iteration
 
-Once you've trained your first model, it's time to train your second... third... and ∞... models. We trained our first using a seemingly random selection of model hyperparameters, but how do we know if those choices are a good fit for our data? We don't! We must compare our `val_loss` results from multiple experiments, each with a different configuration of hyperparameters, in order to find a model configuration that works well. 
+Once you've trained your first model, it's time to train your second... third... and ∞... models. We trained our first model using a seemingly random selection of model hyperparameters, but how do we know if those choices are a good fit for our data? We don't! We must compare our `val_loss` results from multiple experiments, each with a different configuration of hyperparameters, in order to find a model configuration that works well. 
 
 Before we get too deep into the weeds here, I want to stress that model training is **hard**. Deep learning models are notoriously hard to train. Model hyperparameters often have a non-linear relationship to each other, which can make a systematic trial-and-error search more tedious than you'd expect. There are two ways to approach iterative model training. 
 
-The first is *manual search*, where a human chooses a configuration of hyperparameters, trains a model, records and compares the results with past models, makes an informed guess about which hyperparameters to change for the next experiment, and then repeats. This technique requires a skilled ML practitioner with enough knowledge and experience to make informed decisions about which hyperparameters to change, and why. It can also be tedious and time-consuming.
+The first is *manual search*, where a human chooses a configuration of hyperparameters, trains a model, records and compares the results with past models, makes an informed guess about which hyperparameters to change for the next experiment, and then repeats. This technique requires a skilled ML practitioner with enough knowledge and experience to make informed decisions about which hyperparameters to change and why. It can also be tedious and time-consuming for the practitioner.
 
-The second method is *automated hyperparameter search*, where you let a machine fill the role a human plays in manual search. This method takes longer when measured in hours and days, but has the added benefit that it doesn't require the precious time of an ML expert, and the machine can work day and night, without being paid.
+The second method is *automated hyperparameter search*, where you let a machine fill the role a human plays in manual search. This method takes longer when measured in hours and days, but has the added benefit that it doesn't require the precious time of an ML expert, and the machine can work day and night, without being paid.<span class="marginal-note" data-info="Energy costs for a month of GPU accelerated hyperparameter search may be something to consider though."></span>
 
 ### Automated Hyperparameter Search
 
@@ -424,7 +425,7 @@ Automated hyperparameter search is becoming an increasingly popular technique in
 1. After all models are trained, their results are manually compared using factors like `val_loss` and training time.
 1. Either the "best" model is selected and used as the final model, or a human uses the information they've gained from the trials to define a new hyperparameter search space and repeats steps 1-4. 
 
-We'll conduct hyperparameter search in this tutorial. Create a new file called `hyperparameter-search.py` inside the `char-rnn-text-generation` directory we've been using so far, then fill it with this code snippet.
+We'll conduct hyperparameter search in this tutorial. Create a new file called `hyperparameter-search.py` inside the `char-rnn-text-generation/` directory we've been using so far, then populate it with this code snippet.
 
 <pre class="code">
     <code class="python" data-wrap="false">
@@ -483,11 +484,11 @@ def main():
 
 We start off by importing several python modules, most importantly [`hyperopt`](https://hyperopt.github.io/hyperopt/), which is a popular python library for Hyperparameter optimization. We follow those imports with several constants definitions, including the number of trials (individual models) we will train as well as the maximum number of epochs to train each of them for.
 
-The highlight of this snippet is the creation of the `SEARCH_SPACE` object. Here we use several `hyperopt` functions to define a range of values for each hyperparameter. At runtime, we'll sample from this search space for each trial, dependent on the hyperparameter search algorithm we are using. `SEARCH_ALGORITHM=tpe.suggest` will use the **tree of parzen estimators** (TPE) algorithm, which is a sequential model-based approach. TPE builds it's own "meta-model" during search, using the performance of past searches to select each subsequent sample from the hyperparameter search space. It attempts to adequately explore the search space quickly, while also sampling configurations near samples that have already perform well. In ML, this tradeoff is called exploration vs exploitation.
+The highlight of this snippet is the creation of the `SEARCH_SPACE` object. Here we use several `hyperopt` functions to define a range of values for each hyperparameter. At runtime, we'll sample from this search space for each trial, dependent on the hyperparameter search algorithm we are using. `SEARCH_ALGORITHM=tpe.suggest` will use the Tree of Parzen Estimators (TPE) algorithm, which is a sequential model-based approach. TPE builds its own "meta-model" during search, using the performance of past searches to select each subsequent sample from the hyperparameter search space. It attempts to adequately explore the search space quickly, while also sampling new configurations near samples that have already proven to perform well in previous trials. In ML, this tradeoff is called exploration vs exploitation.
 
-Perhaps surprisingly, random search has also been proven to perform well. Random search samples hyperparameters using random distributions<span class="marginal-note" data-info="The type of random distribution can be uniform, normal, multinomial, etc."></span>, without relying on information from past trials. While this may seem like a naive approach, it actually performs well in practice. It's been proven to work better than manual search given enough trials, in fact, it's estimated that random search has a 95% chance or finding a hyperparameter configuration within 5% of the optimimum in only 60 trials ([source](https://stats.stackexchange.com/questions/160479/practical-hyperparameter-optimization-random-vs-grid-search#209409)). Random search can also be run entirely in parallel, even on separate machines that aren't connected over a network, as samples for new trials aren't dependent on past trials.
+Perhaps surprisingly, random search has also been proven to perform well. Random search samples hyperparameters using random distributions<span class="marginal-note" data-info="The type of random distribution can be uniform, normal, multinomial, etc."></span>, without relying on information from past trials. While this may seem like a naive approach, it actually performs well in practice. It's been proven to work better than manual search given enough trials, in fact, it's estimated that random search has a 95% chance or finding a hyperparameter configuration within 5% of the optimimum in only 60 trials ([source](https://stats.stackexchange.com/questions/160479/practical-hyperparameter-optimization-random-vs-grid-search#209409)). Random search can also be run entirely in parallel, even on separate machines that aren't connected over a network, as samples for new trials aren't dependent on past trials like they are with TPE.
 
-Let's build out our `main()` function next.
+Lets build out our `main()` function next.
 
 <pre class="code">
     <code class="python" data-wrap="false">
@@ -503,7 +504,7 @@ def main():
         params['checkpoint_dir'] = os.path.join(EXPERIMENT_PATH, str(trial_num))
         os.makedirs(params['checkpoint_dir'])
 
-        # let's time the model training and print the hyperparameter sample to
+        # lets time the model training and print the hyperparameter sample to
         # the console.
         then = time.time()
         pprint.pprint(params)
@@ -513,7 +514,7 @@ def main():
         train_time = 0
         num_epochs = 0
 
-        # These are the default values that are returned if an error is  raised
+        # These are the default values that are returned if an error is raised
         # during the trial. We set these default "fake", values to be large
         # so that we can compare them against the true loss using min() below.
         val_loss = 100
@@ -575,7 +576,7 @@ def main():
 
 We use `hyperopt`'s `fmin()` function as a framework to run our trials, nesting the `trial(params)` function definition inside `main()` so that it can have closure around the list of `trials` as well as the `num_trials` variables. `fmin()` is given a function to run each trial, a hyperparameter search space to sample from, a search algorithm, and a number of trials to run. It then manages the sampling and running of the trial function for you, passing a hyperparameter sample chosen by the `SEARCH_ALGORITHM` as the parameter of the trials function: `trials(params)`.
 
-For each trial, we train a model for `MAX_EPOCHS_PER_TRIAL` and then create a `results` object that we append to to a list of all previous `trials`. This `results` object records useful information about each trial, like the `val_loss`, `train_loss`, and `train_time` as well as status or error information if the trial failed. Once we've added the new trail's results to the list of past trials, we rank the list by `val_loss` and save all trails to csv using `save_hp_checkpoint()`.
+In each trial, we train a model for `MAX_EPOCHS_PER_TRIAL` and then create a `results` object that we append to a list of all previous `trials`. This `results` object records useful information about each trial, like the `val_loss`, `train_loss`, and `train_time` as well as status or error information if the trial failed. Once we've added the new trail's results to the list of past trials, we rank the list by `val_loss` and save all trails to csv using `save_hp_checkpoint()`.
 
 <pre class="code">
     <code class="python" data-wrap="false">
@@ -609,6 +610,7 @@ def save_trials_as_csv(filename, ranked_trials):
                 'val_loss': results['loss'],
                 'train_loss': results['train_loss'],
                 'num_epochs': results['num_epochs'],
+                # we use epsilon as a lower bound to prevent divide by zero err
                 'avg_epoch_seconds': int(results['train_time'] / max(results['num_epochs'], sys.float_info.epsilon)),
                 'batch_size': trial['batch_size'],
                 'drop_rate': trial['drop_rate'],
@@ -622,7 +624,7 @@ def save_trials_as_csv(filename, ranked_trials):
             })
             rank += 1
 
-# finally, let's run the program!
+# finally, lets run the program!
 main()
     </code>
 </pre>
@@ -659,7 +661,7 @@ Once each trial has completed, you'll also see a new line added to the `trials.c
 
 I've highlighted the trial that I chose as the best above. This choice may come as a surprise considering it's the ninth ranked trial when it comes to validation loss, but remember that our ultimate goal with training this base model is to deploy it in a low resource browser environment. What stuck out to me about trial #41 was that it acheived a passably low loss while spending only 58 seconds per epoch. That's more than five times the speed of the highest ranking trial. It's also the highest ranking trial that uses only one layer, which means that it will be far more computationally efficient the higher ranked trials.
 
-Experimenting with hyperparameter search and model iteration has taught me to widen my success criteria when it comes to selecting hyperparameters. In the past, I've blindly optimized for `val_loss` without thinking of resource management. While that's fine if you've got the keys to a supercomputer and no limit to the time spent training and running your model, it's not very practical in the real world. It's true that `val_loss` is the standard method for evaluating ML models, but don't forget to factor in the resource constraints specific to your project's goal. Sure we could increase our model capacity by adding layers and RNN units and better fit a model to our nine million tweets, but then we would fail in our goal of building a twitterbot training pipeline that can run in a web browser on today's consumer hardware. By using hyperparameter search, we're able to survey the hyperparameter landscape and select a model configuration that performs well given our resource budget.
+Experimenting with hyperparameter search and model iteration has taught me to widen my success criteria when it comes to selecting hyperparameters. In the past, I've blindly optimized for `val_loss` without thinking of resource management. While that's fine if you've got the keys to a supercomputer and no limit to the time spent training and running your model, it's not very practical in the real world. It's true that `val_loss` is the standard method for evaluating ML models, but don't forget to factor in the resource constraints specific to your project's goal. Sure, we could increase our model capacity by adding layers and RNN units and better fit a model to our seven million tweets, but then we would fail in our goal of building a twitterbot training pipeline that can run in a web browser on today's consumer hardware. By using hyperparameter search, we're able to survey the hyperparameter landscape and select a model configuration that performs well given our resource budget.
 
 ### Training our base model
 
@@ -698,19 +700,19 @@ python3 train_cli.py \
 
 <p>
   <img src="images/learningrates.jpeg"> 
-While that's training, we'll take a moment to talk about learning rate. Learning rate is a hyperparameter that defines the magnitude of the weight parameter updates during each training batch. A higher learning rate will cause the model to move it's parameters more quickly in the direction each training batch suggests and may lead to faster convergence of training/validation loss at the coast of "jumping over" optimal weights. A lower learning rate will converge more slowly, but may find a more optimal set of model weights as its step size is smaller, and can find smaller "cracks" and "slopes" in the loss surface. We haven't talked about learning rate much yet because it's a fairly difficult hyperparameter to get right (though arguably the most important). It's not uncommon to do a small hyperparameter search dedicated just to finding the right learning rate. Because the learning rate is so sensitive, the Keras documentation suggests leaving some of the learning rates at their default values depending on the optimizer that is being used. That's what I've done in this tutorial up until now but there are a few tricks to learning rate that I want to consider now that we're training our final base model.
+While that's training, we'll take a moment to talk about learning rate. Learning rate is a hyperparameter that defines the magnitude of the weight parameter updates during each training batch. A higher learning rate will cause the model to move its parameters more quickly in the direction each training batch suggests and may lead to faster convergence of training/validation loss at the coast of "jumping over" optimal weights. A lower learning rate will converge more slowly, but may find a more optimal set of model weights as its step size is smaller, and can find smaller "cracks" and "slopes" in the loss surface. We haven't talked about learning rate much yet because it's a fairly difficult hyperparameter to get right (though arguably the most important). It's not uncommon to do a small hyperparameter search dedicated just to finding the right learning rate. Because the learning rate is so sensitive, the Keras documentation suggests leaving some of the learning rates at their default values depending on the optimizer that is being used. That's what I've done in this tutorial up until now but there are a few tricks to learning rate that I want to consider now that we're training our final base model.
 </p>
 
 <p>
   <a href="https://www.tensorflow.org/images/cifar_loss.png"><img src="images/reduced-learning-rate.png"></a>
-It's a common practice to begin training with a large learning rate and decrease it over time, either at a fixed schedule or once loss values start to plateua. This allows the optimization algorithm to quickly explore a large parameter space at first before settling down to make slower, more precise updates over a smaller area near the end of training. Keras has support for decreasing the learning rate during training via scheduling and on plateau using [callbacks](https://keras.io/callbacks/). I haven't added these features to our training script, but we could acheive the same behavior the "lazy" way: Train a model using the `train_cli.py` script until the `val_loss` stops improving and then manually retrain using the script's `--restore` flag and a lower learning rate. It's common to reduce learning rates by half or even an order of magnitude (e.g. `0.001` -> `0.0001`), training until the loss plateaus again, and then repeating the process. If successful, it's common to see a sharp drop in loss after the learning rate is decreased followed by an eventual plateau. When this technique is repeated you'll find it to have diminishing returns each time the learning rate is decreased, but I've been found it to produce lower loss values than were possible without it.
+It's a common practice to begin training with a large learning rate and decrease it over time, either at a fixed schedule or once loss values start to plateua. This allows the optimization algorithm to quickly explore a large parameter space at first before settling down to make slower, more precise updates over a smaller area near the end of training. Keras provides support for decreasing the learning rate during training via scheduling and on plateau using <a href="https://keras.io/callbacks" target="_blank">callbacks</a>. I haven't added these features to our training script, but we could acheive the same behavior the "lazy" way: Train a model using the <code>train_cli.py</code> script until the <code>val_loss</code> stops improving and then manually retrain using the script's <code>--restore</code> flag and a lower learning rate. It's common to reduce learning rates by half or even an order of magnitude (e.g. <code>0.001 -> 0.0001</code>), training until the loss plateaus again, and then repeating the process. If successful, it's common to see a sharp drop in loss after the learning rate is decreased followed by an eventual plateau. When this technique is repeated you'll find it to have diminishing returns each time the learning rate is decreased, but I've been found it to produce lower loss values than were possible without it.
 </p>
 
 <p>
   <a href="https://stats.stackexchange.com/questions/282544/why-does-reducing-the-learning-rate-quickly-reduce-the-error"><img src="images/reduced-learning-rate-bad.png"></a>
-You do have to take care not to reduce your learning rate too quickly. Doing so may offer large rewards at first, but ultimately cause your model to converge much slower than it would have at the previous learning rate, or not at all. Finding a good learning rate decay is tricky business so I've chosen to exclude a formalized method for so from this tutorial. You are encouraged to experiment with it yourself though! I trained my base model for dozens of epochs using the full training data and casually lowered the learning rate at my discretion. Doing so left me with a final validation loss of `1.50`, which I consider to be pretty successful given that we artificially constrained our model capacity to prioritize runtime performance. 
+You do have to take care not to reduce your learning rate too quickly. Doing so may offer large rewards at first, but ultimately cause your model to converge much slower than it would have at the previous learning rate, or not at all. Finding a good learning rate decay is tricky business so I've chosen to exclude a formalized method for so from this tutorial. You are encouraged to experiment with it yourself though! I trained my base model for dozens of epochs using the full training data and casually lowered the learning rate at my discretion after that. Doing so left me with a final validation loss of <code>1.48</code>, which I consider to be pretty successful given that we artificially constrained our model capacity to prioritize runtime performance. 
 </p>
 
 ### Going Forward
 
-That's it! Pretty soon, you should have a trained model in `checkpoints/base-model`. I've got a pre-trained model you can [download here](https://github.com/brangerbriz/twitter-transfer-learning/raw/master/checkpoints/base-model/checkpoint.hdf5) (9.5 MB) if you want to jump ahead.<span class="marginal-note" data-info="This model exhibited a loss of 1.50 on data/tweets-split/validate.txt."></span> In the next section, we'll use our trained base model to generate tweets and deploy it in a browser-like environment using Tensorflow.js and electron: [Part 3: Model Inference and Deployment](twitterbot-part-3-model-inference-and-deployment.html).
+That's it! Pretty soon, you should have a trained model in `checkpoints/base-model`. I've got a pre-trained model you can [download here](https://github.com/brangerbriz/twitter-transfer-learning/raw/master/checkpoints/base-model/checkpoint.hdf5) (9.5 MB) if you want to jump ahead.<span class="marginal-note" data-info="This model exhibited a loss of 1.48 on data/tweets-split/validate.txt."></span> In the next section, we'll use our trained base model to generate tweets and deploy it in a browser-like environment using Tensorflow.js and electron: [Part 3: Model Inference and Deployment](twitterbot-part-3-model-inference-and-deployment.html).
