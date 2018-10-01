@@ -4,11 +4,11 @@ In [Part 1](twitterbot-part-1-twitter-data-preparation.html) and [Part 2](twitte
 
 ## Generating Text
 
-The process of using our trained model is called inference. In many neural network tasks inference is a simple process: You feed the trained model unseen data and use the model's output, as is, as your prediction. If the task is a regression problem, the model outputs scalar or vector values that represent the predictions. If the task is a classification problem, the softmax function at the end of the model ensures that the output represents a probability distribution where the value of each element in the vector corresponds with the model's confidence that input sample belongs to that class.
+The process of using our trained model is called inference. In many neural network tasks inference is a simple process: You feed the trained model unseen data and use the model's output, as is, as your prediction. If the task is a regression problem, the model outputs scalar or vector values that represent the predictions. If the task is a classification problem, the softmax function at the end of the model ensures that the output represents a probability distribution where the value of each element in the vector corresponds with the model's confidence the input sample belongs to that class.
 
 Our inference process is a bit more complicated than that. As we've seen, character-level text generation is a classification problem, and our training process reflects that. But now that it's time to actually *use* our model we employ a few extra steps beyond the usual "pick the highest output class label" inference scenario. 
 
-We'll use a technique called *autoregression* to feed the model's output at one prediction step as its input during the next prediction step. This behavior can be thought of as the ML equivalent to a snake eating it's own tail. The model will begin with a deterministic input, or seed phrase. From there it will sample new characters from its own predictions, each time adding them to the buffer of characters used as input. Quickly, the model will enter a hallucination loop, where new text is generated based not on the seed phrase but instead entirely on input that was generated using the model's past predictions.
+We'll use a technique called *autoregression* to feed the model's output at one prediction step as its input during the next prediction step. This behavior can be thought of as the ML equivalent to a snake eating its own tail. The model will begin with a deterministic input, or seed phrase. From there it will sample new characters from its own predictions, each time adding them to the buffer of characters used as input. Quickly, the model will enter a hallucination loop, where new text is generated based not on the seed phrase but instead entirely on input that was generated using the model's past predictions.
 
 Before we see how this works in code, make sure you have a trained model checkpoint located at the path below.
 
@@ -34,7 +34,7 @@ from keras.models import load_model, Sequential
 TOP_N=2
 LENGTH=2048 # the number of characters to generate
 SEED="This is a seed sentence."
-CHECKPOINT_PATH='checkpoints/base-model/checkpoint.hdf5'
+CHECKPOINT_PATH=os.path.join('checkpoints', 'base-model', 'checkpoint.hdf5')
 
 def main():
     # load the trained model from a saved weight checkpoint
@@ -67,9 +67,9 @@ def generate_text(model, seed, length=512, top_n=10):
 
     # feed the seed text into the model to set it's internal RNN states
     for idx in encoded[:-1]:
+        # we wrap each character in a double array so the shape is (1, 1)
         x = np.array([[idx]])
-        # we don't care about the output here
-        # because we'll just use the seed.
+        # we don't care about the predicted output here.
         model.predict(x)
 
     # the index of the next character in the sequence, this will change
@@ -87,9 +87,9 @@ def generate_text(model, seed, length=512, top_n=10):
     # return the sequence buffer containing our generated text
     return generated
 
-# our model was trained with a large batch size and sequence size, however 
-# we'll but during inference we'll make both the batch size and the sequence 
-# size 1. we'll also make the model weights untrainable.
+# our model was trained with a large batch size and sequence size, but during 
+# inference we'll make both the batch size and the sequence size 1. 
+# we'll also make the model weights untrainable.
 def build_inference_model(model, batch_size=1, seq_len=1):
     """
     build inference model from model config
@@ -103,9 +103,9 @@ def build_inference_model(model, batch_size=1, seq_len=1):
     inference_model.trainable = False
     return inference_model
 
-# given a probability distributions this function will sample an array index
+# given a probability distribution, this function will sample an array index
 # from a copy of the distribution that has been truncated to include only
-# the top_n index values sorted by probability and rescaled to sum to 1.0.
+# the top_n index values sorted by probability and re-scaled to sum to 1.0.
 def sample_from_probs(probs, top_n=10):
     """
     truncated weighted random choice.
@@ -124,17 +124,23 @@ main()
     </code>
 </pre>
 
-We begin by loading our model via the Keras `load_model()` function. This utility will load our `base-model/checkpoint.hdf5` , which we created using `save_model()` in `train_cli.py`. Next, we tweak the structure of this model a bit using `build_inference_model()`. If you remember from [Part 2](twitterbot-part-2-model-training-and-iteration.html), we trained our model using moderately large batch size and sequence length values (e.g. `BATCH_SIZE=64` and `SEQ_LEN=32`). These values are both efficient and useful to the training algorithm, but during inference we'll feed our model a single character at each time step. This function restructures our trained model's input size to receive values of `1x1` instead of `64x32`.<span class="marginal-note" data-info="[Here is a tutorial](https://machinelearningmastery.com/use-different-batch-sizes-training-predicting-python-keras/) that goes into more detail about using different batch sizes for training and inference."></span> It also sets the model's `trainable` property to `False` so that the model's weights won't be updated during inference.<span class="marginal-note" data-info="We don't want to train our model using it's own output!"></span> `build_inference_model()` creates a new Sequential Keras model, so we overwrite the new model's random weights with the weight values from our trained model using `inference_model.set_weights(model.get_weights())`.
+We begin by loading our model via the Keras `load_model()` function. This utility will load our `base-model/checkpoint.hdf5` , which we created using `save_model()` in `train_cli.py`. Next, we tweak the structure of this model a bit using `build_inference_model()`. If you remember from [Part 2](twitterbot-part-2-model-training-and-iteration.html), we trained our model using moderately large batch size and sequence length values (e.g. `BATCH_SIZE=64` and `SEQ_LEN=32`). These values are both efficient and useful to the training algorithm, but during inference we'll feed our model a single character at each time step. This function restructures our trained model's input size to receive values of `1x1` instead of `64x32`.<span class="marginal-note" data-info="[Here's a tutorial](https://machinelearningmastery.com/use-different-batch-sizes-training-predicting-python-keras/) that goes into more detail about using different batch sizes for training and inference."></span> It also sets the model's `trainable` property to `False` so that the model's weights won't be updated during inference.<span class="marginal-note" data-info="We don't want to train our model using its own output!"></span> `build_inference_model()` creates a new Sequential Keras model, so we overwrite the new model's random weights with the weight values from our trained model using `inference_model.set_weights(model.get_weights())`.
 
 Finally, we begin the iterative text generation process using `generate_text()`. First, we encode our `SEED` text as integers, reset the model's RNN states from whatever they were left at during training, and feed each character from our `SEED` text into the inference model one at a time using `model.predict(x)`. We don't bother to store the model's predictions here because we are using `SEED` to set the model's internal RNN states exclusively. 
 
-Next we begin the text generation loop, feeding the last character from the `SEED` sequence into the model first, followed by samples from the model's own output as it's input in each subsequent step through the loop. All the while, each output sample is appended to the `generated` string, which is eventually  returned by the function. 
+Next we begin the text generation loop, feeding the last character from the `SEED` sequence into the model first, followed by samples from the model's own output as its input in each subsequent step through the loop. All the while, each output sample is appended to the `generated` string, which is eventually returned by the function. 
 
 The output from our model is transformed into a predicted character using the `sample_from_probs()` function, which takes as input a probability distribution and the `TOP_N` value. Here is where things differ slightly from a conventional classification task.
 
 ### Sampling
 
 Sampling is the practice of *using* your model's output. The way you sample depends greatly on your task; what you are going to do with the data. Most classification tasks care only what the model predicts to be the *most likely* output class. They select this value as the model prediction, discarding the prediction values for the other classes. This is called "greedy argmax" sampling as the argument, or label, with the highest output value is sampled in a greedy fashion, ignorant of the other label's values. This may sound like a fine method for our purposes too... Let's see what happens when we generate text using greedy argmax sampling, by setting `TOP_N=1`.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+python3 generate.py
+    </code>
+</pre>
 
 <pre class="code">
     <code class="plain" data-wrap="true">
@@ -146,7 +152,7 @@ This is a seed sentence. I want to see the state of the state of the state of th
 
 You can see that our model's output quickly falls into a loop.<span class="marginal-note" data-info="I once trained an [RNN to predict chess moves](https://github.com/brannondorsey/ChessNN) given a dataset of over 17,000 games played by grand masters. I used greedy argmax sampling at first, and it predicted that every move was a castle (O-O), which was illegal in almost all cases. This is because, of the thousands of possible chess moves in the training data vocabulary, O-O appeared in almost every game. The model had learned that the probability of a castling move was far greater than the thousands of sparse moves that rarely occur in each game, and this knowledge, combined with argmax sampling, lead the model to simply output the data's mode."></span> Greedy argmax samples from the model in a deterministic way, confidently selecting the label with the highest output value, even if the distribution is near-uniform or multimodal (see [Probability Distributions](probability-distributions.html)). In order to generate more realistic text, we want to sample from the distribution, not just select the most likely output class. When we sample from a distribution the likelyhood that each input class is selected is equal to the probability value the model has assigned to that class.
 
-Returning to the DNA example from Part 1 of this tutorial series, an output distribution representing the output classes `CGAT` that contained the values `[0.13, 0.42, 0.33, 0.12]` would give a 13% likelyhood that `C` would be selected, a 42% chance `G` would be selected, and 33% and 12% chance `A` and `T` would be drawn respectively. This is similar to how `sample_from_probs()` works, except in our function we first sort the distribution by value descending, truncate the list such that only the `TOP_N` values become non-zero, and then re-scale the remaining `TOP_N` values so they sum to one. If we use our DNA example with a value of `TOP_N=2`, we first sort `CGAT [0.13, 0.42, 0.33, 0.12] -> GACT`, truncate `[0.42, 0.33, 0.0, 0.0]`, and then re-scale `[0.56, 0.44, 0.0, 0.0]` so the distribution sums to one. According to our sampling algorithm, there is a 56% chance that `G` will be sampled and a 44% chance `A` will be sampled.
+Returning to the DNA example from [Part 1](twitterbot-part-1-twitter-data-preparation.html) of this tutorial series, an output distribution representing the output classes `CGAT` that contained the values `[0.13, 0.42, 0.33, 0.12]` would give a 13% likelyhood that `C` would be selected, a 42% chance `G` would be selected, and 33% and 12% chance `A` and `T` would be drawn respectively. This is similar to how `sample_from_probs()` works, except in our function we first sort the distribution by value descending, truncate the list such that only the `TOP_N` values become non-zero, and then re-scale the remaining `TOP_N` values so they sum to one. If we use our DNA example with a value of `TOP_N=2`, we first sort `CGAT [0.13, 0.42, 0.33, 0.12] -> GACT [0.42, 0.33, 0.13, 0.12`, truncate `[0.42, 0.33, 0.0, 0.0]`, and then re-scale `[0.56, 0.44, 0.0, 0.0]` so the distribution sums to one. According to our sampling algorithm, there is a 56% chance that `G` will be sampled and a 44% chance that `A` will be sampled.
 
 Here is an example of running `generate.py` with several different values for `TOP_N`:
 
@@ -241,7 +247,7 @@ I'll leave it up to you to determine which `TOP_N` sampling parameter you prefer
 
 ### Generate.py Conventions
 
-Just like with `train-cli.py` you may find python scripts in the wild which can be used to sample data from trained models. The naming conventions and command-line arguments for these files vary more than the `train.py` scripts I've seen; they are usually named something like `sample.py`, `predict.py`, or `generate.py`. I've add some of these command-line arguments to our `generate.py` for convenience.
+Just like with `train-cli.py` you may find python scripts in the wild which can be used to sample data from trained models. The naming conventions and command-line arguments for these files vary more than the `train.py` scripts I've seen; they are usually named something like `sample.py`, `predict.py`, or `generate.py`. I've add some of these command-line arguments to our `generate.py` script for convenience.
 
 <pre class="code">
     <code class="bash" data-wrap="false">
@@ -253,7 +259,6 @@ With this script, you can generate arbitrary-length text from the command line.
 
 <pre class="code">
     <code class="bash" data-wrap="false">
-# you can pipe this output to a file with python3 generate_cli.py >
 python3 generate_cli.py \
     --checkpoint-path checkpoints/base-model/checkpoint.hdf5 \
     --seed "The meaning of life is " \
@@ -330,9 +335,9 @@ Well, that last one's not real. But it is what we'll be doing next!
 
 ## Converting our Model to Tensorflow.js
 
-Tensorflow.js, or "tfjs", has made an effort to support the [loading](https://js.tensorflow.org/tutorials/import-keras.html) and saving of Keras models. This allows us to train a model with Keras and then load it into a browser for inference and sampling. Before we can do so, however, we need to use the `tensorflowjs` python package to convert our `checkpoint.hdf5` file to the tfjs model format.
+Tensorflow.js (see [Tensorflow.js](tfjs.html)), or "tfjs", has made an effort to support the [loading](https://js.tensorflow.org/tutorials/import-keras.html) and saving of Keras models. This allows us to train a model with Keras and then load it into a browser for inference and sampling.<span class="marginal-note" data-info="Tensorflow.js is far slower than Keras and Python Tensorflow, so that's why we prefer to train our base model in Keras instead of tfjs. I ran a series of benchmarks to compare the performance of the two frameworks, you can see the raw results from these comparisons [here](https://drive.google.com/open?id=1I92kst249vs-_I1dw1w7j37x6OesAzHO)."></span> Before we can do so, however, we need to use the `tensorflowjs` python package to convert our `checkpoint.hdf5` file to the tfjs model format.
 
-If you've already completed [Part 1](twitterbot-part-1-twitter-data-preparation.html) of this tutorial you should already have `tensorflowjs` installed. If not, install it like so.
+If you've completed [Part 1](twitterbot-part-1-twitter-data-preparation.html) of this tutorial you should already have `tensorflowjs` installed. If not, install it like so.
 
 <pre class="code">
     <code class="bash" data-wrap="false">
@@ -340,7 +345,7 @@ pip3 install tensorflowjs
     </code>
 </pre>
 
-So far we've been working in a directory named `twitterbot-tutorial/char-rnn-text-generation`. This directory has held our python code so far, but as we migrate our model to JavaScript, we'll move out of this directory and create a new folder inside `twitterbot-tutorial/`. We'll then convert our Keras model to JavaScript.
+So far we've been working in a directory named `twitterbot-tutorial/char-rnn-text-generation`. This directory has held our python code, but as we migrate our model to JavaScript, we'll move out of this directory and create a new folder inside `twitterbot-tutorial/`. We'll then convert our Keras model to JavaScript.
 
 
 <pre class="code">
@@ -348,6 +353,7 @@ So far we've been working in a directory named `twitterbot-tutorial/char-rnn-tex
 # leave char-rnn-text-generation/ and create tfjs-tweet-generation/
 cd ..
 mkdir -p tfjs-tweet-generation/checkpoints/base-model
+cd tfjs-tweet-generation
 
 # convert the keras model to a tensorflowjs model
 tensorflowjs_converter \
@@ -370,7 +376,7 @@ checkpoints/base-model/tfjs/
 
 ## Deploying in a Browser Environment
 
-We'll be using [Electron](https://electronjs.org/) as our browser environment. At the time of this writing, there appears to be [a bug in tfjs' WebGL backend](https://github.com/tensorflow/tfjs/issues/664) that prevents the efficient use of a stateful RNN in a traditional web browser. Electron provides a WebKit browser environment that can load and run Node.js code. Well create a `package.json` file which will help us download and manage our dependencies.
+We'll be using [Electron](https://electronjs.org/) as our browser environment. At the time of this writing, there appears to be [a bug in tfjs' WebGL backend](https://github.com/tensorflow/tfjs/issues/664) that prevents the efficient use of a stateful RNN in a traditional web browser. Electron provides a WebKit browser environment that can load and run Node.js code, which will help us sidestep this bug using `tfjs-node`. Well create a `package.json` file which will help us download and manage our dependencies.
 
 <pre class="code">
     <code class="json" data-wrap="false">
@@ -391,7 +397,7 @@ We'll be using [Electron](https://electronjs.org/) as our browser environment. A
     </code>
 </pre>
 
-The Node Package Manager will use this file to download electron, tfjs, and tfjs-node into a folder called `node_modules`.
+The Node Package Manager<span class="marginal-note" data-info="If you don't have a recent version of Node.js or NPM installed, you can grab the latest versions using [NVM](https://github.com/creationix/nvm)."></span> will use this file to download electron and tfjs-node into a folder called `node_modules`.
 
 <pre class="code">
     <code class="bash" data-wrap="false">
@@ -411,7 +417,7 @@ Next, we'll create an HTML file, `generate.html`, to contain our tfjs code.
 &lt;/head&gt;
 &lt;body&gt;
     &lt;h1&gt;Tensorflow.js Tweet Generator&lt;/h1&gt;
-    &lt;pre id="text"&gt;&lt;/pre&gt;
+    &lt;pre id="text"&gt;Loading model...&lt;/pre&gt;
     &lt;!-- This is a utility library for sampling from probability distributions --&gt;
     &lt;script src="https://gitcdn.link/repo/brangerbriz/sampling/master/discrete.js"&gt;&lt;/script&gt;
     &lt;script src="generate.js"&gt;&lt;/script&gt;
@@ -420,7 +426,9 @@ Next, we'll create an HTML file, `generate.html`, to contain our tfjs code.
     </code>
 </pre>
 
-In this file, we define a `<pre id="text"></pre>` element which we'll use to render status updates and generated text to the page. We also load a library called `discrete.js` that's useful for sampling from probability distributions. We include a `generate.js` script, which we'll author next. In this script, we load our converted Keras model and use it to generate text, which we render to the inside the `<pre>` tag. We'll build this script in stages, starting with the main function. 
+In this file, we define a `<pre id="text"></pre>` element which we'll use to render status updates and generated text to the page. We also load a library called `discrete.js` that's useful for sampling from probability distributions. We include a `generate.js` script, which we'll author next.
+
+In this script, we load our converted Keras model and use it to generate text, which we render inside the `<pre>` tag. We'll build this script in stages, starting with the main function. 
 
 <pre class="code">
     <code class="javascript" data-wrap="false">
@@ -428,7 +436,7 @@ In this file, we define a `<pre id="text"></pre>` element which we'll use to ren
 // tfjs must be at least v0.12.6 to include support for stateful RNNs
 const tf = require('@tensorflow/tfjs')
 
-// tfjs-node is adds experimental support for native bindings of the 
+// tfjs-node adds experimental support for native bindings of the 
 // Tensorflow C library. Using tfjs-node gives us a significant performance
 // boost in relation to the default tfjs cpu and webgl backends.
 require('@tensorflow/tfjs-node')
@@ -470,7 +478,7 @@ In this file we:
 1. Generate text using the inference model
 1. Write the generated text to the page via the DOM
 
-This process should look familiar, as it's basically just a JavaScript version of our `generate.py` script that interfaces with a webpage instead of a terminal. Tensorflow.js' model converter allows us to easily reuse our Keras model in JavaScript, but it doesn't provide functionality to load and manage our data. For this, we need to author similar utility functions as we did in Python, but this time in JavaScript. Fortunately, Python and JavaScript are very similar languages, so one-to-one translations of this functionality are quite simple. We'll add these functions in JavaScript now.
+This process should look familiar, as it's basically just a JavaScript version of our `generate.py` script that interfaces with a webpage instead of a terminal. Tensorflow.js' model converter allows us to easily reuse our Keras model in JavaScript, but it doesn't provide functionality to load and manage our data. For this, we need to author similar utility functions as we did in Python, but this time in JavaScript. Fortunately, Python and JavaScript are very similar languages, so one-to-one translations of this functionality are fairly straighforward. We'll add these functions in JavaScript now.
 
 <pre class="code">
     <code class="javascript" data-wrap="false">
@@ -506,7 +514,7 @@ async function generateText(model, seed, length, topN) {
             // input shape (1, 1)
             const x = tf.tensor([[idx]])
             // set internal states
-            model.predict(x, { verbose: true })
+            model.predict(x)
         })
     })
 
@@ -595,9 +603,9 @@ This code should look familiar, so we'll highlight some of the major differences
 - `tf.tidy()` and `tf.dispose()`
 - `tf.nextFrame()`
 
-The Numpy Python library that Keras uses as an interchange format for tensor objects isn't available in JavaScript, so tfjs implements its own [`tf.tensor()` interface](https://js.tensorflow.org/api/0.13.0/#tensor) in its place. This is an immutible n-dimensional data type that manages data differently depending on the tfjs backend being used. Raw data buffers can be accessed via the Promise `tf.tensor().data()`, or transfered from memory in a blocking way via `tf.tensor().dataSync()`.
+The Numpy Python library that Keras uses as an interchange format for tensor objects isn't available in JavaScript, so tfjs implements its own [`tf.tensor()` interface](https://js.tensorflow.org/api/0.13.0/#tensor) in its place. This is an immutible n-dimensional data type that manages data differently depending on the tfjs backend being used. Raw data buffers can be accessed via the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) returned by `tf.tensor().data()`, or transfered from memory in a blocking way via `tf.tensor().dataSync()`.
 
-Both the "WebGL" and "tensorflow" backends store tensors in GPU memory so JavaScript's garbage collector can't release the memory they store. Tensor values in tfjs must be explicitly released when they are no longer needed with `tf.tensor().dispose()`. Failing to do so will cause a memory leak in your application and can result in memory exhaustion. `tf.tidy()` provides a convenient memory management wrapper function that automatically disposes any temporary tensors that are created inside its callback. Wrapping synchronous code inside `tf.tidy()` provides a formed of scoped garbage collection for tensor memory.
+Both the "WebGL" and "tensorflow" tfjs backends store tensors in GPU memory so JavaScript's garbage collector can't release the memory they store. Tensor values in tfjs must be explicitly released when they are no longer needed with `tf.tensor().dispose()`. Failing to do so will cause a memory leak in your application and can result in memory exhaustion. `tf.tidy()` provides a convenient memory management wrapper function that automatically disposes any temporary tensors that are created inside its callback. Wrapping synchronous code inside `tf.tidy()` provides a formed of scoped garbage collection for tensor memory.
 
 `tf.nextFrame()` returns a promise that resolves when a `requestAnimationFrame()` has completed. Awaiting this function artificially slows the performance of blocking tfjs code run in a tight loop, throttling tfjs performance in exchange for a slightly less laggy UI experience for the user. Unfortunately, blocking tfjs code runs on the main UI JavaScript thread, so any computationally expensive tfjs operation will freeze the web page until it completes.<span class="marginal-note" data-info="There is [talk](https://github.com/tensorflow/tfjs/issues/102) of providing WebGL acceleration in web worker contexts, but this is not yet supported at the time of this writing."></span>
 
