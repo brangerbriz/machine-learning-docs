@@ -31,7 +31,7 @@ An in-depth tutorial where we build an ML pipeline for generating your own twitt
 - Part 1: [Twitter Data Preparation](twitterbot-part-1-twitter-data-preparation.html)
 - Part 2: [Model Training and Iteration](twitterbot-part-2-model-training-and-iteration.html)
 - Part 3: [Model Inference and Deployment](twitterbot-part-3-model-inference-and-deployment.html)
-- Part 4: [Transfer Learning, Finetuning, and Twitter user personalization](#)
+- Part 4: [Transfer Learning, Fine-tuning, and user personalization](twitterbot-part-4-transfer-learning-fine-tuning-and-user-personalization.html)
 
 ## Projects
 

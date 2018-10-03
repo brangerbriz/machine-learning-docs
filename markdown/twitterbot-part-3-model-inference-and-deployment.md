@@ -624,4 +624,4 @@ Doing so will cause an Electron window to be created. The contents of the window
     <img src="images/tfjs-tweet-generator.png" alt="Screenshot of the Electron window.">
 </section>
 
-That's it! We should have now have a full version of our pre-trained Keras "base model" running in-browser. In the next chapter, we'll learn how to use Twitter data from individual users to finetune our base model via transfer learning, and create twitterbots intended to mimic specific twitter accounts.
+That's it! We should have now have a full version of our pre-trained Keras "base model" running in-browser. In the next chapter, we'll learn how to use Twitter data from individual users to fine-tune our base model via transfer learning, and create twitterbots intended to mimic specific twitter accounts.

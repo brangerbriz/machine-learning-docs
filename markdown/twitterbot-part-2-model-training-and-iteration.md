@@ -673,7 +673,7 @@ Once you've conducted your hyperparameter searches, it's time to actually train 
 1. We limited our model training to only several epochs using `train-80k.txt`.
 1. We didn't expriment with the learning rate, especially once `val_loss` plateaued.<span class="marginal-note" data-info="We haven't talked about this one yet, but we will soon."></span>
 
-It's now time to uncut those corners and train our final "base model" which we'll use to generate text and finetune in subsequent chapters.
+It's now time to uncut those corners and train our final "base model" which we'll use to generate text and fine-tune in subsequent chapters.
 
 <pre class="code">
     <code class="bash" data-wrap="false">
@@ -710,9 +710,9 @@ It's a common practice to begin training with a large learning rate and decrease
 
 <p>
   <a href="https://stats.stackexchange.com/questions/282544/why-does-reducing-the-learning-rate-quickly-reduce-the-error"><img src="images/reduced-learning-rate-bad.png"></a>
-You do have to take care not to reduce your learning rate too quickly. Doing so may offer large rewards at first, but ultimately cause your model to converge much slower than it would have at the previous learning rate, or not at all. Finding a good learning rate decay is tricky business so I've chosen to exclude a formalized method for so from this tutorial. You are encouraged to experiment with it yourself though! I trained my base model for dozens of epochs using the full training data and casually lowered the learning rate at my discretion after that. Doing so left me with a final validation loss of <code>1.48</code>, which I consider to be pretty successful given that we artificially constrained our model capacity to prioritize runtime performance. 
+You do have to take care not to reduce your learning rate too quickly. Doing so may offer large rewards at first, but ultimately cause your model to converge much slower than it would have at the previous learning rate, or not at all. Finding a good learning rate decay is tricky business so I've chosen to exclude a formalized method for so from this tutorial. You are encouraged to experiment with it yourself though! I trained my base model for dozens of epochs using the full training data and casually lowered the learning rate at my discretion after that. Doing so left me with a final validation loss of <code>1.50</code>, which I consider to be pretty successful given that we artificially constrained our model capacity to prioritize runtime performance. 
 </p>
 
 ### Going Forward
 
-That's it! Pretty soon, you should have a trained model in `checkpoints/base-model`. I've got a pre-trained model you can [download here](https://github.com/brangerbriz/twitter-transfer-learning/raw/master/checkpoints/base-model/checkpoint.hdf5) (9.5 MB) if you want to jump ahead.<span class="marginal-note" data-info="This model exhibited a loss of 1.48 on data/tweets-split/validate.txt."></span> In the next section, we'll use our trained base model to generate tweets and deploy it in a browser-like environment using Tensorflow.js and electron: [Part 3: Model Inference and Deployment](twitterbot-part-3-model-inference-and-deployment.html).
+That's it! Pretty soon, you should have a trained model in `checkpoints/base-model`. I've got a pre-trained model you can [download here](https://github.com/brangerbriz/twitter-transfer-learning/raw/master/checkpoints/base-model/checkpoint.hdf5) (9.5 MB) if you want to jump ahead.<span class="marginal-note" data-info="This model exhibited a loss of 1.50 on data/tweets-split/validate.txt."></span> In the next section, we'll use our trained base model to generate tweets and deploy it in a browser-like environment using Tensorflow.js and electron: [Part 3: Model Inference and Deployment](twitterbot-part-3-model-inference-and-deployment.html).

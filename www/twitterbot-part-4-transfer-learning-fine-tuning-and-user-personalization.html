@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
+<h1 id="twitterbot-part-4-transfer-learning-fine-tuning-and-user-personalization">Twitterbot Part 4: Transfer Learning, Fine-tuning, and User Personalization</h1>
+<p>In <a href="twitterbot-part-3-model-inference-and-deployment.html">Part 3</a> of this tutorial we used seven million tweets to train a base model in Keras, which we then deployed in a browser environment using Tensorflow.js. In this chapter, we&#39;ll learn how we can use a technique called <em>transfer learning</em> to fine-tune our base model using tweets from individual twitter accounts to produce bots that imitate specific twitter users.</p>
+<h2 id="individual-twitter-user-data">Individual Twitter User Data</h2>
+<p>Until now, we&#39;ve been using twitter data aggregated from hundreds of thousands of different twitter accounts. This has worked well for the purpose of training a base model to synthesize general tweets, but now we&#39;d like to imitate individual twitter user accounts. To do so, we&#39;ll use the Twitter API. We&#39;ll create a Node.js server<span class="marginal-note" data-info="We'll be recreating the code from this [tweet-server](https://github.com/brangerbriz/tweet-server) repository, if you care to jump ahead."></span> that we can use to download a user&#39;s public tweets given their username. We&#39;ll then use this server process to download twitter data at will upon request from our training code.</p>
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# leave the tfjs-tweet-generation directory to create and enter tweet-server/
+cd ..
+mkdir tweet-server
+cd tweet-server/
+    </code>
+</pre>
+
+<p>Next create a <code>package.json</code> file inside of <code>tweet-server/</code> and populate it using the contents below.</p>
+<pre class="code">
+    <code class="json" data-wrap="false">
+{
+  "name": "tweet-server",
+  "version": "0.1.0",
+  "description": "Download twitter data using an HTTP REST API.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Brannon Dorsey + Nick Briz",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "twit": "^2.2.11"
+  }
+}
+    </code>
+</pre>
+
+<p>Install the project dependencies using NPM.</p>
+<pre class="code">
+    <code class="bash" data-wrap="false">
+npm install
+    </code>
+</pre>
+
+<p>Before you can use the Twitter API, you have to create a Twitter API application using a developer account at <a href="https://developer.twitter.com" target="_blank">developer.twitter.com</a>. You&#39;ll need to submit an application to become a developer as well as to create a new application.<span class="marginal-note" data-info="Both applications are instantly approved in my experience, but in theory, the process can take longer."></span> Once that&#39;s done you&#39;ll need to generate consumer API keys and access tokens.</p>
+<section class="media" data-fullwidth="false">
+    <img src="images/twitter-api.png"> 
+</section>
+
+<p>We&#39;ll use Express to create our own REST API using Node.js. We&#39;ll download a user&#39;s tweets using GET requests by providing a twitter username in the URL. A request like <code>http://localhost:3000/api/barackobama</code> will return a JSON object containing Obama&#39;s tweets.</p>
+<p>Create a new file called <code>server.js</code> and fill it with the contents below. Replace the <code>TWITTER_*</code> constants using values from your Twitter API app.</p>
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+const path = require('path')
+const cors = require('cors')
+const Twit = require('twit')
+const express = require('express')
+const app = express()
+const http = require('http').Server(app)
+
+// populate these constants using the API keys from your Twitter API app
+const TWITTER_CONSUMER_KEY=""
+const TWITTER_CONSUMER_SECRET=""
+const TWITTER_ACCESS_TOKEN=""
+const TWITTER_ACCESS_TOKEN_SECRET=""
+
+// create an instance of Twit, which we'll use to access the twitter API
+const T = new Twit({
+    // goto: https://apps.twitter.com/ for keys
+    consumer_key: TWITTER_CONSUMER_KEY,
+    consumer_secret: TWITTER_CONSUMER_SECRET,
+    access_token: TWITTER_ACCESS_TOKEN,
+    access_token_secret: TWITTER_ACCESS_TOKEN_SECRET,
+    timeout: 60 * 1000 // optional HTTP request timeout for requests
+})
+
+// allows Cross-Origin Resource Sharing (CORS) on the /api endpoint
+app.use('/api', cors())
+
+// all GET requests to /api/ should include a user value in the path. 
+// This user value will be interpreted as twitter handle.
+app.get('/api/:user', async (req, res) => {
+    const user = req.params.user
+    try {
+        const tweets = await getUserTweets(user)
+        console.log(`[server] /api/:user got tweets for user ${user}`)
+        res.json({ error: null, tweets: tweets })
+    } catch (err) {
+        console.log(`[server] /api/:user got tweets for user ${user} with error:`)
+        console.error(err)
+
+        let message = `Error fetching tweets for user ${user}`
+        if (err.statusCode) {
+            res.status(err.statusCode)
+        } else {
+            res.status(500)
+        }
+
+        if (err.message) message = err.message
+        res.json({ error: message, tweets: null })
+    }
+})
+
+http.listen(3000, () => { 
+    console.log('[server] Listening on http://0.0.0.0:3000')
+})
+
+// download ~3,200 of the user's most recent tweets.
+async function getUserTweets(user) {
+    // https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html
+
+    const tweets = []
+    let batch = await getUserTweetBatch(user)
+
+    tweets.push(...batch)
+    console.log(`[twitter] Got ${batch.length} new tweets. Total ${tweets.length}`)
+    // the twitter API we're using only allows tweets to be downloaded in groups
+    // of 200 per request, so we create a loop to download tweets in batches
+    while (batch.length > 1) {
+        // use tweet ids for pagination
+        let id = batch[batch.length - 1].id
+        batch = await getUserTweetBatch(user, id)
+        tweets.push(...batch)
+        console.log(`[twitter] Got ${batch.length} new tweets. Total ${tweets.length}`)
+    }
+    // discard metadata and only return the contents of the tweets
+    return tweets.map(tweet => tweet.text)
+}
+
+// download a batch of 200 tweets using maxId for pagination
+function getUserTweetBatch(user, maxId) {
+    return new Promise((resolve, reject) => {
+        T.get('statuses/user_timeline', {
+            screen_name: user,
+            count: 200, // max (but can be called again with max_id)
+            max_id: maxId,
+            include_rts: true
+        }, (err, data, res) => {
+            if (err) reject(err)
+            else resolve(data)
+        })
+    })
+}
+    </code>
+</pre>
+
+<p>In this script, we register an HTTP route for all <code>GET /api/:user</code> requests, where <code>:user</code> is a twitter handle. All requests that match this route will trigger a download of ~3,200 tweets using the <a href="https://www.npmjs.com/package/twit" target="_blank">twit npm package</a> via <code>getUserTweets()</code>. This function downloads 200 tweets at a time in a loop using <code>getUserTweetBatch()</code>. Batches of tweets are combined into one array and stripped of metadata; the value returned from <code>getUserTweets()</code> is an array of tweet contents only. If the download succeeded a JSON object containing the tweets is returned as the result of the HTTP request: <code>{ error: null, tweets: [...] })</code>. If there was an error downloading tweets, the tweets object is null: <code>{ &quot;error&quot;: &quot;Sorry, that page does not exist.&quot;, &quot;tweets&quot;: null }</code>.</p>
+<pre class="code">
+    <code class="bash" data-wrap="false">
+node server.js
+    </code>
+</pre>
+
+<p>Let&#39;s query our new API in another terminal window. </p>
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# query the tweet-server using curl. This should take a few seconds and then
+# print Obama's tweets as a JSON object like the one below.
+curl http://localhost:3000/api/barackobama
+    </code>
+</pre>
+<pre class="code">
+    <code class="json" data-wrap="false">
+{
+    "error":null,
+    "tweets": [ 
+        "Today, I’m proud to endorse even more Democratic candidates who aren’t just running against something, but for some… https://t.co/oqewS0Y8vZ",
+        "From civil servants to organizers, the young people I met in Amsterdam today are doing the hard work of change. And… https://t.co/mlAp2SRZlP",
+        "The antidote to government by a powerful few is government by the organized, energized many. This National Voter Re… https://t.co/3W5pfaUdKd",
+        "The first class of Obama Fellows is full of leaders like Keith—hardworking, innovative, and dedicated to partnering… https://t.co/nOd6FzH23n",
+        "We will always remember everyone we lost on 9/11, thank the first responders who keep us safe, and honor all who de… https://t.co/ku270JQnwl",
+        "RT @nowthisnews: If you still don't think the midterms will affect you, @BarackObama is back to spell out just how important they are https…",
+        "Today I’m at the University of Illinois to deliver a simple message to young people all over the country: You need… https://t.co/brM6Vd7j2R",
+        "Yesterday I met with high school students on Chicago’s Southwest side who spent the summer learning to code some pr… https://t.co/hY9B0mSQB9",
+        "Congratulations to Hawaii for winning the Little League World Series! You make America very proud.",
+        ...
+    ]
+}
+    </code>
+</pre>
+
+<p>Over in the terminal running our <code>server.js</code> process, you should see logs from the <code>curl</code> query. If something went wrong, it will likely appear here.</p>
+<pre class="code">
+    <code class="plain" data-wrap="false">
+[server] Listening on http://0.0.0.0:3000
+[twitter] Got 200 new tweets. Total 200
+[twitter] Got 200 new tweets. Total 400
+[twitter] Got 200 new tweets. Total 600
+[twitter] Got 200 new tweets. Total 800
+[twitter] Got 200 new tweets. Total 1000
+[twitter] Got 200 new tweets. Total 1200
+[twitter] Got 200 new tweets. Total 1400
+[twitter] Got 200 new tweets. Total 1600
+[twitter] Got 200 new tweets. Total 1800
+[twitter] Got 200 new tweets. Total 2000
+[twitter] Got 200 new tweets. Total 2200
+[twitter] Got 200 new tweets. Total 2400
+[twitter] Got 199 new tweets. Total 2599
+[twitter] Got 199 new tweets. Total 2798
+[twitter] Got 198 new tweets. Total 2996
+[twitter] Got 200 new tweets. Total 3196
+[twitter] Got 36 new tweets. Total 3232
+[twitter] Got 1 new tweets. Total 3233
+[server] /api/:user got tweets for user barackobama
+    </code>
+</pre>
+
+<p>We&#39;ll use this server in the next bit of code we write, so leave it running. In the meantime, let&#39;s talk a bit about <em>transfer learning</em>.</p>
+<h2 id="transfer-learning">Transfer Learning</h2>
+<p>Transfer learning is the process of using knowledge gained from one task to solve another task. In practice, this technique involves re-using model weights that were pre-trained using a large dataset as the initial weights of a new model trained using a smaller dataset. In non-transfer learning scenarios model weights are initialized using a random distribution. With transfer learning, a new model&#39;s weights are initialized using a checkpoint from a model that was trained using a different dataset, loss function, and/or performance metric.</p>
+<p>The intuition behind transfer learning is that knowledge gained from one task can be transferred, through shared model weights, to a different but related task. In a character-level text generation task, our model must learn to extract language patterns entirely from scratch using the training data. Our untrained RNN model has no conception of the english language. Before it can learn to string related words together to form realistic looking sentences, it must learn to combine the right characters to create words at all. If the training data is too small, it&#39;s likely that our model won&#39;t even be able to generate english looking text, let alone anything that looks like a tweet.</p>
+<p>Twitter&#39;s API restricts tweet downloads to a mere <a href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html" target="_blank">3,200 tweets per user account</a>, which falls firmly in the &quot;too little data&quot; category. If we were to train a model with randomly initialized weights using only tweets from a single user&#39;s account as training data, the model would perform very poorly. I would expect the model to either not be able to extract useful language patterns from such little text, or to instead memorize the training data and output only exact samples found in the training set. Instead of training our individual twitter user models using randomly initialized weights, we will instead initialize them using the weights of our base model, which we trained using over seven million tweets in <a href="">Part 3</a>. Our base model has already learned to create english words and sentences, the appropriate lengths of tweets, and how to RT, @mention, and #hashtag. This prior knowledge extends our capability to train a model to imitate an individual twitter user using very little training data. </p>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
+</html>
