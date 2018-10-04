@@ -418,15 +418,13 @@ Next, we'll create an HTML file, `generate.html`, to contain our tfjs code.
 &lt;body&gt;
     &lt;h1&gt;Tensorflow.js Tweet Generator&lt;/h1&gt;
     &lt;pre id="text"&gt;Loading model...&lt;/pre&gt;
-    &lt;!-- This is a utility library for sampling from probability distributions --&gt;
-    &lt;script src="https://gitcdn.link/repo/brangerbriz/sampling/master/discrete.js"&gt;&lt;/script&gt;
     &lt;script src="generate.js"&gt;&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
     </code>
 </pre>
 
-In this file, we define a `<pre id="text"></pre>` element which we'll use to render status updates and generated text to the page. We also load a library called `discrete.js` that's useful for sampling from probability distributions. We include a `generate.js` script, which we'll author next.
+In this file, we define a `<pre id="text"></pre>` element which we'll use to render status updates and generated text to the page. We include a `generate.js` script, which we'll author next.
 
 In this script, we load our converted Keras model and use it to generate text, which we render inside the `<pre>` tag. We'll build this script in stages, starting with the main function. 
 
@@ -545,8 +543,21 @@ function encodeText(text, char2id) {
     })
 }
 
-// the JavaScript equivalent of sample_from_probs in utils.py
-// truncated probability distribution sampling
+// draw a discrete sample index from an array of probabilities
+// probs will be rescaled to sum to 1.0 if the values do not already
+function sample(probs) {
+    const sum = probs.reduce((a, b) => a + b, 0)
+    if (sum <= 0) throw Error('probs must sum to a value greater than zero')
+    const normalized = probs.map(prob => prob / sum)
+    const sample = Math.random()
+    let total = 0
+    for (let i = 0; i < normalized.length; i++) {
+        total += normalized[i]
+        if (sample < total) return i
+    }
+}
+
+// truncated weight random choice
 function sampleFromProbs(probs, topN) {
     
     topN = topN || 10
@@ -565,10 +576,7 @@ function sampleFromProbs(probs, topN) {
         if (!truncated.includes(prob)) copy[i] = 0
     })
 
-    const sum = copy.reduce((a, b) => a + b, 0)
-    const rescaled = copy.map(prob => prob /= sum)
-
-    return SJS.Discrete(rescaled).draw()
+    return sample(copy)
 }
 
 // the JavaScript equivalent of create_dictionary() in utils.py
