@@ -57,7 +57,7 @@
         <section id="logo"></section>
 <!-- The content below this line is injected using `marked` in `build.sh` -->
 <h1 id="twitterbot-part-4-transfer-learning-fine-tuning-and-user-personalization">Twitterbot Part 4: Transfer Learning, Fine-tuning, and User Personalization</h1>
-<p>In <a href="twitterbot-part-3-model-inference-and-deployment.html">Part 3</a> of this tutorial we used seven million tweets to train a base model in Keras, which we then deployed in a browser environment using Tensorflow.js. In this chapter, we&#39;ll learn how we can use a technique called <em>transfer learning</em> to fine-tune our base model using tweets from individual twitter accounts to produce bots that imitate specific twitter users.</p>
+<p>In <a href="twitterbot-part-3-model-inference-and-deployment.html">Part 3</a> of this tutorial we used seven million tweets to train a base model in Keras, which we then deployed in a browser environment using Tensorflow.js. In this chapter, we&#39;ll learn how we can use a technique called <em>transfer learning</em> to fine-tune our base model using tweets from individual twitter accounts. We&#39;ll create a graphical application that allows you to train models using an individual user&#39;s tweets and use them to generate synthetic tweets in the style of that user.</p>
 <h2 id="individual-twitter-user-data">Individual Twitter User Data</h2>
 <p>Until now, we&#39;ve been using twitter data aggregated from hundreds of thousands of different twitter accounts. This has worked well for the purpose of training a base model to synthesize general tweets, but now we&#39;d like to imitate individual twitter user accounts. To do so, we&#39;ll use the Twitter API. We&#39;ll create a Node.js server<span class="marginal-note" data-info="We'll be recreating the code from this [tweet-server](https://github.com/brangerbriz/tweet-server) repository, if you care to jump ahead."></span> that we can use to download a user&#39;s public tweets given their username. We&#39;ll then use this server process to download twitter data at will upon request from our training code.</p>
 <pre class="code">
@@ -261,11 +261,23 @@ curl http://localhost:3000/api/barackobama
     </code>
 </pre>
 
-<p>We&#39;ll use this server in the next bit of code we write, so leave it running. In the meantime, let&#39;s talk a bit about <em>transfer learning</em>.</p>
+<p>We&#39;ll use this server to download tweets later in the tutorial, so leave it running. In the meantime, let&#39;s talk a bit about <em>transfer learning</em>.</p>
 <h2 id="transfer-learning">Transfer Learning</h2>
 <p>Transfer learning is the process of using knowledge gained from one task to solve another task. In practice, this technique involves re-using model weights that were pre-trained using a large dataset as the initial weights of a new model trained using a smaller dataset. In non-transfer learning scenarios model weights are initialized using a random distribution. With transfer learning, a new model&#39;s weights are initialized using a checkpoint from a model that was trained using a different dataset, loss function, and/or performance metric.</p>
 <p>The intuition behind transfer learning is that knowledge gained from one task can be transferred, through shared model weights, to a different but related task. In a character-level text generation task, our model must learn to extract language patterns entirely from scratch using the training data. Our untrained RNN model has no conception of the english language. Before it can learn to string related words together to form realistic looking sentences, it must learn to combine the right characters to create words at all. If the training data is too small, it&#39;s likely that our model won&#39;t even be able to generate english looking text, let alone anything that looks like a tweet.</p>
-<p>Twitter&#39;s API restricts tweet downloads to a mere <a href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html" target="_blank">3,200 tweets per user account</a>, which falls firmly in the &quot;too little data&quot; category. If we were to train a model with randomly initialized weights using only tweets from a single user&#39;s account as training data, the model would perform very poorly. I would expect the model to either not be able to extract useful language patterns from such little text, or to instead memorize the training data and output only exact samples found in the training set. Instead of training our individual twitter user models using randomly initialized weights, we will instead initialize them using the weights of our base model, which we trained using over seven million tweets in <a href="">Part 3</a>. Our base model has already learned to create english words and sentences, the appropriate lengths of tweets, and how to RT, @mention, and #hashtag. This prior knowledge extends our capability to train a model to imitate an individual twitter user using very little training data. </p>
+<p>Twitter&#39;s API restricts tweet downloads to a mere <a href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html" target="_blank">3,200 tweets per user account</a>, which isn&#39;t much data at all. If we were to train a model with randomly initialized weights using only tweets from a single user&#39;s account as training data, the model would perform very poorly. I would expect the model to either not be able to extract useful language patterns from such little text, or to instead memorize the training data and output only exact samples found in the training set. Instead of training our individual twitter user models using randomly initialized weights, we will instead initialize them using the weights of our base model, which we trained using over seven million tweets in <a href="twitterbot-part-3-model-inference-and-deployment.html">Part 3</a>. Our base model has already learned to create english words and sentences, the appropriate lengths of tweets, and how to RT, @mention, and #hashtag. This prior knowledge extends our capability to train a model to imitate an individual twitter user using very little training data.</p>
+<p>Here&#39;s a pseudo-code example of how the model fine-tuning process works using transfer learning.</p>
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+// train a new model for a very long time on a very large dataset
+const baseModel = train(createModel(), 'large-dataset.txt')
+
+// fine-tune the pre-trained model using a small dataset
+const fineTunedModel = train(baseModel, 'small-dataset.txt')
+    </code>
+</pre>
+
+<h2 id="twitter-application">Twitter Application</h2>
 
 <!-- The content above this line is injected using `marked` in `build.sh` -->    
         <p>Return to the <a href="index.html">main page</a>.</p>
