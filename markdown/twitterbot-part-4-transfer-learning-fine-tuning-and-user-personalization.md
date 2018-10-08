@@ -238,3 +238,332 @@ const fineTunedModel = train(baseModel, 'small-dataset.txt')
 </pre>
 
 ## Twitter Application
+
+We'll create one last folder inside of the `twitterbot-tutorial/` directory we've been working from since Part 1.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# leave the tweet-server directory to create and enter twitter-transfer-learning/
+cd ..
+mkdir twitter-transfer-learning
+cd twitter-transfer-learning/
+    </code>
+</pre>
+
+`twitter-transfer-learning/` will house our code for the rest of the tutorial. Here we'll create a small web application<span class="marginal-note" data-info="We'll be re-creating the web application from [this repo](https://github.com/brangerbriz/twitter-transfer-learning), which you can use for reference."></span> that:
+
+- Loads our base model
+- Downloads twitter data using `tweet-server`
+- Fine-tunes copies of our base model using twitter data from user accounts
+- Saves and loads our fine-tuned models
+- Generates tweets using any of our trained models
+- Provide a minimal user interface for accomplishing all of these tasks
+
+Let's start off by creating a boilerplate directory structure and downloading a few dependencies that we'll use later on.
+
+<pre class="code">
+    <code class="bash" data-wrap="true">
+# src/ for source code files, lib/ for third party libraries, and checkpoints/
+# to save our base model.
+mkdir src lib checkpoints
+
+# download our utility functions, which are nearly identical to the ones we 
+# created in Part 3.
+wget -O src/utils.js https://raw.githubusercontent.com/brangerbriz/twitter-transfer-learning/master/src/utils.js
+
+# download BBElements, a set of html/css/js components used for styling and
+# branding @ Branger_Briz. This will make our app look pretty ;)
+git clone https://github.com/brangerbriz/BBElements
+
+# copy our base model to the new directory
+cp -r ../tfjs-tweet-generation/checkpoints/base-model checkpoints/base-model
+    </code>
+</pre>
+
+Create a `package.json` file with the contents below.
+
+<pre class="code">
+    <code class="json" data-wrap="false">
+{
+  "name": "twitter-transfer-learning",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "electron src/electron.js"
+  },
+  "author": "Brannon Dorsey <bdorsey@brangerbriz.com>",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^0.1.17",
+    "@tensorflow/tfjs-node-gpu": "^0.1.17",
+    "electron": "^2.0.8",
+    "hyperparameters": "^0.25.5",
+    "json2csv": "^4.2.1",
+    "node-fetch": "^2.2.0"
+}
+    </code>
+</pre>
+
+Install these dependencies using NPM.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+npm install
+    </code>
+</pre>
+
+### Basic Fine-Tuning
+
+Let's create a new script called `src/fine-tune.js`, which we'll use to explore the process of downloading twitter data and fine-tuning our base model using transfer learning. This script will be a self-contained Node.js process where we'll demonstrate the fine-tuning process, void of UI code. We'll run this script from the command-line.
+
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+#!/usr/bin/env node
+const tf = require('@tensorflow/tfjs')
+const fs = require('fs')
+const path = require('path')
+const utils = require('../src/utils')
+
+// exit if the twitter-user parameter isn't included
+if (process.argv[2] == null) {
+    console.error(`usage: ${path.basename(process.argv[1])} twitter-user`)
+    process.exit(1)
+}
+
+// try and load tfjs-node-gpu, but fallback to tfjs-node if no CUDA
+require('@tensorflow/tfjs-node-gpu')
+if (['webgl', 'cpu'].includes(tf.getBackend())) {
+    require('@tensorflow/tfjs-node')
+    console.log('GPU environment not found, loaded @tensorflow/tfjs-node')
+} else {
+    console.log('loaded @tensorflow/tfjs-node-gpu')
+}
+console.log(`using tfjs backend "${tf.getBackend()}"`)
+
+// remove the leading @ character if it exists
+const TWITTER_USER = process.argv[2].replace(/^@/, '')
+const TWEET_SERVER = 'http://localhost:3000'
+
+const BATCH_SIZE = 64
+const SEQ_LEN = 64
+const DROPOUT = 0.0
+const OPTIMIZER = 'adam'
+const FINETUNE_EPOCHS = 10
+const VAL_SPLIT = 0.2
+
+async function main() {
+
+    console.log(`fetching tweets for user @${TWITTER_USER}`)
+    let text, data
+    try {
+        [text, data] = await utils.loadTwitterData(TWITTER_USER, TWEET_SERVER)
+    } catch(err) {
+        console.error('Error downloading tweets.')
+        if (err.message) console.error(err.message)
+        process.exit(1)
+    }
+    console.log('download complete.')
+
+    // these options will be reused between several of the utility functions
+    const options = {
+        batchSize: BATCH_SIZE,
+        seqLen: SEQ_LEN,
+        dropout: DROPOUT,
+        oneHotLabels: true
+    }
+
+    const valSplitIndex = Math.floor(data.length * VAL_SPLIT)
+    const valGenerator = utils.batchGenerator(data.slice(0, valSplitIndex), 
+                                              options)
+    const trainGenerator = utils.batchGenerator(data.slice(valSplitIndex), 
+                                                options)
+
+    const modelPath = 'file://' + path.resolve(__dirname, 
+                                               '..', 
+                                               'checkpoints', 
+                                               'base-model', 
+                                               'tfjs', 
+                                               'model.json')
+    let model = await tf.loadModel(modelPath)
+    // update the model architecture to use the BATCH_SIZE and SEQ_LEN
+    // we've chosen for the fine-tune process.
+    model = utils.updateModelArchitecture(model, options)
+    model.trainable = true
+    model.compile({ optimizer: OPTIMIZER, loss: 'categoricalCrossentropy' })
+
+    // Fine-tune the model using transfer learning
+    await utils.fineTuneModel(model, 
+                              FINETUNE_EPOCHS, 
+                              BATCH_SIZE, 
+                              trainGenerator, 
+                              valGenerator)
+
+    // save the model in checkpoints/TWITTER_USER
+    const saveDir = path.resolve(__dirname, '..', 'checkpoints', TWITTER_USER)
+    if(!fs.existsSync(saveDir)) fs.mkdirSync(saveDir)
+    await model.save(`file://${ path.join(saveDir, 'tfjs') }`)
+
+    // we'll update the model architecture one more time, this time for
+    // inference. We set both the BATCH_SIZE and SEQ_LEN to 1 and make
+    // the model weights untrainable.
+    let inferenceModel = utils.updateModelArchitecture(model)
+    model.trainable = false
+
+    // Generate 2048 characters using the fine-tuned model.
+    const seed = "This is a seed sentence."
+    const generated = await utils.generateText(inferenceModel, seed, 2048, 5)
+    console.log(generated)
+}
+
+main().catch(console.error)
+    </code>
+</pre>
+
+This script begins with a few dependency imports before checking if a command-line argument is defined with `process.argv[2] == null`. If it isn't, the program prints its usage and exits with an error code. If an argument was included it is interpreted as the `TWITTER_USER` later in the program. After this validation check, we `require('@tensorflow/tfjs-node-gpu')` and then check the value of `tf.getBackend()`. If your computer has an NVIDIA graphics card and CUDA installed<span class="marginal-note" data-info="See [ML Development Environment](ml-development-environment.html)"></span> the backend should now be "tensorflow". If not, it will instead be either "cpu" or "webgl", in which case we fallback to the non-GPU-accelerated version of tfjs-node with `require('@tensorflow/tfjs-node')`.
+
+We define several global constants in this script for Twitter download settings and hyperparameters. If the user specified the `twitter-user` command line argument with an "@" character (e.g. "[@branger_briz](https://twitter.com/branger_briz)") we remove it. We also define the URL for an instance of `tweet-server` we wrote earlier in this chapter via `const TWEET_SERVER = 'http://localhost:3000'`, before defining the hyperparameter values we'll use to fine-tune our model.<span class="marginal-note" data-info="These values were chosen via a hyperparameter search just like we did in [Part 3](twitterbot-part-3-model-inference-and-deployment.html), this time using data from an individual user's twitter account and weight initialization using the base model. This search was written in JavaScript and you can download the script from [here](https://github.com/brangerbriz/twitter-transfer-learning/blob/master/bin/hyperparameter-search.js)."></span> With this setup complete, we launch the `main()` function and log any errors to the console.
+
+The `main()` function begins by downloading and encoding twitter data via `utils.loadTwitterData(TWITTER_USER, TWEET_SERVER)`. This function makes an HTTP request to our `tweet-server`'s API and returns the JSON results or throws an error if something went wrong. Here's a peek at its source code inside `src/utils.py`:
+
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+/**
+ * Load data using a tweet-server (https://github.com/brangerbriz/tweet-server)
+ * @function loadTwitterData
+ * @param  {string} user A twitter user to load tweets for
+ * @param  {string} tweetServer A url pointing to a tweet-server instance
+ * @returns {Promise}
+ * @throws TypeError
+ */
+async function loadTwitterData(user, tweetServer) {
+    const response = await fetch(`${tweetServer}/api/${user}`)
+    if (response.ok) {
+        const json = await response.json()
+        if (json.tweets) {
+            const text = json.tweets.join('\n')
+            const encoded = encodeText(text)
+            return [text, encoded]
+        }
+    }
+    throw TypeError(`Failed to load tweets for ${user}`)
+}
+    </code>
+</pre>
+
+Once our data has been downloaded and encoded we create `valGenerator` and `trainGenerator` using `utils.batchGenerator()` just like we did in Python. [This function](https://github.com/brangerbriz/twitter-transfer-learning/blob/d5b238cb6e55090781554ed851ec17c1d5cfc898/src/utils.js#L80) is a JavaScript rewrite of our `utils.io_batch_generator()` Python function without the lazy loading functionality. We've removed this from our JavaScript implementation because we are fine-tuning our models using only ~3,200 tweets instead of 7,000,000+ and can fit all of this data into memory at once.
+
+After loading our data generators we load our base model from disk and update its architecture to support our new values for `BATCH_SIZE`, `SEQ_LEN`, and `DROPOUT` with `utils.updateModelArchitecture()`<span class="marginal-note" data-info="This function is a renamed version of buildInferenceModel() from generate.js in [Part 3](twitterbot-part-3-model-inference-and-deployment.html)."></span> We then further train our base model with `await utils.fineTuneModel()`. This function should look somewhat familiar to our Python train function with a few changes.
+
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+// utils.fineTuneModel(...)
+async function fineTuneModel(model, 
+                             numEpochs, 
+                             batchSize, 
+                             trainGenerator, 
+                             valGenerator, 
+                             callbacks) {
+
+    // keep a losses object to return at the end of fine-tuning
+    const losses = {
+        loss: [],
+        valLoss: []
+    }
+    // reset the model's internal RNN states from wherever they were left
+    // during the most recent model training
+    model.resetStates()
+
+    let lastEpoch = 0
+    if (callbacks && typeof callbacks.onEpochBegin === 'function') {
+        // if an onEpochBegin() callback was included, fire it now
+        callbacks.onEpochBegin()
+    }
+
+    // Train epochs in an infinite loop
+    while (true) {
+        const [x, y, epoch] = trainGenerator.next().value
+        const history = await model.fit(x, y, {
+            batchSize: batchSize,
+            epochs: 1,
+            shuffle: false,
+            yieldEvery: 'batch'
+        })
+
+        if (lastEpoch !== epoch) {
+            const [x, y] = valGenerator.next().value
+            console.log('evaluating model')
+            const eval = await model.evaluate(x, y, { batchSize: batchSize })
+            const valLoss = (await eval.data())[0]
+            const loss = history.history.loss[0]
+            let msg = `Epoch ${epoch} Train loss: ${loss} Val loss: ${valLoss}`
+            console.log(msg)
+            losses.loss.push(loss)
+            losses.valLoss.push(valLoss)
+            // Don't forget to reset states on each epoch! 
+            model.resetStates()
+            lastEpoch = epoch
+
+            // Free the tensor memory
+            x.dispose()
+            y.dispose()
+
+            // Call the onEpochEnd() and onEpochBegin() callbacks if they
+            // were included as arguments
+
+            if (callbacks && typeof callbacks.onEpochEnd === 'function') {
+                callbacks.onEpochEnd(lastEpoch, loss, valLoss)
+            }
+
+            if (epoch != numEpochs && callbacks && 
+                typeof callbacks.onEpochBegin === 'function') {
+                callbacks.onEpochBegin()
+            }
+        }
+
+        // Once we've trained for numEpochs, release the tensor memory and
+        // return the losses object
+        if (epoch == numEpochs) {
+            x.dispose()
+            y.dispose()
+            return losses
+        }
+    }
+}
+    </code>
+</pre>
+
+Once this function returns, we save our model using the Twitter user's account name in `checkpoints/`. Finally, we generate new tweets using our fine-tuned model by updating its architecture once again to accept `BATCH_SIZE` and `SEQ_LEN` values of `1` and calling `utils.generateText()`.<span class="marginal-note" data-info="This utility function is identical to the generateText() function from generate.js in [Part 3](twitterbot-part-3-model-inference-and-deployment.html)."></span>
+
+Let's try it out! Make sure your tweet server from earlier in the chapter is still running. If it's not, open a new terminal in `tweet-server` and run `node server`. In a separate terminal window, run the `src/fine-tune.js` script.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+node src/fine-tune.js barackobama
+    </code>
+</pre>
+
+<pre class="code">
+    <code class="plain" data-wrap="true">
+"In the middle class, in the carbon pollution share." President Obama on the Senate #AmericaLeads
+It's ticket. That would be more than ever happened tonight after a beautiful private-section. #GetCovered #ImmigrationAction
+"We cant take the power of the fight this year." President Obama #SOTU
+"The first two years since the end of sears of three months, and subject on this." President Obama #ActOnClimate
+"We have to make sure you can stand up to the planet." President Obama
+The United States on Americans we can't stand a power of anniversary of the facts of the country talking about the #SOTU. https://t.co/nuniGBr0li
+"With this deal with my family to health care reform: https://t.co/lAvZGRe7Ey http://t.co/0ynm9d80rg
+RT @WhiteHouse: "A record-breaking this was about taxpayers will be here in Chicago tonight, the presidential is here: http://t.co/gzud9ssiV3 #GetCovered #DoYourJob https://t.co/jnz9hN0lVY
+Today is a remarken to make change about the success of the minimum wage. http://t.co/k8sDgRE9Q7
+RT @WhiteHouse: "We've got a stand against a fair hearing and an even about it." President Obama #SOTU
+It's so easy to take a sector of middle-class families and want to go to start the planet for my features, but that made me want to see what we had all their consumers. #ACAWorks
+"It's why we cant move our energy for constant of the capacity." President Obama #ItsOnUs
+Its so fund." @OFA: President Obama says to #ActOnClimate about how to help close the private-sector job gain in America: http://t.co/ycydjKuYEm #ActOnClimate
+    </code>
+</pre>
+
+That's it! I find it amazing how powerful transfer learning can be. We fit our base model to Obama's tweets in only ten epochs using very limited training data, and yet, the generated text actually sounds like the former president.
+
+### Building a GUI Application with Electron
+
+Now that we've got the basics of model fine-tuning down using `bin/fine-tune.js`, we're going to create an electron application that let's us generate twitter bots using a graphical user interface.
+
+<section class="media" data-fullwidth="false">
+    <img src="images/twitter-bot-generator-electron.png" alt="A screenshot of the final application.">
+</section>
