@@ -43,7 +43,7 @@ ul a::selection, ol a::selection { background:#e40477; color:#fff; }
 div a, p a, ul a, ol a { color:#e40477; text-decoration:none; padding-bottom:2px; }
 div a:hover, p a:hover, ul a:hover, ol a:hover { color:#e40477; border-bottom:2px solid #e40477; }
 
-div code, p code {
+div code, p code, ul code, li code {
     font-family:'BB_code'; color:#731ac2;
     background-color:#f7f7f7; padding:5px;
 }
