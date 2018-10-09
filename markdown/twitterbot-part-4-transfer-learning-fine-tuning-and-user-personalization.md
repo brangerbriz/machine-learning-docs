@@ -288,7 +288,7 @@ Create a `package.json` file with the contents below.
   "name": "twitter-transfer-learning",
   "version": "1.0.0",
   "scripts": {
-    "start": "electron src/electron.js"
+    "start": "electron index.html"
   },
   "author": "Brannon Dorsey <bdorsey@brangerbriz.com>",
   "dependencies": {
@@ -568,3 +568,119 @@ Now that we've got the basics of model fine-tuning down using `bin/fine-tune.js`
     <img src="images/twitter-bot-generator-electron.png" alt="A screenshot of the final application.">
 </section>
 
+We'll use [Vue.js](https://vuejs.org/) to create our user interface and simplify interaction with the DOM. We'll also use [BBElements](https://github.com/brangerbriz/BBElements), an in-house HTML/CSS/JS library developed by [@Branger_Briz](https://twitter.com/branger_briz). This set of web components keeps our web projects on-brand using markup.
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+curl -O lib/vue.js https://raw.githubusercontent.com/brangerbriz/twitter-transfer-learning/master/lib/vue.js
+    </code>
+</pre>
+
+Let's create an `index.html` file in the root of the `twitter-transfer-learning/` folder. Here we'll define the HTML code for our single-page application. This code provides brief instructions to the user and a minimal interface for downloading tweets, training models, and generating new tweets. It relies heavily on Vue.js' `{{ handlebars }} ` formatting and custom HTML attributes like `v-bind`, `v-if`, etc. We'll explain some of these features below.
+
+<pre class="code">
+    <code class="html" data-wrap="false">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;Twitter Bot Generator&lt;&#x2F;title&gt;
+  &lt;script src=&quot;lib&#x2F;vue.js&quot;&gt;&lt;&#x2F;script&gt;
+  &lt;!-- Include BBElements style and logic. 
+       More info at https:&#x2F;&#x2F;github.com&#x2F;brangerbriz&#x2F;BBElements --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;BBElements&#x2F;css&#x2F;bb-fonts.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;BBElements&#x2F;css&#x2F;bb-styles.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;BBElements&#x2F;css&#x2F;bb-responsive.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;BBElements&#x2F;css&#x2F;bb-code-colors.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;BBElements&#x2F;css&#x2F;bb-animations.css&quot;&gt;
+  &lt;script src=&quot;BBElements&#x2F;js&#x2F;highlightJS&#x2F;highlight.pack.js&quot;&gt;&lt;&#x2F;script&gt;
+  &lt;script src=&quot;BBElements&#x2F;js&#x2F;BBElements.js&quot;&gt;&lt;&#x2F;script&gt;
+  &lt;style&gt;
+    &#x2F;* Add some styling in addition to the default BBElement styling *&#x2F;
+    input, button, select {
+        font-family: &#x27;BB_copy&#x27;, sans-serif;
+        border: none;
+        color: #5f5f5f;
+        line-height: 24px;
+        letter-spacing: 1px;
+        margin: 0;
+      }
+
+      input, select {
+        background-color: rgb(235, 252, 255);
+      }
+
+      button[disabled] {
+        text-decoration-line: line-through
+      }
+    &lt;&#x2F;style&gt;
+&lt;&#x2F;head&gt;
+&lt;body&gt;
+  &lt;!-- #app acts as our application container. 
+       Vue.js targets this element and all of its children. --&gt;
+  &lt;div id=&quot;app&quot;&gt;
+
+    &lt;!-- Basic title and description --&gt;
+    &lt;h2&gt;Twitter Bot Generator&lt;&#x2F;h2&gt;
+    &lt;p&gt;
+      Create a bot that sounds like a twitter user. Download a user&#x27;s twitter 
+      data, train an RNN model using transfer learning, and generate new 
+      tweets in their style, all from this electron app.
+    &lt;&#x2F;p&gt;
+
+    &lt;!-- Data section: download twitter data for a user --&gt;
+    &lt;section class=&quot;data&quot;&gt;
+      &lt;h3&gt;Data&lt;&#x2F;h3&gt;
+      &lt;p&gt;
+        Use the input field below to download twitter data for a specific 
+        user. Populate the field with a twitter username, excluding the @ 
+        symbol, then press the &quot;Download Tweets&quot; button.
+      &lt;&#x2F;p&gt;
+      &lt;em&gt;&lt;p style=&quot;color: black;&quot;&gt;{{ twitter.status }}&lt;&#x2F;p&gt;&lt;&#x2F;em&gt;
+      &lt;input type=&quot;text&quot; name=&quot;twitter-user&quot; v-model=&quot;twitter.user&quot;&gt;
+      &lt;!-- run downloadTweets() on button press --&gt;
+      &lt;button @click=downloadTweets()&gt;Download Tweets&lt;&#x2F;button&gt;
+    &lt;&#x2F;section&gt;
+
+    &lt;!-- Model section: Load and train models and generate text. --&gt;
+    &lt;section class=&quot;model&quot;&gt;
+      &lt;h3&gt;Model&lt;&#x2F;h3&gt;
+      &lt;p&gt;
+        Once you&#x27;ve downloaded twitter data you can train a new model using 
+        the &quot;base-model.&quot; You can also load models you have already trained 
+        and continue to train them or use them to generate new tweets.
+      &lt;&#x2F;p&gt;
+      &lt;em&gt;&lt;p style=&quot;color: black;&quot; v-html=&quot;model.status&quot;&gt;&lt;&#x2F;p&gt;&lt;&#x2F;em&gt;
+      &lt;label&gt;Load Model&lt;&#x2F;label&gt;
+      &lt;!-- run loadModel() on selection --&gt;
+      &lt;select v-model=&quot;model.path&quot; v-on:change=&quot;loadModel(model.path)&quot; 
+      :disabled=&quot;model.training&quot;&gt;
+        &lt;option v-for=&quot;m in models&quot; :value=&quot;m.path&quot;&gt;{{ m.name }}&lt;&#x2F;option&gt;
+      &lt;&#x2F;select&gt;
+      &lt;!-- run train() on button press --&gt;
+      &lt;button 
+      :disabled=&quot;data.data == null || model.model == null || model.training&quot; 
+      @click=&quot;train()&quot;&gt;Train Model&lt;&#x2F;button&gt;
+      &lt;!-- run generate() on button press --&gt;
+      &lt;button 
+      :disabled=&quot;model.model == null || model.training&quot; 
+      @click=&quot;generate()&quot;&gt;Generate Tweets&lt;&#x2F;button&gt;
+    &lt;&#x2F;section&gt;
+
+    &lt;!-- Generated tweets section: Display output from a trained model. --&gt;
+    &lt;section v-if=&quot;generatedTweets.length &gt; 0&quot; class=&quot;generated-text&quot;&gt;
+      &lt;h3&gt;Generated Tweets&lt;&#x2F;h3&gt;
+      &lt;p&gt;
+        Here are a few synthetic tweets generated in the style of 
+        @{{ model.name }}. Generating new tweets will replace these ones.
+      &lt;&#x2F;p&gt;
+      &lt;p style=&quot;color:black;&quot; v-for=&quot;tweet in generatedTweets&quot;&gt;{{tweet}}&lt;&#x2F;p&gt;
+    &lt;&#x2F;section&gt;
+  &lt;&#x2F;div&gt;
+
+  &lt;!-- The electron.js script holds our all of our logic --&gt;
+  &lt;script src=&quot;src&#x2F;electron.js&quot;&gt;&lt;&#x2F;script&gt;
+&lt;&#x2F;body&gt;
+&lt;&#x2F;html&gt;
+    </code>
+</pre>
