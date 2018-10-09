@@ -562,8 +562,9 @@ That's it! I find it amazing how powerful transfer learning can be. We fit our b
 
 ### Building a GUI Application with Electron
 
-Now that we've got the basics of model fine-tuning down using `bin/fine-tune.js`, we're going to create an electron application that let's us generate twitter bots using a graphical user interface.
+Now that we've got the basics of model fine-tuning down using `bin/fine-tune.js`, we're going to build an electron application that let's us create twitter bots using a graphical user interface.
 
 <section class="media" data-fullwidth="false">
     <img src="images/twitter-bot-generator-electron.png" alt="A screenshot of the final application.">
 </section>
+
