@@ -876,6 +876,7 @@ const app = new Vue({
                     console.error(err)
                     this.model.status = 'Error training model'
                     if (err.message) this.model.status += `: ${err.message}`
+                    this.model.training = false
                     return
                 }
 
