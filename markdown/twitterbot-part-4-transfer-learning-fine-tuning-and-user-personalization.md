@@ -721,8 +721,6 @@ if (['webgl', 'cpu'].includes(tf.getBackend())) {
 }
 console.log(`using tfjs backend "${tf.getBackend()}"`)
 
-const TWEET_SERVER = 'http://localhost:3000'
-
 // if you are on a machine with < 8GB of memory, reduce the batch size to 32
 const BATCH_SIZE = 64
 const SEQ_LEN = 64
@@ -730,6 +728,7 @@ const DROPOUT = 0.1
 const VAL_SPLIT = 0.2
 const GENERATED_TEXT_LENGTH = 2048
 const TOP_N_SAMPLING = 5
+const TWEET_SERVER = 'http://localhost:3000'
 
 // create the Vue.js app, binding to the &lt;div id="app"&gt; element
 const app = new Vue({
@@ -940,3 +939,35 @@ const app = new Vue({
 })
     </code>
 </pre>
+
+After dependency imports and hyperparameter constant definitions we instantiate a Vue.js object with `const app = new Vue()`. The config object passed as the single constructor argument contains several important properties that control how the UI interacts with our data and code.
+
+- `el: '#app'` declares that this Vue.js object is bound to the `<div id="app">` element in `index.html`
+- `data` is a JavaScript object whose properties can be referenced inside `<div id="app">`. Any changes to this JavaScript object will be automatically rendered to the DOM.
+- `methods` defines functions that can reference the `data` object using the `this` keyword. In our application these functions are triggered by user interaction in `index.html`. They manipulate the `data` object which then automatically updates the UI to reflect these changes.
+- `mounted` is a special function which gets called as soon `#app` is ready to receive automated UI updates by Vue.js. We are using this as the entry point to our application's code.
+
+The functions inside `methods` should look familiar to those in `bin/fine-tune.js` with logic added to interface with the `data` model and the event driven nature of a GUI application. I'll leave it up to you to study these changes and poke around as you see fit. In the meantime, let's run our final application! 
+
+<pre class="code">
+    <code class="bash" data-wrap="false">
+# make sure the tweet-server is still running on localhost:3000...
+
+# runs `electron src/electron.js`
+npm start
+    </code>
+</pre>
+
+You should see an Electron window appear. Play around with the interface. The onscreen instructions describe how to use the app to download a user's tweets and use them as training data. Once you've downloaded data select the "base-model", use the slider to select a number of epochs to train for<span class="marginal-note" data-info="If you're on a laptop or non-GPU environment I recommend 1 or 2 epochs to start. You can train the same model multiple times, automatically picking up from where you left off. If you've got an Nvidia GPU and CUDA installed go for more."></span>, and then press "Train Model". The window may periodically freeze during training and that's ok. After a while you should have a newly trained model saved to `indexeddb://whatever-twitter-handle-you-chose`. You can now use this model to generate tweets! Each time you press the "Generate Tweets" button ~2000 characters of text will be generated, replacing whatever tweets were last generated.
+
+You can even experiment with training the same model using data from different Twitter accounts. Each time you train a model, you do so by fine-tuning an existing model. Normally you'll use the "base-model", but there is no reason you can't start with a model that's already been fine-tuned. Play around and have fun!
+
+## Wrapping Up
+
+Congratulations! You've made it to the end of this *rather technical* four-part tutorial series. Together, we've covered a ton of ground. We started by learning to prepare and encode a large, publicly available Twitter dataset, for downstream model training in [Part 1](twitterbot-part-1-twitter-data-preparation.html). We then learned about model training and hyperparameter search in [Part 2](twitterbot-part-2-model-training-and-iteration.html), where we trained a base model using Python Keras. In [Part 3](twitterbot-part-3-transfer-learning-fine-tuning-and-user-personalization.html) we converted our Keras model to Tensorflow.js and deployed our in a browser environment. Finally, this chapter introduced model fine-tuning with transfer learning. We converted our data processing code from Python to JavaScript and trained frozen Keras models in Node.js and Electron environment, before building a GUI application to create Twitter bots from individual user accounts 🙌.
+
+If you're feeling overwhelmed by the amount of code we just went through, or like you don't understand a lot of it, don't worry! This tutorial was written to illustrate what a full machine learning pipeline can look like in practice, from ideation + data gathering to application launch. Know that the we've been working through took weeks to research, author, and debug. We created three GitHub repositories to store the code we've broken apart and pieced back together for this tutorial series. If you are looking to dig deeper, or check your work, have a look at them.
+
+1. [brangerbriz/char-rnn-text-generation](https://github.com/brangerbriz/char-rnn-text-generation): Keras training and hyperparameter search code for our base model. A heavily refactored hard-fork from [xtay/char-rnn-text-generation](https://github.com/yxtay/char-rnn-text-generation).
+1. [brangerbriz/tweet-server](https://github.com/brangerbriz/tweet-server): HTTP + Socket.io server to download several thousand tweets given a username.
+1. [brangerbriz/twitter-transfer-learning](https://github.com/brangerbriz/twitter-transfer-learning): Create individual twitter bots using Tensorflow.js and transfer learning with a pre-trained Keras RNN model from [brangerbriz/char-rnn-text-generation](https://github.com/brangerbriz/char-rnn-text-generation).
