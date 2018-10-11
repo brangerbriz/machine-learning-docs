@@ -1,10 +1,10 @@
 # Twitterbot Part 4: Transfer Learning, Fine-tuning, and User Personalization
 
-In [Part 3](twitterbot-part-3-model-inference-and-deployment.html) of this tutorial we used seven million tweets to train a base model in Keras, which we then deployed in a browser environment using Tensorflow.js. In this chapter, we'll learn how we can use a technique called *transfer learning* to fine-tune our base model using tweets from individual twitter accounts. We'll create a graphical application that allows you to train models using an individual user's tweets and use them to generate synthetic tweets in the style of that user.
+In [Part 3](twitterbot-part-3-model-inference-and-deployment.html) of this tutorial we used seven million tweets to train a base model in Keras and deploy it in a browser environment using Tensorflow.js. In this chapter, we'll learn how we can use a technique called *transfer learning* to fine-tune our base model using tweets from individual Twitter accounts. We'll create a graphical application that allows us to train models using an individual user's tweets and use them to generate synthetic tweets in the style of that user.
 
 ## Individual Twitter User Data
 
-Until now, we've been using twitter data aggregated from hundreds of thousands of different twitter accounts. This has worked well for the purpose of training a base model to synthesize general tweets, but now we'd like to imitate individual twitter user accounts. To do so, we'll use the Twitter API. We'll create a Node.js server<span class="marginal-note" data-info="We'll be recreating the code from this [tweet-server](https://github.com/brangerbriz/tweet-server) repository, if you care to jump ahead."></span> that we can use to download a user's public tweets given their username. We'll then use this server process to download twitter data at will upon request from our training code.
+Until now, we've been using Twitter data aggregated from hundreds of thousands of different Twitter accounts. This has worked well for the purpose of training a base model to synthesize general tweets, but now we'd like to imitate individual Twitter user accounts. To do so, we'll use the Twitter API. We'll create a Node.js server<span class="marginal-note" data-info="We'll be recreating the code from this [tweet-server](https://github.com/brangerbriz/tweet-server) repository, if you care to jump ahead."></span> that we can use to download a user's public tweets given their Twitter handle.
 
 <pre class="code">
     <code class="bash" data-wrap="false">
@@ -22,7 +22,7 @@ Next create a `package.json` file inside of `tweet-server/` and populate it usin
 {
   "name": "tweet-server",
   "version": "0.1.0",
-  "description": "Download twitter data using an HTTP REST API.",
+  "description": "Download Twitter data using an HTTP REST API.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -46,15 +46,15 @@ npm install
     </code>
 </pre>
 
-Before you can use the Twitter API, you have to create a Twitter API application using a developer account at [developer.twitter.com](https://developer.twitter.com). You'll need to submit an application to become a developer as well as to create a new application.<span class="marginal-note" data-info="Both applications are instantly approved in my experience, but in theory, the process can take longer."></span> Once that's done you'll need to generate consumer API keys and access tokens.
+Before you can use the Twitter API, you have to create a Twitter API application using a developer account at [developer.twitter.com](https://developer.twitter.com). You'll need to submit an application to become a developer as well as to create a new application.<span class="marginal-note" data-info="Both applications were instantly approved in my experience, but in theory, the process can take longer."></span> Once that's done you'll need to generate consumer API keys and access tokens.
 
 <section class="media" data-fullwidth="false">
     <img src="images/twitter-api.png"> 
 </section>
 
-We'll use Express to create our own REST API using Node.js. We'll download a user's tweets using GET requests by providing a twitter username in the URL. A request like `http://localhost:3000/api/barackobama` will return a JSON object containing Obama's tweets.
+We'll use the [Express framework](https://expressjs.com/) to create our own REST API using Node.js. We'll download a user's tweets using GET requests by providing a Twitter username in the URL. A request like `http://localhost:3000/api/barackobama` will return a JSON object containing Obama's tweets.
 
-Create a new file called `server.js` and fill it with the contents below. Replace the `TWITTER_*` constants using values from your Twitter API app.
+Create a new file called `server.js` and fill it with the contents below. Replace the `TWITTER_*` constants with values from your Twitter API app.
 
 <pre class="code">
     <code class="javascript" data-wrap="false">
@@ -71,7 +71,7 @@ const TWITTER_CONSUMER_SECRET=""
 const TWITTER_ACCESS_TOKEN=""
 const TWITTER_ACCESS_TOKEN_SECRET=""
 
-// create an instance of Twit, which we'll use to access the twitter API
+// create an instance of Twit, which we'll use to access the Twitter API
 const T = new Twit({
     // goto: https://apps.twitter.com/ for keys
     consumer_key: TWITTER_CONSUMER_KEY,
@@ -85,7 +85,7 @@ const T = new Twit({
 app.use('/api', cors())
 
 // all GET requests to /api/ should include a user value in the path. 
-// This user value will be interpreted as twitter handle.
+// This user value will be interpreted as Twitter handle.
 app.get('/api/:user', async (req, res) => {
     const user = req.params.user
     try {
@@ -151,7 +151,7 @@ function getUserTweetBatch(user, maxId) {
     </code>
 </pre>
 
-In this script, we register an HTTP route for all `GET /api/:user` requests, where `:user` is a twitter handle. All requests that match this route will trigger a download of ~3,200 tweets using the [twit npm package](https://www.npmjs.com/package/twit) via `getUserTweets()`. This function downloads 200 tweets at a time in a loop using `getUserTweetBatch()`. Batches of tweets are combined into one array and stripped of metadata; the value returned from `getUserTweets()` is an array of tweet contents only. If the download succeeded a JSON object containing the tweets is returned as the result of the HTTP request: `{ error: null, tweets: [...] })`. If there was an error downloading tweets, the tweets object is null: `{ "error": "Sorry, that page does not exist.", "tweets": null }`.
+In this script, we register an HTTP route for all `GET /api/:user` requests, where `:user` is a Twitter handle. All requests that match this route will trigger a download of ~3,200 tweets using the [twit npm package](https://www.npmjs.com/package/twit) via the `getUserTweets()` function. This function downloads 200 tweets at a time in a loop using `getUserTweetBatch()`. Batches of tweets are combined into one array and stripped of metadata; the value returned from `getUserTweets()` is an array of tweet contents only. If the download succeeded a JSON object containing the tweets is returned as the result of the HTTP request: `{ error: null, tweets: [...] })`. If there was an error downloading tweets, the tweets object is null: `{ "error": "Sorry, that page does not exist.", "tweets": null }`.
 
 <pre class="code">
     <code class="bash" data-wrap="false">
@@ -188,7 +188,7 @@ curl http://localhost:3000/api/barackobama
     </code>
 </pre>
 
-Over in the terminal running our `server.js` process, you should see logs from the `curl` query. If something went wrong, it will likely appear here.
+Over in the terminal running our `server.js` process, we should see logs from the `curl` query. If something went wrong, it will likely appear here.
 
 <pre class="code">
     <code class="plain" data-wrap="false">
@@ -219,17 +219,17 @@ We'll use this server to download tweets later in the tutorial, so leave it runn
 
 ## Transfer Learning
 
-Transfer learning is the process of using knowledge gained from one task to solve another task. In practice, this technique involves re-using model weights that were pre-trained using a large dataset as the initial weights of a new model trained using a smaller dataset. In non-transfer learning scenarios model weights are initialized using a random distribution. With transfer learning, a new model's weights are initialized using a checkpoint from a model that was trained using a different dataset, loss function, and/or performance metric.
+Transfer learning is the process of using knowledge gained from one task to solve another task. In practice, this technique involves re-using model weights that were pre-trained using a large dataset as the initial weights of a new model trained using a smaller dataset. In non-transfer learning scenarios model weights are initialized using a random distribution. With transfer learning, a new model's weights are initialized using a checkpoint from a model that was trained using a different dataset, loss function, or performance metric.
 
 The intuition behind transfer learning is that knowledge gained from one task can be transferred, through shared model weights, to a different but related task. In a character-level text generation task, our model must learn to extract language patterns entirely from scratch using the training data. Our untrained RNN model has no conception of the english language. Before it can learn to string related words together to form realistic looking sentences, it must learn to combine the right characters to create words at all. If the training data is too small, it's likely that our model won't even be able to generate english looking text, let alone anything that looks like a tweet.
 
-Twitter's API restricts tweet downloads to a mere [3,200 tweets per user account](https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html), which isn't much data at all. If we were to train a model with randomly initialized weights using only tweets from a single user's account as training data, the model would perform very poorly. I would expect the model to either not be able to extract useful language patterns from such little text, or to instead memorize the training data and output only exact samples found in the training set. Instead of training our individual twitter user models using randomly initialized weights, we will instead initialize them using the weights of our base model, which we trained using over seven million tweets in [Part 3](twitterbot-part-3-model-inference-and-deployment.html). Our base model has already learned to create english words and sentences, the appropriate lengths of tweets, and how to RT, @mention, and #hashtag. This prior knowledge extends our capability to train a model to imitate an individual twitter user using very little training data.
+Twitter's API restricts tweet downloads to a mere [3,200 tweets per user account](https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline.html), which isn't much data at all. If we were to train a model with randomly initialized weights using only tweets from a single user as training data, the model would perform very poorly. I would expect the model to either not be able to extract useful language patterns from such little text, or to instead memorize the training data and output only exact samples found in the training set. Instead of training our individual Twitter user models starting from randomly initialized weights, we will initialize them using the weights of the base model we trained using over seven million tweets in [Part 3](twitterbot-part-3-model-inference-and-deployment.html). Our base model has already learned to create english words and sentences, the appropriate lengths of tweets, and how to RT, @mention, and #hashtag. This prior knowledge extends our capability to train a model to imitate an individual Twitter user using very little training data.
 
 Here's a pseudo-code example of how the model fine-tuning process works using transfer learning.
 
 <pre class="code">
     <code class="javascript" data-wrap="false">
-// train a new model for a very long time on a very large dataset
+// train a new model for a very long time using a very large dataset
 const baseModel = train(createModel(), 'large-dataset.txt')
 
 // fine-tune the pre-trained model using a small dataset
@@ -239,7 +239,7 @@ const fineTunedModel = train(baseModel, 'small-dataset.txt')
 
 ## Twitter Application
 
-We'll create one last folder inside of the `twitterbot-tutorial/` directory we've been working from since Part 1.
+We'll create one last folder inside of the `twitterbot-tutorial/` directory we've been working from since [Part 1](twitterbot-part-1-twitter-data-preparation.html).
 
 <pre class="code">
     <code class="bash" data-wrap="false">
@@ -253,8 +253,8 @@ cd twitter-transfer-learning/
 `twitter-transfer-learning/` will house our code for the rest of the tutorial. Here we'll create a small web application<span class="marginal-note" data-info="We'll be re-creating the web application from [this repo](https://github.com/brangerbriz/twitter-transfer-learning), which you can use for reference."></span> that:
 
 - Loads our base model
-- Downloads twitter data using `tweet-server`
-- Fine-tunes copies of our base model using twitter data from user accounts
+- Downloads Twitter data using `tweet-server`
+- Fine-tunes copies of our base model using Twitter data from user accounts
 - Saves and loads our fine-tuned models
 - Generates tweets using any of our trained models
 - Provide a minimal user interface for accomplishing all of these tasks
@@ -285,19 +285,20 @@ Create a `package.json` file with the contents below.
 <pre class="code">
     <code class="json" data-wrap="false">
 {
-  "name": "twitter-transfer-learning",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "electron index.html"
-  },
-  "author": "Brannon Dorsey <bdorsey@brangerbriz.com>",
-  "dependencies": {
-    "@tensorflow/tfjs-node": "^0.1.17",
-    "@tensorflow/tfjs-node-gpu": "^0.1.17",
-    "electron": "^2.0.8",
-    "hyperparameters": "^0.25.5",
-    "json2csv": "^4.2.1",
-    "node-fetch": "^2.2.0"
+    "name": "twitter-transfer-learning",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "electron index.html"
+    },
+    "author": "Brannon Dorsey ",
+    "dependencies": {
+        "@tensorflow/tfjs-node": "^0.1.17",
+        "@tensorflow/tfjs-node-gpu": "^0.1.17",
+        "electron": "^2.0.8",
+        "hyperparameters": "^0.25.5",
+        "json2csv": "^4.2.1",
+        "node-fetch": "^2.2.0"
+    }
 }
     </code>
 </pre>
@@ -312,7 +313,7 @@ npm install
 
 ### Basic Fine-Tuning
 
-Let's create a new script called `src/fine-tune.js`, which we'll use to explore the process of downloading twitter data and fine-tuning our base model using transfer learning. This script will be a self-contained Node.js process where we'll demonstrate the fine-tuning process, void of UI code. We'll run this script from the command-line.
+Let's create a new script called `bin/fine-tune.js`, which we'll use to explore the process of downloading twitter data and fine-tuning our base model using transfer learning. This self-contained Node.js script will demonstrate the fine-tuning process, void of UI code. We'll run this script from the command-line.
 
 <pre class="code">
     <code class="javascript" data-wrap="false">
@@ -417,11 +418,11 @@ main().catch(console.error)
     </code>
 </pre>
 
-This script begins with a few dependency imports before checking if a command-line argument is defined with `process.argv[2] == null`. If it isn't, the program prints its usage and exits with an error code. If an argument was included it is interpreted as the `TWITTER_USER` later in the program. After this validation check, we `require('@tensorflow/tfjs-node-gpu')` and then check the value of `tf.getBackend()`. If your computer has an NVIDIA graphics card and CUDA installed<span class="marginal-note" data-info="See [ML Development Environment](ml-development-environment.html)"></span> the backend should now be "tensorflow". If not, it will instead be either "cpu" or "webgl", in which case we fallback to the non-GPU-accelerated version of tfjs-node with `require('@tensorflow/tfjs-node')`.
+This script begins with a few dependency imports before checking if a command-line argument is defined with `process.argv[2] == null`. If it isn't, the program prints its usage and exits with an error code. If an argument was included it is interpreted as `TWITTER_USER` later in the program. After this validation check, we `require('@tensorflow/tfjs-node-gpu')` and then check the value of `tf.getBackend()`. If your computer has an NVIDIA graphics card and CUDA installed<span class="marginal-note" data-info="See [ML Development Environment](ml-development-environment.html)"></span> the backend should now be "tensorflow". If not, it will instead be either "cpu" or "webgl", in which case we fallback to the non-GPU-accelerated version of tfjs-node with `require('@tensorflow/tfjs-node')`.
 
-We define several global constants in this script for Twitter download settings and hyperparameters. If the user specified the `twitter-user` command line argument with an "@" character (e.g. "[@branger_briz](https://twitter.com/branger_briz)") we remove it. We also define the URL for an instance of `tweet-server` we wrote earlier in this chapter via `const TWEET_SERVER = 'http://localhost:3000'`, before defining the hyperparameter values we'll use to fine-tune our model.<span class="marginal-note" data-info="These values were chosen via a hyperparameter search just like we did in [Part 3](twitterbot-part-3-model-inference-and-deployment.html), this time using data from an individual user's twitter account and weight initialization using the base model. This search was written in JavaScript and you can download the script from [here](https://github.com/brangerbriz/twitter-transfer-learning/blob/master/bin/hyperparameter-search.js)."></span> With this setup complete, we launch the `main()` function and log any errors to the console.
+We define several global constants in this script for Twitter download settings and hyperparameters. If the user specified the `twitter-user` command line argument with an "@" character (e.g. "[@branger_briz](https://twitter.com/branger_briz)") we remove it. We also define the URL for an instance of `tweet-server` we wrote earlier in this chapter via `const TWEET_SERVER = 'http://localhost:3000'`, before defining the hyperparameter values we'll use to fine-tune our model.<span class="marginal-note" data-info="These values were chosen via a hyperparameter search just like we did in [Part 3](twitterbot-part-3-model-inference-and-deployment.html), this time using data from an individual user's Twitter account and weight initialization using the base model. This search was written in JavaScript and you can download the script from [here](https://github.com/brangerbriz/twitter-transfer-learning/blob/master/bin/hyperparameter-search.js)."></span> With this setup complete, we launch the `main()` function and log any errors to the console.
 
-The `main()` function begins by downloading and encoding twitter data via `utils.loadTwitterData(TWITTER_USER, TWEET_SERVER)`. This function makes an HTTP request to our `tweet-server`'s API and returns the JSON results or throws an error if something went wrong. Here's a peek at its source code inside `src/utils.py`:
+The `main()` function begins by downloading and encoding Twitter data via `utils.loadTwitterData(TWITTER_USER, TWEET_SERVER)`. This function makes an HTTP request to our `tweet-server`'s API and returns the JSON results or throws an error if something went wrong. Here's a peek at its source code inside `src/utils.py`:
 
 <pre class="code">
     <code class="javascript" data-wrap="false">
@@ -562,17 +563,17 @@ That's it! I find it amazing how powerful transfer learning can be. We fit our b
 
 ### Building a GUI Application with Electron
 
-Now that we've got the basics of model fine-tuning down using `bin/fine-tune.js`, we're going to build an electron application that let's us create twitter bots using a graphical user interface.
+Now that we've got the basics of model fine-tuning down using `bin/fine-tune.js`, we're going to build an electron application that let's us create twitter bots using a graphical user interface. This will be the final project of this tutorial series.
 
 <section class="media" data-fullwidth="false">
     <img src="images/twitter-bot-generator-electron.png" alt="A screenshot of the final application.">
 </section>
 
-We'll use [Vue.js](https://vuejs.org/) to create our user interface and simplify interaction with the DOM. We'll also use [BBElements](https://github.com/brangerbriz/BBElements), an in-house HTML/CSS/JS library developed by [@Branger_Briz](https://twitter.com/branger_briz). This set of web components keeps our web projects on-brand using markup.
+We'll use [Vue.js](https://vuejs.org/) to create our user interface and simplify interaction with the DOM. We'll also use [BBElements](https://github.com/brangerbriz/BBElements), an in-house HTML/CSS/JS library developed by [@Branger_Briz](https://twitter.com/branger_briz). This set of web components keeps our web projects on-brand using only markup.
 
 <pre class="code">
-    <code class="bash" data-wrap="false">
-curl -O lib/vue.js https://raw.githubusercontent.com/brangerbriz/twitter-transfer-learning/master/lib/vue.js
+    <code class="bash" data-wrap="true">
+wget -O lib/vue.js https://raw.githubusercontent.com/brangerbriz/twitter-transfer-learning/master/lib/vue.js
     </code>
 </pre>
 
@@ -704,7 +705,7 @@ Let's create an `index.html` file in the root of the `twitter-transfer-learning/
     </code>
 </pre>
 
-This HTML page is split into three `<sections>` for downloading data, managing models, and displaying generated text. Content wrapped in curly braces (e.g. `{{ }}`) represent data held in JavaScript variables inside of `src/electron.js`. `@click`, `:disabled`, and `v-*` attributes also refer to JavaScript functions and data, which we'll define soon. `v-if` and `v-for` define conditional rendering logic and loops respectively. I you've never used Vue.js before, it automatically updates the DOM via a JavaScript data model: the UI automagically updates whenever data in the JavaScript model changes. JavaScript functions can also be called in response to user interaction events as is seen with the `@click` attributes, which call functions like `downloadTweets()`, `loadModel()`, `train()`, and `generate()`. This `index.html` file will act as template to render content and for users to trigger the actions which we'll define next in `src/electron.js`.
+This HTML page is split into three `<sections>` for downloading data, managing models, and displaying generated text. Content wrapped in curly braces (e.g. `{{ }}`) represent data held in JavaScript variables inside of `src/electron.js`. `@click`, `:disabled`, and `v-*` attributes also refer to JavaScript functions and data, which we'll define soon. `v-if` and `v-for` define conditional rendering logic and loops respectively. Vue.js automatically updates the DOM via a JavaScript data model: the UI automagically changes whenever data in the JavaScript model changes. JavaScript functions can also be called in response to user interaction events as is seen with the `@click` attributes, which call functions like `downloadTweets()`, `loadModel()`, `train()`, and `generate()`. This `index.html` file will act as a template to render content and for users to trigger the actions which we'll define next in `src/electron.js`.
 
 <pre class="code">
     <code class="javascript" data-wrap="false">
@@ -946,7 +947,7 @@ After dependency imports and hyperparameter constant definitions we instantiate 
 - `el: '#app'` declares that this Vue.js object is bound to the `<div id="app">` element in `index.html`
 - `data` is a JavaScript object whose properties can be referenced inside `<div id="app">`. Any changes to this JavaScript object will be automatically rendered to the DOM.
 - `methods` defines functions that can reference the `data` object using the `this` keyword. In our application these functions are triggered by user interaction in `index.html`. They manipulate the `data` object which then automatically updates the UI to reflect these changes.
-- `mounted` is a special function which gets called as soon `#app` is ready to receive automated UI updates by Vue.js. We are using this as the entry point to our application's code.
+- `mounted` is a special function which gets called as soon `<div id="app">` is ready to receive automated UI updates by Vue.js. We are using this as the entry point to our application's code.
 
 The functions inside `methods` should look familiar to those in `bin/fine-tune.js` with logic added to interface with the `data` model and the event driven nature of a GUI application. I'll leave it up to you to study these changes and poke around as you see fit. In the meantime, let's run our final application! 
 
@@ -959,16 +960,16 @@ npm start
     </code>
 </pre>
 
-You should see an Electron window appear. Play around with the interface. The onscreen instructions describe how to use the app to download a user's tweets and use them as training data. Once you've downloaded data select the "base-model", use the slider to select a number of epochs to train for<span class="marginal-note" data-info="If you're on a laptop or non-GPU environment I recommend 1 or 2 epochs to start. You can train the same model multiple times, automatically picking up from where you left off. If you've got an Nvidia GPU and CUDA installed go for more."></span>, and then press "Train Model". The window may periodically freeze during training and that's ok. After a while you should have a newly trained model saved to `indexeddb://whatever-twitter-handle-you-chose`. You can now use this model to generate tweets! Each time you press the "Generate Tweets" button ~2000 characters of text will be generated, replacing whatever tweets were last generated.
+You should see an Electron window appear. The onscreen instructions describe how to use the app to download a user's tweets and use them as training data. Once you've downloaded data select the "base-model", use the slider to select a number of epochs to train for<span class="marginal-note" data-info="If you're on a laptop or non-GPU environment I recommend 1 or 2 epochs to start. You can train the same model multiple times, automatically picking up from where you left off. If you've got an Nvidia GPU and CUDA installed go for more."></span>, and then press "Train Model". The window may periodically freeze during training and that's ok. After a while you should have a newly trained model saved to `indexeddb://whatever-twitter-handle-you-chose`. You can now use this model to generate tweets! Each time you press the "Generate Tweets" button ~2000 characters of text will be generated, replacing whatever tweets were last generated.
 
-You can even experiment with training the same model using data from different Twitter accounts. Each time you train a model, you do so by fine-tuning an existing model. Normally you'll use the "base-model", but there is no reason you can't start with a model that's already been fine-tuned. Play around and have fun!
+You can even experiment with training the same model using data from different Twitter accounts. Each time you train a model, you do so by fine-tuning an existing model. Normally you'll use the "base-model", but there is no reason you can't start with a model that's already been fine-tuned using data from another Twitter account. Play around and have fun!
 
 ## Wrapping Up
 
-Congratulations! You've made it to the end of this *rather technical* four-part tutorial series. Together, we've covered a ton of ground. We started by learning to prepare and encode a large, publicly available Twitter dataset, for downstream model training in [Part 1](twitterbot-part-1-twitter-data-preparation.html). We then learned about model training and hyperparameter search in [Part 2](twitterbot-part-2-model-training-and-iteration.html), where we trained a base model using Python Keras. In [Part 3](twitterbot-part-3-transfer-learning-fine-tuning-and-user-personalization.html) we converted our Keras model to Tensorflow.js and deployed our in a browser environment. Finally, this chapter introduced model fine-tuning with transfer learning. We converted our data processing code from Python to JavaScript and trained frozen Keras models in Node.js and Electron environment, before building a GUI application to create Twitter bots from individual user accounts 🙌.
+Congratulations! You've made it to the end of this *rather technical* four-part tutorial series. Together, we've covered a ton of ground. We started by learning to prepare and encode a large, publicly available Twitter dataset, for downstream model training in [Part 1](twitterbot-part-1-twitter-data-preparation.html). We then learned about model training and hyperparameter search in [Part 2](twitterbot-part-2-model-training-and-iteration.html), where we trained a base model using Python Keras. In [Part 3](twitterbot-part-3-transfer-learning-fine-tuning-and-user-personalization.html) we converted our Keras model to Tensorflow.js and deployed it in a browser environment. Finally, this chapter introduced model fine-tuning with transfer learning. We converted our data processing code from Python to JavaScript and further trained frozen Keras models in Node.js and Electron environments, before building a GUI application to create Twitter bots from individual user accounts 🙌.
 
-If you're feeling overwhelmed by the amount of code we just went through, or like you don't understand a lot of it, don't worry! This tutorial was written to illustrate what a full machine learning pipeline can look like in practice, from ideation + data gathering to application launch. Know that the we've been working through took weeks to research, author, and debug. We created three GitHub repositories to store the code we've broken apart and pieced back together for this tutorial series. If you are looking to dig deeper, or check your work, have a look at them.
+If you're feeling overwhelmed by the amount of code we just went through, or like you don't understand a lot of it, don't worry! This tutorial was written to illustrate what a full machine learning pipeline can look like in practice, from ideation + data gathering to application launch. The code we've been working through took weeks to research, author, and debug. We created three GitHub repositories to store the code we've broken apart and pieced back together for this tutorial series. If you are looking to dig deeper, or check your work, have a look at them.
 
-1. [brangerbriz/char-rnn-text-generation](https://github.com/brangerbriz/char-rnn-text-generation): Keras training and hyperparameter search code for our base model. A heavily refactored hard-fork from [xtay/char-rnn-text-generation](https://github.com/yxtay/char-rnn-text-generation).
+1. [brangerbriz/char-rnn-text-generation](https://github.com/brangerbriz/char-rnn-text-generation): Keras training and hyperparameter search code for our base model. A heavily refactored hard-fork of [xtay/char-rnn-text-generation](https://github.com/yxtay/char-rnn-text-generation).
 1. [brangerbriz/tweet-server](https://github.com/brangerbriz/tweet-server): HTTP + Socket.io server to download several thousand tweets given a username.
-1. [brangerbriz/twitter-transfer-learning](https://github.com/brangerbriz/twitter-transfer-learning): Create individual twitter bots using Tensorflow.js and transfer learning with a pre-trained Keras RNN model from [brangerbriz/char-rnn-text-generation](https://github.com/brangerbriz/char-rnn-text-generation).
+1. [brangerbriz/twitter-transfer-learning](https://github.com/brangerbriz/twitter-transfer-learning): Create individual Twitter bots using Tensorflow.js and transfer learning with a pre-trained Keras RNN model from [brangerbriz/char-rnn-text-generation](https://github.com/brangerbriz/char-rnn-text-generation).
