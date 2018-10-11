@@ -292,8 +292,8 @@ Create a `package.json` file with the contents below.
     },
     "author": "Brannon Dorsey ",
     "dependencies": {
-        "@tensorflow/tfjs-node": "^0.1.17",
-        "@tensorflow/tfjs-node-gpu": "^0.1.17",
+        "@tensorflow/tfjs-node": "^0.1.18",
+        "@tensorflow/tfjs-node-gpu": "^0.1.18",
         "electron": "^2.0.8",
         "hyperparameters": "^0.25.5",
         "json2csv": "^4.2.1",
