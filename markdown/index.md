@@ -27,7 +27,7 @@ A miscellaneous collection of guides, code snippets, and examples on a range of 
 
 An in-depth tutorial where we build an ML pipeline for generating your own Twitter bots that sound like real Twitter users. We'll show you how to use character embeddings, recurrent neural networks, hyperparameter search, and transfer learning, using Keras and Tensorflow.js. We recommend starting at [Part 1](twitterbot-part-1-twitter-data-preparation.html).
 
-- Part 0: [Model Architecture](#)<span class="marginal-note" data-info="Part 0 gives a detailed breakdown of our model architecture. You can skip this section for now."></span>
+- Part 0: [Model Architecture](twitterbot-part-0-model-architecture.html)<span class="marginal-note" data-info="Part 0 gives a detailed breakdown of our model architecture. You can skip this section for now."></span>
 - Part 1: [Twitter Data Preparation](twitterbot-part-1-twitter-data-preparation.html)
 - Part 2: [Model Training and Iteration](twitterbot-part-2-model-training-and-iteration.html)
 - Part 3: [Model Inference and Deployment](twitterbot-part-3-model-inference-and-deployment.html)

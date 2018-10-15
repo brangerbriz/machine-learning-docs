@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--
+              +++++++++++++
+            +++++++++++++++++
+          +++++++++++++++++++++
+         +++++++ ---------- ++++       ____                                         ____       _
+        ++++++++|  ______  |+++++     |  _ \                                       |  _ \     (_)
+        ++++++__| |______| |+++++     | |_) |_ __ __ _ _ __   __ _  ___ _ __       | |_) |_ __ _ ____
+        +++++|  _________  |+++++     |  _ <| '__/ _` | '_ \ / _` |/ _ \ '__|      |  _ <| '__| |_  /
+        +++++| |_________| |+++++     | |_) | | | (_| | | | | (_| |  __/ |         | |_) | |  | |/ /
+         ++++|_____________|++++      |____/|_|  \__,_|_| |_|\__, |\___|_| _______ |____/|_|  |_/___|
+          +++++++++++++++++++++                              __ | |       |_______|
+            +++++++++++++++++                                \___/
+              +++++++++++++
+        -->
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title> Branger_Briz </title>
+
+        <link rel="icon" type="image/png" href="images/bb.svg">
+        <meta name="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture. we produce award winning work for brands, agencies, and cultural institutions around the world.">
+
+        <!-- for Google+ -->
+        <meta itemprop="name" content="Branger_Briz">
+        <meta itemprop="description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture">
+        <meta itemprop="image" content="images/bb.svg">
+        <!-- for Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@branger_briz">
+        <meta name="twitter:title" content="Branger_Briz">
+        <meta name="twitter:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta name="twitter:creator" content="@branger_briz">
+        <!-- Twitter summary card with large image must be at least 280x150px -->
+        <meta name="twitter:image:src" content="images/bb.svg">
+        <!-- for Facebook -->
+        <meta property="og:title" content="Branger_Briz">
+        <meta property="og:type" content="article">
+        <meta property="og:url" content="http://brangerbriz.com/">
+        <meta property="og:image" content="images/bb.svg">
+        <meta property="og:description" content="we are a full­service digital agency+lab made up of artists, strategists, educators && programmers bent on articulating contemporary culture.">
+        <meta property="og:site_name" content="Branger_Briz">
+
+        <!-- CSS -->
+        <!-- consider including normalize.css -->
+        <link rel="stylesheet" href="css/bb-fonts.css">
+        <link rel="stylesheet" href="css/bb-styles.css">
+        <link rel="stylesheet" href="css/bb-responsive.css"><!-- optional media-queries -->
+        <link rel="stylesheet" href="css/bb-code-colors.css"><!-- optional syntax highlighting -->
+        <link rel="stylesheet" href="css/bb-animations.css"><!-- optional intro animations -->
+
+    </head>
+    <body>
+        <section id="logo"></section>
+<!-- The content below this line is injected using `marked` in `build.sh` -->
+<h1 id="model-architecture">Model Architecture</h1>
+<p>This tutorial series demonstrates how to build a machine learning pipeline from ideation to production. We&#39;ll use public tweets and transfer learning techniques to create a graphical application that generates Twitter bots. This chapter serves as an appendix, or forward<span class="marginal-note" data-info="Feel free to skip ahead to Part 1 and come back here later."></span>, to the series; it broadly covers the topic of model architecture selection and design. In this chapter, we&#39;ll answer the question of <em>which type of model should I use, and why?</em></p>
+<h2 id="neural-or-not">Neural or Not</h2>
+<p>One of the first questions to ask when faced with any machine learning task is what class of algorithms to use to solve the problem? Will a linear model work or is the data being modeled non-linear? It&#39;s tempting to jump straight to the conclusion to use a neural network, but often a more basic model may work well, especially if you have access to very little training data. It&#39;s common practice to first choose a simple supervised learning technique, only moving to a more complicated model architecture like a neural net if the simpler method underperforms. </p>
+<ul>
+<li><a href="linear-regression.html">Linear Regression</a> + <a href="http://scikit-learn.org/stable/modules/linear_model.html#logistic-regression" target="_blank">Logistic Regression</a>: The most basic of linear modeling and supervised machine learning. Linear Regression is <code>y = MX + b</code> where <code>y</code> is predicted given a feature vector <code>X</code>, a set of learned weights <code>M</code> and a learned bias term <code>b</code>. Linear regression is used for regression tasks while Logistic Regression, despite its name, is used for classification tasks.</li>
+<li><a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm" target="_blank">K-Nearest Neighbors</a>: This algorithm is wonderfully simple and can be used for both regression and classification. It is a model-less algorithm that predicts unseen values by measuring the euclidean distance between its input features and the input features of all of the training data.</li>
+<li><a href="http://www.r2d3.us/visual-intro-to-machine-learning-part-1/" target="_blank">Decision Trees</a>: These simple models are often used for classification.<span class="marginal-note" data-info="They can be used for regression as well, it just isn't as common."></span> Decision trees can be thought of similarly to a flowchart or a hierarchy of &quot;if, then&quot; statements. Each leaf node in the tree represents a decision, or splitting path, while edges between the nodes represent the probabilities of each node being followed. Nodes at the bottom of the tree represent class membership. Decision trees are favorable because of their interpretability, however, they don&#39;t handle outliers very well, nor do they generalize well to large amounts of unseen data.</li>
+<li><a href="https://en.wikipedia.org/wiki/Random_forest" target="_blank">Random Forests</a>: Random Forest models are constructed using an <a href="https://en.wikipedia.org/wiki/Ensemble_learning">ensemble</a> of separate Decision Trees. For a classification task, the output mode of all Decision Trees is chosen as the output of the Random Forest model.<span class="marginal-note" data-info="Each weak Decision Tree casts a vote for an output class. The class with the most votes is selected as the output of the Random Forest."></span> For a regression task the output is an average over the output from all Decision Trees. Random Forests correct for the common problem Decision Trees have in of overfitting their training set.</li>
+<li><a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier" target="_blank">Naive Bayes classifier</a>: Naive Bayes is a method of classification that utilizes the <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes&#39; theorem</a> of probability with the naive assumption that input features are independent of one another. It has been used and studied extensively since the 1950s. It&#39;s performance has been found to be surprisingly good, even if the naive assumption of feature independence is incorrect, and very little training data exists. Naive Bayes is often used as a baseline model and is less complicated than SVMs.</li>
+<li><a href="https://community.alteryx.com/t5/Data-Science-Blog/Why-use-SVM/ba-p/138440" target="_blank">Support Vector Machines</a> (SVM): These models excel at non-linear classification, although they can also be used for regression and linear modeling as well. These models were among the most popular techniques before the recent neural network resurgence and deep learning craze. SVMs use kernels to apply complex transformations to input features before learning decision boundaries using the transformed data. SVMs can be used as alternative methods to neural networks for non-linear modeling.</li>
+</ul>
+<p>Each of these methods has found success in the field of machine learning and predictive modeling and I encourage you to experiment with these models.<span class="marginal-note" data-info="The [scikit-learn library](http://scikit-learn.org/stable/index.html) has implementations of each and allows you to easily swap model types in only a few lines of code."></span> In the following tutorial, we&#39;ll favor a neural network approach to solving our problem, but these models are always a great place to start when approaching a machine learning solution or comparing your model&#39;s performance to that of other models.</p>
+<h2 id="neural-network-architectures">Neural Network Architectures</h2>
+<p>The twenty-teens have seen a major resurgence in interest and success using neural networks and multi-layer perceptrons to solve complex machine learning problems. Some of this research has been categorized as under a new name: <em>Deep Learning</em>. Variants and adaptations of the vanilla neural network have been introduced, however all of these methods share common trates, and use the multi-layered perceptron at their core. All neural network models:</p>
+<ul>
+<li>Use activation functions at the output of one or more layer, causing the model to be non-linear.</li>
+<li>Involve one or more hidden layers defined in a hierarchy where the output of one layer is fed as the input to another layer.</li>
+<li>Have a number of input neurons equal to the size of each input feature vector.</li>
+<li>Have a number of output neurons equal to the number of predicted values or possible predicted classes.</li>
+<li>Optimize model weights via an external optimization algorithm dependent on a loss, or fitness, function.</li>
+<li>Use learned model weights to make predictions.</li>
+<li>Act as a black box, where data and state can be observed at the input and output layers, but becomes abstract and difficult to interpret at the hidden layers.</li>
+<li>Require lots of training data.</li>
+</ul>
+<p>Beyond some of these common characteristics neural network architectures can differ. Below is a description of some of the most common neural network architectures.<span class="marginal-note" data-info="Know that these architectures are not-mutually exclusive. Characteristics and techniques between different architectures and approaches are often combined and altered to form new architectures."></span></p>
+<h3 id="vanilla-neural-networks">Vanilla Neural Networks</h3>
+<p>Vanilla neural networks, or simply, neural networks are basic multi-layered perceptrons. They feature an input layer, one or more fully-connected hidden layers, and an output layer that is squashed by a sigmoid function if the output is categorical. For most neural network tasks, this will be the method of choice. Vanilla RNNs excel when dealing with:</p>
+<ul>
+<li>Non-sequential data</li>
+<li>Low(ish)-dimensional input (several thousand dimensions or less)</li>
+</ul>
+<h3 id="convolutional-neural-networks">Convolutional Neural Networks</h3>
+<p>Convolutional neural networks (CNNs)<span class="marginal-note" data-info="The CS231 course at Stanford has a [great introduction](https://cs231n.github.io/convolutional-networks/) to CNNs."></span> differ from vanilla NNs in that they have one or more layers that share weights across inputs. This quality allows them to learn to recognize patterns invariant to their position and orientation in the input. CNNs are used primarily for solving tasks in the image domain, although they have also seen recent success dealing with time-series data.</p>
+<p>CNNs slide kernels, small matrices of weight groups, multiple times across different areas of the input data to generate their output. This allows kernels to respond to input data more in some locations than in others and detect features and patterns in regions of input space. Kernels are often followed by operations that pool, or average, their output, therefor reducing the computational complexity of the task through downsampling at each new layer. Several convolutional + pooling layers are common before the final convolutional output is concatenated, or flattened, together and fed to one or more fully-connected layers before the final output layer. CNNs excel when dealing with:</p>
+<ul>
+<li>High-dimensional spatial data in one or more dimension</li>
+<li>Image data</li>
+</ul>
+<h3 id="recurrent-neural-networks">Recurrent Neural Networks</h3>
+<p>Recurrent neural networks (RNNs) differ from vanilla NNs in that they maintain a set of internal weights that can persist state across multiple batches of inputs. Neurons maintain connections to their own previous state, which allows them to perform well when tasks require time dependence or sequential input data. If your input data is sequential in some way, like time series stock data, natural language text or speech data, or a series of actions performed by a user, RNNs will likely be the NN architecture of choice.</p>
+<p>While vanilla RNNs can be used, it&#39;s much more common to use an RNN variant that utilizes special units, like <a href="https://en.wikipedia.org/wiki/Long_short-term_memory" target="_blank">long short-term memory</a> units (LSTM) or <a href="https://en.wikipedia.org/wiki/Gated_recurrent_unit">gated recurrent units</a> (GRU). LSTMs offer a complex memory unit that has the capacity to learn when to store information for multiple time steps and when to release it from memory. RNNs use LSTM units to improve long-term dependence and fight the <a href="https://en.wikipedia.org/wiki/Vanishing_gradient_problem">vanishing gradient problem</a> across time-series dimensions.</p>
+<p>RNN architectures are flexible and their configuration can vary dependent on the task at hand. They can be designed to:</p>
+<ul>
+<li>Receive a sequence and predict the next element in the sequence</li>
+<li>Receive a sequence and predict an output sequence</li>
+<li>Receive a single input and output a sequence</li>
+<li>Receive a single input (dependent on prior input) and output a single input</li>
+</ul>
+<p>RNNs excel when dealing with:</p>
+<ul>
+<li>Sequential or time-series data</li>
+<li>Useful when a network should retain state, or &quot;remember&quot; its prior inputs</li>
+</ul>
+<h3 id="beyond">Beyond</h3>
+<p>Vanilla NNs, CNNs, and RNNs are among the most popular neural network architectures in use today, but they are by no means the only ones in use. A few particularly exciting architectures that we won&#39;t cover here, but that are worth a look include:</p>
+<ul>
+<li>Generative Adversarial Networks (GANs)</li>
+<li>Autoencoder Networks &amp; Sequence-to-Sequence Autoencoders</li>
+</ul>
+<p>The Asimov Institute has a great post called <a href="http://www.asimovinstitute.org/neural-network-zoo/" target="_blank"><em>The Neural Network Zoo</em></a> which introduces and visually compares a large set of neural network architectures.</p>
+<section class="media" data-fullwidth="false">
+    <img src="images/neural-networks-zoo.png" alt="Image from the Asimov Institute's Neural Network Zoo.">
+</section>
+
+<p>I find it useful to think of neural network architectures not as concrete, separate entities, but rather as proven building blocks that can be used, possibly in combination with one another, to achieve some goal. Consulting the machine learning literature, you will find that all of these architectures share common ancestry and are often the product of a combination of proven ML techniques. These architectures are great starting points for research and engineering, but there is no reason you can&#39;t deviate from the norm in designing an ML pipeline or solution. In the next section, we&#39;ll introduce the <a href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/" target="_blank">famous character-level recurrent neural network</a> (char-rnn), as well as some modifications we&#39;ve chosen to make to the basic architecture in the subsequent chapters of the tutorial.</p>
+<h2 id="char-rnn">Char-RNN</h2>
+<h3 id="basic-char-rnn">Basic Char-RNN</h3>
+<h3 id="our-char-rnn-model">Our Char-RNN Model</h3>
+
+<!-- The content above this line is injected using `marked` in `build.sh` -->    
+        <p>Return to the <a href="index.html">main page</a>.</p>
+        <p style="font-size: 80%;">
+           All source code in this document is licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL v3</a> or any later version.
+           All non-source code text is licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a> international license. 
+           You are free to copy, remix, build upon, and distribute this work in any format for any purpose under those terms.
+        </p>
+        <br>
+        <script src="js/BBElements/highlightJS/highlight.pack.js"></script>
+       <script src="js/BBElements/BBElements.js"></script>
+    </body>
+</html>
