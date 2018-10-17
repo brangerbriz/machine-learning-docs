@@ -123,8 +123,71 @@
 
 <p>I find it useful to think of neural network architectures not as concrete, separate entities, but rather as proven building blocks that can be used, possibly in combination with one another, to achieve some goal. Consulting the machine learning literature, you will find that all of these architectures share common ancestry and are often the product of a combination of proven ML techniques. These architectures are great starting points for research and engineering, but there is no reason you can&#39;t deviate from the norm in designing an ML pipeline or solution. In the next section, we&#39;ll introduce the <a href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/" target="_blank">famous character-level recurrent neural network</a> (char-rnn), as well as some modifications we&#39;ve chosen to make to the basic architecture in the subsequent chapters of the tutorial.</p>
 <h2 id="char-rnn">Char-RNN</h2>
+<p>Char-RNN is a language generation model popularized by Andrej Karpathy in 2015 in his popular blog post <a href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/" target="_blank"><em>The Unreasonable Effectiveness of Recurrent Neural Networks</em></a>. The model is trained using a text file and learns to generate new text in the style of the author of the training text. </p>
 <h3 id="basic-char-rnn">Basic Char-RNN</h3>
+<p>The Char-RNN model that Karpathy introduced was <a href="https://github.com/karpathy/char-rnn" target="_blank">originally written</a> in Lua Torch, but many people have since forked, remixed, and re-implemented the original model architecture. I&#39;ll first describe the original model, before describing the changes we&#39;ve adopted.
+<span class="marginal-note" data-info="He also wrote a [100-line version in Python + Numpy](https://gist.github.com/karpathy/d4dee566867f8291f086)"></span>
+The Char-RNN model that Karpathy proposed uses a sequence of one-hot encoded inputs and produces a categorical distribution over a single output class, which is sampled from to predict the next letter in the sequence. Here&#39;s what the original Char-RNN architecture looks like in pseudo-code.</p>
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+// assuming 
+//      - the training data has 112 unique characters
+//      - two LSTM layers with 512 units each
+// 32 one-hot encoded characters as input
+InputSequence(32 * 112)
+InputLayer({ input: 32 * 112, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+OutputLayer({ input: 512, output: 112 })
+// sample from the probability distribution over all 112 character classes 
+// to select the single output character
+prediction = Sample({ input: 112, output: 1 })
+
+// optionally, `Dropout({ probability: 0.2 })` could be added after each 
+// LSTMLayer() to prevent overfitting.
+    </code>
+</pre>
+
+<p>Some notable characteristics of Karpathy&#39;s Char-RNN model that differ from the one we&#39;ll be building in this tutorial series include:</p>
+<ul>
+<li>One-hot input</li>
+<li>A sequence of inputs generates a single output</li>
+<li>Identical model architecture for training and inference</li>
+<li>The output probability distribution is sampled from directly</li>
+</ul>
+<p>At Branger_Briz, we&#39;ve had quite a bit of experience with this standard Char-RNN model architecture. But for this tutorial, we chose to use a variant of this architecture as an excuse to cover more material, explore new territory, and hopefully produce a better performing model.</p>
 <h3 id="our-char-rnn-model">Our Char-RNN Model</h3>
+<p>The model architecture that we&#39;ve chosen to use for this tutorial series is inspired by YuXuan Tay&#39;s <a href="https://github.com/yxtay/char-rnn-text-generation" target="_blank">yxtay/char-rnn-text-generation</a> model repository. We&#39;ve hard-forked his project, removed the bits that are unnecessary for our tutorial, and added some new code as well. Our Char-RNN model variant differs from Karpathy&#39;s in several ways:</p>
+<ul>
+<li>We chose a subset of 96 printable characters as input classes, instead of using the thousands of unique character classes present in the dataset.</li>
+<li>We use a sequence of word embeddings instead of one-hot values as input to the model.</li>
+<li>The output from our model during training is a sequence (using a time-distributed dense layer).</li>
+<li>We modify the batch size and sequence length of our model between training and inference.</li>
+<li>The output probability distribution is first truncated and re-scaled before being sampled from.</li>
+</ul>
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+// Assuming 
+//      - the training data has 96 unique characters
+//      - A word embedding vector dimension of 64
+//      - two LSTM layers with 512 units each
+
+// ARCHITECTURE DURING TRAINING
+WordEmbeddingLookUpTable({ input: 32, output: 32 * 64})
+InputLayer({ input: 32 * 64, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+TimeDistributedOutputLayer({ input: 512, output: 96 * 32 })
+
+// ARCHITECTURE DURING INFERENCE
+WordEmbeddingLookUpTable({ input: 1, output: 1 * 64})
+InputLayer({ input: 32 * 64, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+TimeDistributedOutputLayer({ input: 512, output: 96 * 1 })
+prediction = Sample({ input: 96 * 1, output: 1 })
+    </code>
+</pre>
 
 <!-- The content above this line is injected using `marked` in `build.sh` -->    
         <p>Return to the <a href="index.html">main page</a>.</p>

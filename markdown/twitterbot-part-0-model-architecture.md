@@ -81,6 +81,73 @@ I find it useful to think of neural network architectures not as concrete, separ
 
 ## Char-RNN
 
+Char-RNN is a language generation model popularized by Andrej Karpathy in 2015 in his popular blog post [*The Unreasonable Effectiveness of Recurrent Neural Networks*](https://karpathy.github.io/2015/05/21/rnn-effectiveness/). The model is trained using a text file and learns to generate new text in the style of the author of the training text. 
+
 ### Basic Char-RNN
 
+The Char-RNN model that Karpathy introduced was [originally written](https://github.com/karpathy/char-rnn) in Lua Torch, but many people have since forked, remixed, and re-implemented the original model architecture. I'll first describe the original model, before describing the changes we've adopted.
+<span class="marginal-note" data-info="He also wrote a [100-line version in Python + Numpy](https://gist.github.com/karpathy/d4dee566867f8291f086)"></span>
+The Char-RNN model that Karpathy proposed uses a sequence of one-hot encoded inputs and produces a categorical distribution over a single output class, which is sampled from to predict the next letter in the sequence. Here's what the original Char-RNN architecture looks like in pseudo-code.
+
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+// assuming 
+//      - the training data has 112 unique characters
+//      - two LSTM layers with 512 units each
+// 32 one-hot encoded characters as input
+InputSequence(32 * 112)
+InputLayer({ input: 32 * 112, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+OutputLayer({ input: 512, output: 112 })
+// sample from the probability distribution over all 112 character classes 
+// to select the single output character
+prediction = Sample({ input: 112, output: 1 })
+
+// optionally, `Dropout({ probability: 0.2 })` could be added after each 
+// LSTMLayer() to prevent overfitting.
+    </code>
+</pre>
+
+Some notable characteristics of Karpathy's Char-RNN model that differ from the one we'll be building in this tutorial series include:
+
+- One-hot input
+- A sequence of inputs generates a single output
+- Identical model architecture for training and inference
+- The output probability distribution is sampled from directly
+
+At Branger_Briz, we've had quite a bit of experience with this standard Char-RNN model architecture. But for this tutorial, we chose to use a variant of this architecture as an excuse to cover more material, explore new territory, and hopefully produce a better performing model.
+
 ### Our Char-RNN Model
+
+The model architecture that we've chosen to use for this tutorial series is inspired by YuXuan Tay's [yxtay/char-rnn-text-generation](https://github.com/yxtay/char-rnn-text-generation) model repository. We've hard-forked his project, removed the bits that are unnecessary for our tutorial, and added some new code as well. Our Char-RNN model variant differs from Karpathy's in several ways:
+
+- We chose a subset of 96 printable characters as input classes, instead of using the thousands of unique character classes present in the dataset.
+- We use a sequence of word embeddings instead of one-hot values as input to the model.
+- The output from our model during training is a sequence (using a time-distributed dense layer).
+- We modify the batch size and sequence length of our model between training and inference.
+- The output probability distribution is first truncated and re-scaled before being sampled from.
+
+<pre class="code">
+    <code class="javascript" data-wrap="false">
+// Assuming 
+//      - the training data has 96 unique characters
+//      - A word embedding vector dimension of 64
+//      - two LSTM layers with 512 units each
+
+// ARCHITECTURE DURING TRAINING
+WordEmbeddingLookUpTable({ input: 32, output: 32 * 64})
+InputLayer({ input: 32 * 64, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+TimeDistributedOutputLayer({ input: 512, output: 96 * 32 })
+
+// ARCHITECTURE DURING INFERENCE
+WordEmbeddingLookUpTable({ input: 1, output: 1 * 64})
+InputLayer({ input: 32 * 64, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+LSTMLayer({ input: 512, output: 512 })
+TimeDistributedOutputLayer({ input: 512, output: 96 * 1 })
+prediction = Sample({ input: 96 * 1, output: 1 })
+    </code>
+</pre>
