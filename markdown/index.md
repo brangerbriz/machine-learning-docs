@@ -5,7 +5,9 @@
     </a>
 </h3>
 
-This website is a reference for all things Machine Learning at [Branger_Briz](http://brangerbriz.com). Since November 2016<span class="marginal-note" data-info="We began with a [generative person-to-person video translation experiment](https://twitter.com/brannondorsey/status/808461108881268736) as well as an [introductory blog post](https://brangerbriz.com/blog/machine-learning-a-journey-towards-general-purpose-algorithms) on the subject of ML at large."></span>, our research team has been exploring the current state-of-the art in machine learning and this website serves as the product of much of that research. The goal of this resource is to provide a central repository for BB developers to learn about machine learning so that it can be used in current and future projects.
+<p style="padding: 30px; background-color: #ebfcff;">This is a draft release. This documentation is under active development, so expect imperfections and upcoming content changes. If you notice something, please <a href="https://github.com/brangerbriz/machine-learning-docs/issues">create an issue</a> on GitHub, or better yet, submit a pull request with a fix.</p>
+
+This website is a reference for all things Machine Learning at [Branger_Briz](http://brangerbriz.com). Since November 2016<span class="marginal-note" data-info="We began with a [generative person-to-person video translation experiment](https://twitter.com/brannondorsey/status/808461108881268736) as well as an [introductory blog post](https://brangerbriz.com/blog/machine-learning-a-journey-towards-general-purpose-algorithms) on the subject of ML at large."></span>, our research team has been exploring the current state-of-the art in machine learning and this website serves as the product of much of that research. The goal of this resource is to provide a central repository for developers to learn about machine learning so that it can be used in current and future projects.
 
 - [What is Machine Learning](what-is-machine-learning.html) (start here)
 - [General Purpose Algorithms](general-purpose-algorithms.html)
@@ -40,8 +42,11 @@ An in-depth tutorial where we build an ML pipeline for generating your own Twitt
 
 ## Projects
 
+At Branger_Briz, we've made used machine learning in several projects, both research and commercial.
+
 - [Muse Music Videos](https://brangerbriz.com/portfolio/muse-ai-supercut)
 - Miami Children's Museum [*Masterpiece Me*](https://brangerbriz.com/portfolio/masterpiece-me-miami-childrens-museum) and [*Interactive Mural*](https://brangerbriz.com/portfolio/interactive-mural-miami-childrens-museum) installations
+- [Sportsmanias](https://brangerbriz.com/portfolio/sportsmanias): a sports news aggregation platform
 - [Midi-rnn](https://brangerbriz.com/blog/using-machine-learning-to-create-new-melodies): Using machine learning to create new melodies
 
 ## Other Resources
