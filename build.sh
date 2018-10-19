@@ -7,19 +7,19 @@ if [ ! -f "$DIR/node_modules/marked/bin/marked" ] ; then
 fi
 
 # remove existing html pages
-rm www/*.html
-rm www/css/*
-rm -rf www/js/BBElements/*
+rm docs/*.html
+rm docs/css/*
+rm -rf docs/js/BBElements/*
 
-mkdir -p www/css
-cp -r BBElements/css/* www/css/
+mkdir -p docs/css
+cp -r BBElements/css/* docs/css/
 
-mkdir -p www/js/BBElements
-cp -r BBElements/js/* www/js/BBElements/
+mkdir -p docs/js/BBElements
+cp -r BBElements/js/* docs/js/BBElements/
 
 # for each .md file in markdown (won't search recursively)
 for FILE in $(ls markdown/*.md) ; do
-	OUTPUT="www/$(echo "$FILE" | sed -e "s/markdown\///" | sed -e "s/\.md$/.html/")"
+	OUTPUT="docs/$(echo "$FILE" | sed -e "s/markdown\///" | sed -e "s/\.md$/.html/")"
 	mkdir -p $(dirname "$OUTPUT")
 
 	cat templates/header.html > "$OUTPUT"
@@ -30,4 +30,4 @@ for FILE in $(ls markdown/*.md) ; do
 done
 
 # open w/ firefox
-firefox www/index.html
+firefox docs/index.html

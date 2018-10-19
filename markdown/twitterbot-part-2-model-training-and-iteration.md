@@ -22,7 +22,7 @@ sudo -H pip3 install -r requirements.txt
     </code>
 </pre>
 
-If you have an NVIDIA GPU in your machine and have CUDA setup<span class="marginal-note" data-info="See the [GPU ML Development Environment](file:///home/braxxox/Documents/Branger_Briz/machine-learning-docs/www/ml-development-environment.html) section."></span>, you can install the GPU accelerated version of tensorflow with `pip3 install tensorflow-gpu==1.10.1`.
+If you have an NVIDIA GPU in your machine and have CUDA setup<span class="marginal-note" data-info="See the [GPU ML Development Environment](ml-development-environment.html) section."></span>, you can install the GPU accelerated version of tensorflow with `pip3 install tensorflow-gpu==1.10.1`.
 
 You should now have several python libraries installed.
 

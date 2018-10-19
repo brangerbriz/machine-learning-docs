@@ -19,7 +19,7 @@ npm install
 
 ### Build
 
-To build the `www/*.html` website files from the `markdown/*.md` source files, run `build.sh`. If you have Firefox installed, a local copy of the website will also be opened in your browser.
+To build the `docs/*.html` website files from the `markdown/*.md` source files, run `build.sh`. If you have Firefox installed, a local copy of the website will also be opened in your browser.
 
 ```bash
 # rebuild the site after edits to files in markdown/
