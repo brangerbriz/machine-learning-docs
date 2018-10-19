@@ -1,6 +1,8 @@
 # Machine Learning Docs
 
-This repository contains text, source code, and build tools for the open source *Machine Learning Documentation & Guides* project at [Branger_Briz](https://brangerbriz.com/). The goal of this project is to provide free (libre) documentation, tutorials, and guides for developers at Branger_Briz & elsewhere to learn about contemporary machine learning techniques and practices, with hopes that they can include these techniques in their own software development projects. The project was authored from 2017 to 2018 by [Brannon Dorsey](https://twitter.com/brannondorsey) and is released under the terms of the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) and [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) creative commons licenses (for source code and text respectively).
+This repository contains text, source code, and build tools for the open source [*Machine Learning Documentation & Guides*](https://brangerbriz.github.io/machine-learning-docs/) project at [Branger_Briz](https://brangerbriz.com/). The goal of this project is to provide free (libre) documentation, tutorials, and guides for developers at Branger_Briz & elsewhere to learn about contemporary machine learning techniques and practices, with hopes that they can include these techniques in their own software development projects. The project was authored from 2017 to 2018 by [Brannon Dorsey](https://twitter.com/brannondorsey) and is released under the terms of the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) and [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) creative commons licenses (for source code and text respectively).
+
+The live version of this website is available [here](https://brangerbriz.github.io/machine-learning-docs/).
 
 > **UPDATE** (Oct 19, 2018): This project is under active development and should be considered a draft release.
 
