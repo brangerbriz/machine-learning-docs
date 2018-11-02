@@ -376,7 +376,7 @@ checkpoints/base-model/tfjs/
 
 ## Deploying in a Browser Environment
 
-We'll be using [Electron](https://electronjs.org/) as our browser environment. At the time of this writing, there appears to be [a bug in tfjs' WebGL backend](https://github.com/tensorflow/tfjs/issues/664) that prevents the efficient use of a stateful RNN in a traditional web browser. Electron provides a WebKit browser environment that can load and run Node.js code, which will help us sidestep this bug using `tfjs-node`. Well create a `package.json` file which will help us download and manage our dependencies.
+We'll be using [Electron](https://electronjs.org/) as our browser environment. At the time of this writing, there appears to be [a bug in tfjs' WebGL backend](https://github.com/tensorflow/tfjs/issues/664) that prevents the efficient use of a stateful RNN in a traditional web browser. Electron provides a WebKit browser environment that can load and run Node.js code, which will help us sidestep this bug using `tfjs-node`. We'll create a `package.json` file which will help us download and manage our dependencies. If you have an NVIDIA graphics card with a CUDA environment installed, you should replace `"@tensorflow/tfjs-node"` with `"@tensorflow/tfjs-node-gpu"`.
 
 <pre class="code">
     <code class="json" data-wrap="false">
@@ -437,6 +437,8 @@ const tf = require('@tensorflow/tfjs')
 // tfjs-node adds experimental support for native bindings of the 
 // Tensorflow C library. Using tfjs-node gives us a significant performance
 // boost in relation to the default tfjs cpu and webgl backends.
+// If you have an NVIDIA GPU with CUDA installed on your machine, you should
+// swap the below line with: require('@tensorflow/tfjs-node-gpu')
 require('@tensorflow/tfjs-node')
 
 // This is a JavaScript version of our utils.create_dictionary()

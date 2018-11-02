@@ -280,7 +280,7 @@ cp -r ../tfjs-tweet-generation/checkpoints/base-model checkpoints/base-model
     </code>
 </pre>
 
-Create a `package.json` file with the contents below.
+Create a `package.json` file with the contents below. If you have an NVIDIA graphics card with a CUDA environment installed, you should replace `"@tensorflow/tfjs-node"` with `"@tensorflow/tfjs-node-gpu"`.
 
 <pre class="code">
     <code class="json" data-wrap="false">
@@ -292,8 +292,7 @@ Create a `package.json` file with the contents below.
     },
     "author": "Brannon Dorsey ",
     "dependencies": {
-        "@tensorflow/tfjs-node": "^0.1.18",
-        "@tensorflow/tfjs-node-gpu": "^0.1.18",
+        "@tensorflow/tfjs-node": "^0.1.19",
         "electron": "^2.0.8",
         "hyperparameters": "^0.25.5",
         "json2csv": "^4.2.1",
@@ -329,14 +328,10 @@ if (process.argv[2] == null) {
     process.exit(1)
 }
 
-// try and load tfjs-node-gpu, but fallback to tfjs-node if no CUDA
-require('@tensorflow/tfjs-node-gpu')
-if (['webgl', 'cpu'].includes(tf.getBackend())) {
-    require('@tensorflow/tfjs-node')
-    console.log('GPU environment not found, loaded @tensorflow/tfjs-node')
-} else {
-    console.log('loaded @tensorflow/tfjs-node-gpu')
-}
+//// If you have an NVIDIA GPU + CUDA installed, replace the below statement
+//// this with:
+// require('@tensorflow/tfjs-node-gpu')
+require('@tensorflow/tfjs-node')
 console.log(`using tfjs backend "${tf.getBackend()}"`)
 
 // remove the leading @ character if it exists
@@ -418,7 +413,7 @@ main().catch(console.error)
     </code>
 </pre>
 
-This script begins with a few dependency imports before checking if a command-line argument is defined with `process.argv[2] == null`. If it isn't, the program prints its usage and exits with an error code. If an argument was included it is interpreted as `TWITTER_USER` later in the program. After this validation check, we `require('@tensorflow/tfjs-node-gpu')` and then check the value of `tf.getBackend()`. If your computer has an NVIDIA graphics card and CUDA installed<span class="marginal-note" data-info="See [ML Development Environment](ml-development-environment.html)"></span> the backend should now be "tensorflow". If not, it will instead be either "cpu" or "webgl", in which case we fallback to the non-GPU-accelerated version of tfjs-node with `require('@tensorflow/tfjs-node')`.
+This script begins with a few dependency imports before checking if a command-line argument is defined with `process.argv[2] == null`. If it isn't, the program prints its usage and exits with an error code. If an argument was included it is interpreted as `TWITTER_USER` later in the program. If your computer has an NVIDIA graphics card and CUDA installed<span class="marginal-note" data-info="See [ML Development Environment](ml-development-environment.html)"></span>, you should  use `require("@tensorflow/tfjs-node-gpu")` instead of the slower CPU only `require("@tensorflow/tfjs-node-gpu")`.
 
 We define several global constants in this script for Twitter download settings and hyperparameters. If the user specified the `twitter-user` command line argument with an "@" character (e.g. "[@branger_briz](https://twitter.com/branger_briz)") we remove it. We also define the URL for an instance of `tweet-server` we wrote earlier in this chapter via `const TWEET_SERVER = 'http://localhost:3000'`, before defining the hyperparameter values we'll use to fine-tune our model.<span class="marginal-note" data-info="These values were chosen via a hyperparameter search just like we did in [Part 3](twitterbot-part-3-model-inference-and-deployment.html), this time using data from an individual user's Twitter account and weight initialization using the base model. This search was written in JavaScript and you can download the script from [here](https://github.com/brangerbriz/twitter-transfer-learning/blob/master/bin/hyperparameter-search.js)."></span> With this setup complete, we launch the `main()` function and log any errors to the console.
 
@@ -712,14 +707,10 @@ This HTML page is split into three `<sections>` for downloading data, managing m
 const tf = require('@tensorflow/tfjs')
 const utils = require('./src/utils')
 
-// try and load tfjs-node-gpu, but fallback to tfjs-node if no CUDA
-require('@tensorflow/tfjs-node-gpu')
-if (['webgl', 'cpu'].includes(tf.getBackend())) {
-    require('@tensorflow/tfjs-node') 
-    console.log('GPU environment not found, loaded @tensorflow/tfjs-node')
-} else {
-    console.log('loaded @tensorflow/tfjs-node-gpu')
-}
+//// If you have an NVIDIA GPU + CUDA installed, replace the below statement
+//// this with:
+// require('@tensorflow/tfjs-node-gpu')
+require('@tensorflow/tfjs-node')
 console.log(`using tfjs backend "${tf.getBackend()}"`)
 
 // if you are on a machine with < 8GB of memory, reduce the batch size to 32
