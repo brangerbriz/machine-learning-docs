@@ -390,7 +390,7 @@ We'll be using [Electron](https://electronjs.org/) as our browser environment. A
   "author": "Brannon Dorsey <bdorsey@brangerbriz.com>",
   "license": "GPL-3.0",
   "dependencies": {
-    "@tensorflow/tfjs-node": "^0.1.17",
+    "@tensorflow/tfjs-node": "^0.1.19",
     "electron": "^2.0.8"
   }
 }
